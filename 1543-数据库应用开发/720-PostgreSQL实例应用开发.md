@@ -12,7 +12,7 @@ version: 1.0
 #### 部署架构：
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SequoiaSQL-PostgreSQL 数据库实例节点、1个引擎协调节点，1个编目节点与3个数据节点。
 
-![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/ef825173c9cd86053b61306ca6df9c65)
 
 详细了解 SequoiaDB 巨杉数据库系统架构：
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
@@ -42,7 +42,7 @@ sequoiadb --version
 
 操作截图：
 
-![图片描述](images/710-sdbversion.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1d1b4057ef81bc03b825926d3071183a)
 
 ## 查看节点启动列表
 
@@ -54,7 +54,7 @@ sdblist
 
 操作截图：
 
-![图片描述](images/710-sdblist.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3ebdc835c21b5685d858918d25a9f372)
 
 >Note:
 >
@@ -67,10 +67,10 @@ sdblist
 
 操作截图：
 
-![图片描述](images/720-listpginst.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/ee64c7881af3a8f329bfb50848ed56e2)
 
-#### 在 PostgreSQL 实例中创建数据库
-在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
+## 创建数据库
+1）在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
 
 以sdbadmin用户登录，在 PostgreSQL 实例创建数据库company：
 ```
@@ -79,17 +79,18 @@ sdblist
 
 操作截图：
 
-![图片描述](images/720-createdatabase.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/41b0823324fdd49a4c108c44bbf919df)
 
-查看数据库：
+2）查看数据库：
 ```
 psql -l
 ```
 
 操作截图：
 
-![图片描述](images/720-listdatabase.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/03c2315513eaca111dcec04b1b1d2871)
 
+## 配置 PostgreSQL 实例
 #### 加载 SequoiaDB 连接驱动
 1）登录到 PostgreSQL 实例 Shell：
 ```
@@ -119,9 +120,12 @@ create server sdb_server foreign data wrapper sdb_fdw options(address '127.0.0.1
 > - token 设置加密口令 
 > - cipherfile 设置加密文件，默认为 ./passwd 
 
-#### 在 PostgreSQL 实例中创建外部表并与 SequoiaDB 集合空间、集合关联
+## 关联集合空间、集合
+在 PostgreSQL 实例中关联 SequoiaDB 数据库中的集合空间、集合。
+
+#### 在 PostgreSQL 实例中创建外部表
 进入 SequoiaDB Shell，在 SequoiaDB 中创建集合空间 company，集合 employee：
-```
+```javascript
 db = new Sdb();
 db.createDomain("company_domains", ["group1", "group2", "group3"], {AutoSplit:true});
 db.createCS("company",{Domain:"company_domains"});
@@ -130,7 +134,7 @@ db.company.createCL("employee",{"ShardingKey":{"_id":1},"ShardingType":"hash","R
 
 操作截图：
 
-![图片描述](images/720-createcscl.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/283c4851aaf4bb04fea3f47408243b03)
 
 #### PostgreSQL 实例外部表与 SequoiaDB 集合空间、集合关联
 将 PostgreSQL 实例中的外表并与 SequoiaDB 中的集合空间、集合关联：
@@ -152,6 +156,9 @@ create foreign table employee (
 > - 默认情况下，表的字段映射到SequoiaDB中为小写字符，如果强制指定字段为大写字符，创建方式参考“注意事项1”。
 > - 映射 SequoiaDB 的数组类型，创建方式参考“注意事项2”。
 
+## 关联表数据操作
+使用 PostgreSQL 实例操作关联表中的数据。
+
 #### 通过关联表插入数据
 在 PostgreSQL 实例外表 employee 中插入数据：
 ```
@@ -171,7 +178,7 @@ select * from employee where age > 20 and age < 30;
 
 操作截图：
 
-![图片描述](images/720-select.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7e80bc92b094955b27b09cf310249119)
 
 
 #### 更新关联表中的数据
@@ -187,7 +194,7 @@ select * from employee;
 
 操作截图：
 
-![图片描述](images/720-update.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/d822b2d32288d17baf8fc6c99a75c514)
 
 #### 删除关联表中的数据
 1）删除 PostgreSQL 实例外表 employee 中的数据，将 empno 为10006的记录删除：：
@@ -202,11 +209,14 @@ select * from employee;
 
 操作截图：
 
-![图片描述](images/720-delete.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/31aea8f7e0cc92d6a82283c433929d76)
+
+## 索引使用
+通过 PostgreSQL 实例查看执行计划及通过过滤条件查看 SequoiaDB 执行计划。
 
 #### 索引使用
 1）进入 SequoiaDB Shell，在 SequoiaDB 集合 employee 的ename字段上创建索引：
-```
+```javascript
 db = new Sdb();
 db.company.employee.createIndex("idx_ename",{ename:1},false);  
 ```
@@ -218,17 +228,17 @@ explain select * from employee where ename = 'Georgi';
 
 操作截图：
 
-![图片描述](images/720-pgexplain.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6c240851d0dbd8d67c6a5ecfbd2646bc)
 
 3）进入 SequoiaDB Shell，根据上述输出中的Filter，在 SequoiaDB 中显示集合 employee 查询语句执行计划：
-```
+```javascript
 db = new Sdb();
 db.company.employee.find({ "ename": { "$et": "Georgi" } }).explain();
 ```
 
 操作截图：
 
-![图片描述](images/720-sdbexplain.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/a9ea5e8421244d5010ff08fcc7019e15)
 
 ## Java 语言操作 PostgreSQL 实例中的数据
 本节内容主要用来演示 Java 语言操作 SequoiaDB-PostgreSQL 实例中的数据，为相关开发人员提供参考。
