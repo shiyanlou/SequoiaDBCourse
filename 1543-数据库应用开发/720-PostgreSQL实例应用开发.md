@@ -1,0 +1,403 @@
+---
+show: step
+version: 1.0 
+---
+
+## 课程介绍
+
+本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 PostgreSQL 实例的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他 PostgreSQL 语法操作。
+
+#### 请点击右侧选择使用的实验环境
+
+#### 部署架构：
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SequoiaSQL-PostgreSQL 数据库实例节点、1个引擎协调节点，1个编目节点与3个数据节点。
+
+![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
+
+详细了解 SequoiaDB 巨杉数据库系统架构：
+* [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
+
+#### 实验环境
+课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-PostgreSQL 实例均为 3.4 版本。
+
+## 切换用户及查看数据库版本
+
+#### 切换到 sdbadmin 用户
+
+部署 SequoiaDB 巨杉数据库和 SequoiaSQL-PostgreSQL 实例的操作系统用户为 sdbadmin。
+```
+su - sdbadmin
+```
+>Note:
+>
+>用户 sdbadmin 的密码为 sdbadmin
+
+#### 查看巨杉数据库版本
+
+查看 SequoiaDB 巨杉数据库引擎版本
+
+```
+sequoiadb --version
+```
+
+操作截图：
+
+![图片描述](images/710-sdbversion.png)
+
+## 查看节点启动列表
+
+查看 SequoiaDB 巨杉数据库引擎节点列表
+
+```
+sdblist 
+```
+
+操作截图：
+
+![图片描述](images/710-sdblist.png)
+
+>Note:
+>
+>如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
+
+检查 PostgreSQL 实例
+```
+/opt/sequoiasql/postgresql/bin/sdb_sql_ctl listinst
+```
+
+操作截图：
+
+![图片描述](images/720-listpginst.png)
+
+#### 在 PostgreSQL 实例中创建数据库
+在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
+
+以sdbadmin用户登录，在 PostgreSQL 实例创建数据库company：
+```
+/opt/sequoiasql/postgresql/bin/sdb_sql_ctl createdb company myinst
+```
+
+操作截图：
+
+![图片描述](images/720-createdatabase.png)
+
+查看数据库：
+```
+psql -l
+```
+
+操作截图：
+
+![图片描述](images/720-listdatabase.png)
+
+#### 加载 SequoiaDB 连接驱动
+1）登录到 PostgreSQL 实例 Shell：
+```
+/opt/sequoiasql/postgresql/bin/psql -p 5432 company
+```
+
+2）加载SequoiaDB连接驱动
+```
+create extension sdb_fdw;
+```
+
+#### 配置与 SequoiaDB 连接参数
+在 PostgreSQL 实例中配置 SequoiaDB 连接参数：
+```
+create server sdb_server foreign data wrapper sdb_fdw options(address '127.0.0.1', service '11810', user '', password '', preferedinstance 'A', transaction 'off');
+```
+
+>Note:
+>
+> - 如果没有配置数据库密码验证，可以忽略user与password字段。 
+> - 如果需要提供多个协调节点地址，options 中的 address 字段可以按格式 'ip1:port1,ip2:port2,ip3:port3'填写。此时，service 字段可填写任意一个非空字符串。
+> - preferedinstance 设置 SequoiaDB 的连接属性。多个属性以逗号分隔，如：preferedinstance '1,2,A'。详细配置请参考 preferedinstance 取值
+> - preferedinstancemode 设置 preferedinstance 的选择模式
+> - sessiontimeout 设置会话超时时间 如：sessiontimeout '100' 
+> - transaction 设置 SequoiaDB 是否开启事务，默认为off。开启为on 
+> - cipher 设置是否使用加密文件输入密码，默认为off。开启为on 
+> - token 设置加密口令 
+> - cipherfile 设置加密文件，默认为 ./passwd 
+
+#### 在 PostgreSQL 实例中创建外部表并与 SequoiaDB 集合空间、集合关联
+进入 SequoiaDB Shell，在 SequoiaDB 中创建集合空间 company，集合 employee：
+```
+db = new Sdb();
+db.createDomain("company_domains", ["group1", "group2", "group3"], {AutoSplit:true});
+db.createCS("company",{Domain:"company_domains"});
+db.company.createCL("employee",{"ShardingKey":{"_id":1},"ShardingType":"hash","ReplSize":-1,"Compressed":true,"CompressionType":"lzw","AutoSplit":true,"EnsureShardingIndex":false});
+```
+
+操作截图：
+
+![图片描述](images/720-createcscl.png)
+
+#### PostgreSQL 实例外部表与 SequoiaDB 集合空间、集合关联
+将 PostgreSQL 实例中的外表并与 SequoiaDB 中的集合空间、集合关联：
+```
+create foreign table employee (
+	empno INT,
+	ename VARCHAR(128),
+	age INT
+)server sdb_server options ( collectionspace 'company', collection 'employee', decimal 'on');
+```
+
+>Note:
+>
+> - 集合空间与集合必须已经存在于SequoiaDB，否则查询出错。
+> - 如果需要对接SequoiaDB的decimal字段，则需要在options中指定 decimal 'on' 。
+> - pushdownsort 设置是否下压排序条件到 SequoiaDB，默认为on，关闭为off。
+> - pushdownlimit 设置是否下压 limit 和 offset 条件到 SequoiaDB，默认为on，关闭为off。
+> - 开启 pushdownlimit 时，必须同时开启 pushdownsort ，否则可能会造成结果非预期的问题。
+> - 默认情况下，表的字段映射到SequoiaDB中为小写字符，如果强制指定字段为大写字符，创建方式参考“注意事项1”。
+> - 映射 SequoiaDB 的数组类型，创建方式参考“注意事项2”。
+
+#### 通过关联表插入数据
+在 PostgreSQL 实例外表 employee 中插入数据：
+```
+INSERT INTO employee VALUES (10001,'Georgi',48);
+INSERT INTO employee VALUES (10002,'Bezalel',21);
+INSERT INTO employee VALUES (10003,'Parto',33);
+INSERT INTO employee VALUES (10004,'Chirstian',40);
+INSERT INTO employee VALUES (10005,'Kyoichi',23);
+INSERT INTO employee VALUES (10006,'Anneke',19);
+```
+
+#### 插入关联表中的数据
+查询 PostgreSQL 实例外表 employee 中 age 大于20，小于30的数据：
+```
+select * from employee where age > 20 and age < 30;
+```
+
+操作截图：
+
+![图片描述](images/720-select.png)
+
+
+#### 更新关联表中的数据
+更新 PostgreSQL 实例外表 employee 中的数据，将 empno 为10001的记录 age 更改为34：
+```
+update employee set age=34 where empno=10001;
+```
+
+2）查询数据结果确认 empno 为10001的记录更新是否成功：
+```
+select * from employee;
+```
+
+操作截图：
+
+![图片描述](images/720-update.png)
+
+#### 删除关联表中的数据
+1）删除 PostgreSQL 实例外表 employee 中的数据，将 empno 为10006的记录删除：：
+```
+delete from employee where empno=10006;
+```
+
+2）查询数据结果确认 empno 为10006的记录是否成功删除：
+```
+select * from employee;
+```
+
+操作截图：
+
+![图片描述](images/720-delete.png)
+
+#### 索引使用
+1）进入 SequoiaDB Shell，在 SequoiaDB 集合 employee 的ename字段上创建索引：
+```
+db = new Sdb();
+db.company.employee.createIndex("idx_ename",{ename:1},false);  
+```
+
+2）在 PostgreSQL 实例显示表 employee 查询语句执行计划：
+```
+explain select * from employee where ename = 'Georgi';
+```
+
+操作截图：
+
+![图片描述](images/720-pgexplain.png)
+
+3）进入 SequoiaDB Shell，根据上述输出中的Filter，在 SequoiaDB 中显示集合 employee 查询语句执行计划：
+```
+db = new Sdb();
+db.company.employee.find({ "ename": { "$et": "Georgi" } }).explain();
+```
+
+操作截图：
+
+![图片描述](images/720-sdbexplain.png)
+
+## Java 语言操作 PostgreSQL 实例中的数据
+本节内容主要用来演示 Java 语言操作 SequoiaDB-PostgreSQL 实例中的数据，为相关开发人员提供参考。
+
+#### 连接 PostgreSQL 实例：
+```
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class PostgreSQLConnection {
+
+    private String url;
+    private String username;
+    private String password;
+    private String driver = "org.postgresql.Driver";
+
+    public PostgreSQLConnection(String url, String username, String password){
+        this.url = url;
+        this.username = username;
+        this. password = password;
+    }
+
+    public Connection getConnection(){
+        Connection connection = null;
+        try {
+            Class.forName(driver);
+            connection = DriverManager.getConnection(url, username, password);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
+    }
+}
+```
+
+#### 在 PostgreSQL 实例中插入数据：
+```
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Insert {
+    private static String url = "jdbc:postgresql://localhost:5432/company";
+    private static String username = "sdbadmin";
+    private static String password = "";
+    public static void main(String[] args) throws SQLException {
+        insert();
+    }
+
+    public static void insert() throws SQLException {
+        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, password);
+        Connection connection = pgConnection.getConnection();
+        String sql = "INSERT INTO employee VALUES";
+        Statement stmt = connection.createStatement();
+        StringBuffer sb = new StringBuffer();
+        sb.append("(").append(10001).append(",").append("'Georgi'").append(",").append(48).append("),");
+        sb.append("(").append(10002).append(",").append("'Bezalel'").append(",").append(21).append("),");
+        sb.append("(").append(10003).append(",").append("'Parto'").append(",").append(33).append("),");
+        sb.append("(").append(10004).append(",").append("'Chirstian'").append(",").append(40).append("),");
+        sb.append("(").append(10005).append(",").append("'Kyoichi'").append(",").append(23).append("),");
+        sb.append("(").append(10006).append(",").append("'Anneke'").append(",").append(19).append("),");
+
+        sb.deleteCharAt(sb.length() - 1);
+        sql = sql + sb.toString();
+        System.out.println(sql);
+        stmt.executeUpdate(sql);
+        connection.close();
+    }
+}
+```
+
+#### 从 PostgreSQL 实例中查询数据：
+```
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Select {
+    private static String url = "jdbc:postgresql://localhost:5432/company";
+    private static String username = "sdbadmin";
+    private static String password = "";
+
+    public static void main(String[] args) throws SQLException {
+        select();
+    }
+
+    public static void select() throws SQLException {
+        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, password);
+        Connection connection = pgConnection.getConnection();
+        String sql = "select * from employee";
+        PreparedStatement psmt = connection.prepareStatement(sql);
+        ResultSet rs = psmt.executeQuery();
+        System.out.println("----------------------------------------------------------------------");
+        System.out.println("empno \t ename \t age");
+        System.out.println("----------------------------------------------------------------------");
+        while(rs.next()){
+            Integer empno = rs.getInt("emp_no");
+            String ename = rs.getString("ename");
+            Integer age = rs.getInt("age");
+
+            System.out.println(empno + "\t" + ename + "\t" + age);
+        }
+        connection.close();
+    }
+}
+```
+
+#### 在 PostgreSQL 实例中更新数据：
+```
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class Update {
+    private static String url = "jdbc:postgresql://localhost:5432/company";
+    private static String username = "sdbadmin";
+    private static String password = "";
+
+    public static void main(String[] args) throws SQLException {
+        update();
+    }
+
+    public static void update() throws SQLException {
+        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, password);
+        Connection connection = pgConnection.getConnection();
+        String sql = "update employee set age = ? where empno = ?";
+        PreparedStatement psmt = connection.prepareStatement(sql);
+        psmt.setInt(1, 37);
+        psmt.setInt(2, 10001);
+        psmt.execute();
+
+        connection.close();
+    }
+}
+```
+
+#### 在 PostgreSQL 实例中删除数据：
+```
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class Delete {
+    private static String url = "jdbc:postgresql://localhost:5432/company";
+    private static String username = "sdbadmin";
+    private static String password = "";
+
+    public static void main(String[] args) throws SQLException {
+        delete();
+    }
+
+    public static void delete() throws SQLException {
+        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, password);
+        Connection connection = pgConnection.getConnection();
+        String sql = "delete from employee where empno = ?";
+        PreparedStatement psmt = connection.prepareStatement(sql);
+        psmt.setInt(1, 10006);
+        psmt.execute();
+        connection.close();
+    }
+}
+```
+
+
+## 总结
+
+通过本课程，我们验证了 SequoiaDB 巨杉数据库所支持的 PostgreSQL 语法，并对底层数据存储分布进行了直接验证。可以看出：
+- SequoiaSQL-PostgreSQL 实例兼容标准的 PostgreSQL 语法；
+- SequoiaDB 巨杉数据库底层存储为分布式架构，数据可均匀分布在多个分区中；
+- Java语言操作 SequoiaSQL-PostgreSQL 实例中的数据与操作原生 PostgreSQL 中的数据无任何差异，可做到无缝切换；
