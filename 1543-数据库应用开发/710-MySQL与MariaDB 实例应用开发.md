@@ -12,7 +12,7 @@ version: 1.0
 #### 部署架构：
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SequoiaSQL-MySQL 数据库实例节点、1个引擎协调节点，1个编目节点与3个数据节点。
 
-![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7668dd33f9b1bee6a5d4209bcb529023)
 
 详细了解 SequoiaDB 巨杉数据库系统架构：
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
@@ -42,7 +42,7 @@ sequoiadb --version
 
 操作截图：
 
-![图片描述](images/710-sdbversion.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1d1b4057ef81bc03b825926d3071183a)
 
 ## 查看节点启动列表
 
@@ -54,7 +54,7 @@ sdblist
 
 操作截图：
 
-![图片描述](images/710-sdblist.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3ebdc835c21b5685d858918d25a9f372)
 
 >Note:
 >
@@ -67,7 +67,7 @@ sdblist
 
 操作截图：
 
-![图片描述](images/710-listmysqlinst.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/78c148a96ecb561d6e5f6564d970e0c5)
 
 ## 创建数据库及数据表
 进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
@@ -106,8 +106,10 @@ show create table employee;
 
 操作截图：
 
-![图片描述](images/710-showcreatetable.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/b922380b36312dbcd841945d875c949e)
 
+## 分区表中数据操作
+通过 SequoiaSQL-MySQL 实例进行数据插入、查询、更新、删除操作。
 
 #### 分区表中插入数据
 在分区表 employee 中插入数据：
@@ -128,7 +130,7 @@ select * from employee where age > 20 and age < 30;
 
 操作截图：
 
-![图片描述](images/710-select.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/b08f930e4384a2c8be7dd7e8bcdd0f05)
 
 
 #### 更新分区表中的数据
@@ -144,7 +146,7 @@ select * from employee;
 
 操作截图：
 
-![图片描述](images/710-update.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/dcf250f3fc2c0cbfb37af7d2e904e04a)
 
 #### 删除分区表中的数据
 1）删除分区表 employees 中的数据，将 empno 为10006的记录删除：
@@ -159,7 +161,10 @@ select * from employee;
 
 操作截图：
 
-![图片描述](images/710-delete.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/8bff0f74eabcba85cd02e10de89065cd)
+
+## 索引使用
+通过 SequoiaSQL-MySQL 实例进行表上索引的创建及查看执行计划。
 
 #### 分区表中索引使用
 1）在分区表 employee 的 ename 字段上创建索引：
@@ -174,7 +179,7 @@ explain select * from employee where ename = 'Georgi';
 
 操作截图：
 
-![图片描述](images/710-createandshowindex.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/353bd3baa886dc98f98503427f1139b0)
 
 
 ## Java 语言操作 MySQL 实例中的数据
