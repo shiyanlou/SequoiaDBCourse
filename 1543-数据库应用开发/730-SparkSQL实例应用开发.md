@@ -12,7 +12,7 @@ version: 1.0
 #### 部署架构：
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中SequoiaSQL-SparkSQL 数据库实例包括2个worker节点，SequoiaDB 巨杉数据库包括1个引擎协调节点，1个编目节点与3个数据节点。
 
-![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/f94f233be5f5d42622a2f29ec0c30c1f)
 
 详细了解 SequoiaDB 巨杉数据库系统架构：
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
@@ -42,7 +42,7 @@ sequoiadb --version
 
 操作截图：
 
-![图片描述](images/710-sdbversion.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1d1b4057ef81bc03b825926d3071183a)
 
 ## 查看节点启动列表
 
@@ -54,7 +54,7 @@ sdblist
 
 操作截图：
 
-![图片描述](images/710-sdblist.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3ebdc835c21b5685d858918d25a9f372)
 
 >Note:
 >
@@ -67,7 +67,7 @@ jps
 
 操作截图：
 
-![图片描述](images/730-listspark.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/38da9d7707133b1d6623538ccc6b2ea8)
 
 ## 创建数据库及数据表
 
@@ -78,7 +78,7 @@ jps
 
 操作截图：
 
-![图片描述](images/730-sparkshell.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/01f1446fa12682164739d1dc36724334)
 
 #### 创建数据库
 在 SparkSQL 实例中创建数据库company，并切换至company库：
@@ -86,10 +86,12 @@ jps
 create database company;
 use company;
 ```
+## 关联集合空间、集合
+在 SparkSQL 实例中关联 SequoiaDB 数据库中的集合空间、集合。
 
 #### 在 SequoiaDB 中创建集合空间、集合
 进入 SequoiaDB Shell，在 SequoiaDB 中创建集合空间 company，集合 employee：
-```
+```javascript
 db = new Sdb();
 db.createDomain("company_domains", ["group1", "group2", "group3"], {AutoSplit:true});
 db.createCS("company",{Domain:"company_domains"});
@@ -110,7 +112,12 @@ collection 'employee'
 );
 ```
 
->Note: [SparkSQL 实例参数配置](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)
+>Note: 
+>
+> [SparkSQL 实例参数配置](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)
+
+## 关联表数据操作
+使用 SparkSQL 实例操作关联表中的数据。
 
 #### 通过关联表插入数据
 在 SparkSQL 实例关联表 employee 中插入数据：
@@ -131,7 +138,7 @@ select * from employee where age > 20 and age < 30;
 
 操作截图：
 
-![图片描述](images/730-select.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/90bd7360e38d6af4ada588588f30c58b)
 
 
 #### 通过已有表创建表
@@ -157,7 +164,7 @@ select * from employee
 
 操作截图：
 
-![图片描述](images/730-select2.png)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9b2f6201953abb8679f52b5d3e02ffc1)
 
 ## 总结
 
