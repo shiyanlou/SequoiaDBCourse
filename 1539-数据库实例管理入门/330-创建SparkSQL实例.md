@@ -1,6 +1,17 @@
-## 四，SparkSQL实例简介
+---
+show: step
+version: 1.0
+enable_checker: true
+---
+# SparkSQL实例简介
 Sequoiadb作为一个分布式集群数据库，可以为Spark提供数据；使用SparkSQL接口可以通过SQL方式非常方便的访问sequoiadb中存储的数据；并且可以在一个多副本的集群中，把spark部署在一个数据副本的服务器上，与其它副本隔离
-### 4.1 准备课程环境
+
+## 1 课程介绍
+本实验基于Sequoiadb数据库提供的Docker镜像，能够一步一步的带领你在linux环境中部署巨杉数据库的SparkSQL实例。
+
+## 2 准备课程环境
+课程环境是一个docker 容器，已经安装了一个单副本的巨杉数据库，包括了多种实例的安装介质，可以在这容器中完成多种实例的安装配置。
+
 在属主机上启动docker课程容器，并进入container。
 ```
 docker run -it --privileged=true --name sdbtestfu -h sdb sdbinstance5
@@ -20,7 +31,7 @@ ls -l
 ```
 本例中安装了spark 2.1.3
 
-### 4.2 Spark 实例配置
+## 3 Spark 实例配置
 
 配置用户互信，已经安装了ssh软件包；由于是由sdbadmin用户启动Spark,所以需要配置sdbadmin用户的ssh互相关系。
 
@@ -139,7 +150,7 @@ FLUSH PRIVILEGES;
 quit;
 ```
 
-### 4.3启动spark实例
+## 4 启动spark实例
 ```
 /opt/spark-2.1.3-bin-hadoop2.7/sbin/start-all.sh
 ```
@@ -161,7 +172,7 @@ netstat -an|grep 10000
 tcp        0      0 0.0.0.0:10000           0.0.0.0:*               LISTEN     
 ```
 
-### 4.4 在sdb中创建测试用集合空间和集合
+## 5 在sdb中创建测试用集合空间和集合
 使用sdb命令行工具：
 
 ```
@@ -227,7 +238,7 @@ Return 3 row(s).
 
 quit
 ```
-### 4.5在beeline中，通过sparkSQL实例操作数据。
+## 6 在beeline中，通过sparkSQL实例操作数据。
 
 启动beeline，然后操作数据。
 ```
@@ -298,7 +309,7 @@ No rows selected (0.442 seconds)
 ```
 
 
-### 4.6 在sdb中查看数据.
+## 7 在sdb中查看数据.
 使用sdb命令行工具查看数据：
 ```
 sdbadmin@sdb:/opt/spark-2.1.3-bin-hadoop2.7/conf$ sdb
@@ -344,7 +355,7 @@ Return 4 row(s).
 Takes 0.001660s.
 > quit
 ```
-### 4.7 停止SparkSQL实例
+## 8 停止SparkSQL实例
 ```
 cd /opt/spark-2.1.3-bin-hadoop2.7/sbin
 ```
@@ -356,6 +367,7 @@ cd /opt/spark-2.1.3-bin-hadoop2.7/sbin
 ```
 ./stop-all.sh
 ```
+## 结束课程
 退出Container
 ```
 $exit
