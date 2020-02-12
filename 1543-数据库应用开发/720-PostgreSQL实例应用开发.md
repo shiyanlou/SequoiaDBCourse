@@ -72,7 +72,7 @@ sdblist
 ## 创建数据库
 1）在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
 
-以sdbadmin用户登录，在 PostgreSQL 实例创建数据库company：
+以 sdbadmin 用户登录，在 PostgreSQL 实例创建数据库 company：
 ```
 /opt/sequoiasql/postgresql/bin/sdb_sql_ctl createdb company myinst
 ```
@@ -83,7 +83,7 @@ sdblist
 
 2）查看数据库：
 ```
-psql -l
+/opt/sequoiasql/postgresql/bin/psql -l
 ```
 
 操作截图：
@@ -98,14 +98,16 @@ psql -l
 ```
 
 2）加载SequoiaDB连接驱动
-```
-create extension sdb_fdw;
+```sql
+CREATE EXTENSION sdb_fdw ;
 ```
 
 #### 配置与 SequoiaDB 连接参数
 在 PostgreSQL 实例中配置 SequoiaDB 连接参数：
-```
-create server sdb_server foreign data wrapper sdb_fdw options(address '127.0.0.1', service '11810', user '', password '', preferedinstance 'A', transaction 'off');
+```sql
+CREATE SERVER sdb_server 
+    FOREIGN DATA WRAPPER sdb_fdw 
+    OPTIONS (address '127.0.0.1', service '11810', user '', password '', preferedinstance 'A', transaction 'off' ) ;
 ```
 
 >Note:
@@ -125,11 +127,29 @@ create server sdb_server foreign data wrapper sdb_fdw options(address '127.0.0.1
 
 #### 在 PostgreSQL 实例中创建外部表
 进入 SequoiaDB Shell，在 SequoiaDB 中创建集合空间 company，集合 employee：
+
+1）通过 Linux 命令行进入 SequoiaDB Shell；
+```
+sdb
+```
+1）通过 javascript 语言连接协调节点，获取数据库连接；
 ```javascript
-db = new Sdb();
-db.createDomain("company_domains", ["group1", "group2", "group3"], {AutoSplit:true});
-db.createCS("company",{Domain:"company_domains"});
-db.company.createCL("employee",{"ShardingKey":{"_id":1},"ShardingType":"hash","ReplSize":-1,"Compressed":true,"CompressionType":"lzw","AutoSplit":true,"EnsureShardingIndex":false});
+var db = new Sdb ("localhost",11810) ;
+```
+
+2）创建 company_domains 逻辑域；
+
+```javascript
+db.createDomain ("company_domains", ["group1", "group2", "group3"], { AutoSplit : true }) ;
+```
+3）创建 company 集合空间；
+```javascript
+db.createCS ("company",{Domain:"company_domains"}) ;
+```
+
+4）创建 employee 集合；
+```javascript
+db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
 ```
 
 操作截图：
@@ -138,22 +158,23 @@ db.company.createCL("employee",{"ShardingKey":{"_id":1},"ShardingType":"hash","R
 
 #### PostgreSQL 实例外部表与 SequoiaDB 集合空间、集合关联
 将 PostgreSQL 实例中的外表并与 SequoiaDB 中的集合空间、集合关联：
-```
-create foreign table employee (
-	empno INT,
-	ename VARCHAR(128),
-	age INT
-)server sdb_server options ( collectionspace 'company', collection 'employee', decimal 'on');
+```sql
+CREATE FOREIGN TABLE employee (
+     empno INT,
+     ename VARCHAR(128),
+     age INT
+) SERVER sdb_server
+OPTIONS ( collectionspace 'company', collection 'employee', decimal 'on' ) ;
 ```
 
 >Note:
 >
-> - 集合空间与集合必须已经存在于SequoiaDB，否则查询出错。
-> - 如果需要对接SequoiaDB的decimal字段，则需要在options中指定 decimal 'on' 。
-> - pushdownsort 设置是否下压排序条件到 SequoiaDB，默认为on，关闭为off。
+> - 集合空间与集合必须已经存在于 SequoiaDB，否则查询出错。
+> - 如果需要对接 SequoiaDB 的 decimal 字段，则需要在 options 中指定 decimal 'on' 。
+> - pushdownsort 设置是否下压排序条件到 SequoiaDB，默认为 on，关闭为 off。
 > - pushdownlimit 设置是否下压 limit 和 offset 条件到 SequoiaDB，默认为on，关闭为off。
 > - 开启 pushdownlimit 时，必须同时开启 pushdownsort ，否则可能会造成结果非预期的问题。
-> - 默认情况下，表的字段映射到SequoiaDB中为小写字符，如果强制指定字段为大写字符，创建方式参考“注意事项1”。
+> - 默认情况下，表的字段映射到 SequoiaDB 中为小写字符，如果强制指定字段为大写字符，创建方式参考“注意事项1”。
 > - 映射 SequoiaDB 的数组类型，创建方式参考“注意事项2”。
 
 ## 关联表数据操作
@@ -161,19 +182,19 @@ create foreign table employee (
 
 #### 通过关联表插入数据
 在 PostgreSQL 实例外表 employee 中插入数据：
-```
-INSERT INTO employee VALUES (10001,'Georgi',48);
-INSERT INTO employee VALUES (10002,'Bezalel',21);
-INSERT INTO employee VALUES (10003,'Parto',33);
-INSERT INTO employee VALUES (10004,'Chirstian',40);
-INSERT INTO employee VALUES (10005,'Kyoichi',23);
-INSERT INTO employee VALUES (10006,'Anneke',19);
+```sql
+INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
+INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
+INSERT INTO employee VALUES (10003, 'Parto', 33) ;
+INSERT INTO employee VALUES (10004, 'Chirstian', 40) ;
+INSERT INTO employee VALUES (10005, 'Kyoichi', 23) ;
+INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 ```
 
 #### 插入关联表中的数据
 查询 PostgreSQL 实例外表 employee 中 age 大于20，小于30的数据：
-```
-select * from employee where age > 20 and age < 30;
+```sql
+SELECT * FROM employee WHERE age > 20 AND age < 30 ;
 ```
 
 操作截图：
@@ -183,13 +204,13 @@ select * from employee where age > 20 and age < 30;
 
 #### 更新关联表中的数据
 更新 PostgreSQL 实例外表 employee 中的数据，将 empno 为10001的记录 age 更改为34：
-```
-update employee set age=34 where empno=10001;
+```SQL
+UPDATE employee SET age=34 WHERE empno=10001 ;
 ```
 
 2）查询数据结果确认 empno 为10001的记录更新是否成功：
-```
-select * from employee;
+```SQL
+SELECT * FROM employee ;
 ```
 
 操作截图：
@@ -198,13 +219,13 @@ select * from employee;
 
 #### 删除关联表中的数据
 1）删除 PostgreSQL 实例外表 employee 中的数据，将 empno 为10006的记录删除：：
-```
-delete from employee where empno=10006;
+```SQL
+DELETE FROM employee WHERE empno=10006 ;
 ```
 
 2）查询数据结果确认 empno 为10006的记录是否成功删除：
-```
-select * from employee;
+```SQL
+SELECT * FROM employee ;
 ```
 
 操作截图：
@@ -217,13 +238,12 @@ select * from employee;
 #### 索引使用
 1）进入 SequoiaDB Shell，在 SequoiaDB 集合 employee 的ename字段上创建索引：
 ```javascript
-db = new Sdb();
-db.company.employee.createIndex("idx_ename",{ename:1},false);  
+db.company.employee.createIndex ("idx_ename", { ename : 1 }, false) ;  
 ```
 
 2）在 PostgreSQL 实例显示表 employee 查询语句执行计划：
-```
-explain select * from employee where ename = 'Georgi';
+```SQL
+EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
 ```
 
 操作截图：
@@ -232,8 +252,7 @@ explain select * from employee where ename = 'Georgi';
 
 3）进入 SequoiaDB Shell，根据上述输出中的Filter，在 SequoiaDB 中显示集合 employee 查询语句执行计划：
 ```javascript
-db = new Sdb();
-db.company.employee.find({ "ename": { "$et": "Georgi" } }).explain();
+db.company.employee.find ({ "ename": { "$et": "Georgi" } }).explain() ;
 ```
 
 操作截图：
