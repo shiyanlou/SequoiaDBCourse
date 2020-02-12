@@ -79,28 +79,29 @@ mysql -h 127.0.0.1 -P 3306 -u root -p
 
 #### 创建数据库
 在MySQL实例中创建新数据库company，并切换至company库：
-```
+```sql
 create database company;
 use company;
 ```
 
 #### 创建分区表
-1）在 MySQL 实例 company 数据库中创建分区表 employee：
-```
+1）在 MySQL 实例 company 数据库中创建分区表 employee；
+```sql
 CREATE TABLE employee (
 	empno INT,
 	ename VARCHAR(128),
 	age INT,
 	PRIMARY KEY (empno)
-)ENGINE=sequoiadb COMMENT="雇员表, sequoiadb:{ table_options: { ShardingKey: { 'empno': 1 }, ShardingType:'hash','Compressed':true,'CompressionType':'lzw','AutoSplit':true,'EnsureShardingIndex':false } }";
+) ENGINE = sequoiadb COMMENT = "雇员表 , sequoiadb:{ table_options : { ShardingKey : { 'empno' : 1 } , ShardingType : 'hash' , 'Compressed' : true , 'CompressionType' : 'lzw' , 'AutoSplit' : true , 'EnsureShardingIndex' : false } }" ;
 ```
 
 >Note:
 >
 >[MySQL 实例参数配置](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1566551297-edition_id-0)
 
-2）查看 MySQL 实例分区表结构：
-```
+2）查看 MySQL 实例分区表结构；
+
+```sql
 show create table employee;
 ```
 
@@ -113,19 +114,21 @@ show create table employee;
 
 #### 分区表中插入数据
 在分区表 employee 中插入数据：
-```
-INSERT INTO employee VALUES (10001,'Georgi',48);
-INSERT INTO employee VALUES (10002,'Bezalel',21);
-INSERT INTO employee VALUES (10003,'Parto',33);
-INSERT INTO employee VALUES (10004,'Chirstian',40);
-INSERT INTO employee VALUES (10005,'Kyoichi',23);
-INSERT INTO employee VALUES (10006,'Anneke',19);
+
+```sql
+INSERT INTO employee VALUES (10001,'Georgi',48) ;
+INSERT INTO employee VALUES (10002,'Bezalel',21) ;
+INSERT INTO employee VALUES (10003,'Parto',33) ;
+INSERT INTO employee VALUES (10004,'Chirstian',40) ;
+INSERT INTO employee VALUES (10005,'Kyoichi',23) ;
+INSERT INTO employee VALUES (10006,'Anneke',19) ;
 ```
 
 #### 查询分区表中的数据
 查询分区表 employee 中 age 大于20，小于30的数据：
-```
-select * from employee where age > 20 and age < 30;
+
+```sql
+select * from employee where age > 20 and age < 30 ;
 ```
 
 操作截图：
@@ -135,13 +138,15 @@ select * from employee where age > 20 and age < 30;
 
 #### 更新分区表中的数据
 1）更新分区表 employee 中的数据，将 empno 为10001的记录 age 更改为34：
-```
-update employee set age=34 where empno=10001;
+
+```sql
+update employee set age=34 where empno=10001 ;
 ```
 
 2）查询数据结果确认 empno 为10001的记录更新是否成功：
-```
-select * from employee;
+
+```sql
+select * from employee ;
 ```
 
 操作截图：
@@ -150,13 +155,15 @@ select * from employee;
 
 #### 删除分区表中的数据
 1）删除分区表 employees 中的数据，将 empno 为10006的记录删除：
-```
-delete from employee where empno=10006;
+
+```sql
+delete from employee where empno=10006 ;
 ```
 
 2）查询数据结果确认 empno 为10006的记录是否成功删除：
-```
-select * from employee;
+
+```sql
+select * from employee ;
 ```
 
 操作截图：
@@ -168,12 +175,14 @@ select * from employee;
 
 #### 分区表中索引使用
 1）在分区表 employee 的 ename 字段上创建索引：
-```
+
+```sql
 alter table employee add index idx_ename(ename);
 ```
 
 2）显示分区表 employee 查询语句执行计划：
-```
+
+```sql
 explain select * from employee where ename = 'Georgi';
 ```
 
@@ -186,7 +195,8 @@ explain select * from employee where ename = 'Georgi';
 本节内容主要用来演示 Java 语言操作 SequoiaDB-MySQL 实例中的数据，为相关开发人员提供参考。
 
 #### 连接 MySQL 实例
-```
+
+```java
 import java.sql.*;
 
 public class MySQLConnection {
@@ -216,7 +226,8 @@ public class MySQLConnection {
 ```
 
 #### 在 MySQL 实例中插入数据
-```
+
+```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -254,7 +265,8 @@ public class Insert {
 ```
 
 #### 从 MySQL 实例中查询数据
-```
+
+```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -292,7 +304,8 @@ public class Select {
 ```
 
 #### 在 MySQL 实例中更新数据
-```
+
+```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -323,7 +336,8 @@ public class Update {
 ```
 
 #### 在 MySQL 实例中删除数据
-```
+
+```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
