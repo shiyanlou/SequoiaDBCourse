@@ -61,16 +61,28 @@ sdblist
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
 
 ## 创建域、集合空间、集合
-1）进入到 SequoiaDB Shell，并连接数据库
+1）通过 Linux 命令行进入 SequoiaDB Shell
+```
+sdb
+```
+1）通过 javascript 语言连接协调节点，获取数据库连接；
 ```javascript
-db = new Sdb();
+var db = new Sdb ("localhost",11810) ;
 ```
 
-2）在 SequoiaDB 中创建域 company_domains、集合空间 company ，集合 employees ：
+2）创建 company_domains 逻辑域；
+
 ```javascript
-db.createDomain("company_domains", ["group1", "group2", "group3"], {AutoSplit:true});
-db.createCS("company",{Domain:"company_domains"});
-db.company.createCL("employee",{"ShardingKey":{"_id":1},"ShardingType":"hash","ReplSize":-1,"Compressed":true,"CompressionType":"lzw","AutoSplit":true,"EnsureShardingIndex":false});
+db.createDomain ("company_domains", ["group1", "group2", "group3"], { AutoSplit : true }) ;
+```
+3）创建 company 集合空间；
+```javascript
+db.createCS ("company",{Domain:"company_domains"}) ;
+```
+
+4）创建 employee 集合；
+```javascript
+db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
 ```
 
 ## 集合数据操作
@@ -79,18 +91,18 @@ db.company.createCL("employee",{"ShardingKey":{"_id":1},"ShardingType":"hash","R
 #### 集合中插入数据
 在 JSON 实例集合 company 中插入数据 ：
 ```javascript
-db.company.employee.insert({"empno":10001,"ename":"Georgi","age":48});
-db.company.employee.insert({"empno":10002,"ename":"Bezalel","age":21});
-db.company.employee.insert({"empno":10003,"ename":"Parto","age":33});
-db.company.employee.insert({"empno":10004,"ename":"Chirstian","age":40});
-db.company.employee.insert({"empno":10005,"ename":"Kyoichi","age":23});
-db.company.employee.insert({"empno":10006,"ename":"Anneke","age":19});
+db.company.employee.insert ({ "empno" : 10001 , "ename" : "Georgi" , "age" : 48 });
+db.company.employee.insert ({ "empno" : 10002 , "ename" : "Bezalel" , "age" : 21 });
+db.company.employee.insert ({ "empno" : 10003 , "ename" : "Parto" , "age" : 33 });
+db.company.employee.insert ({ "empno" : 10004 , "ename" : "Chirstian" , "age" : 40 });
+db.company.employee.insert ({ "empno" : 10005 , "ename" : "Kyoichi" , "age" : 23 });
+db.company.employee.insert ({ "empno" : 10006 , "ename" : "Anneke" , "age" : 19 });
 ```
 
 #### 查询集合中的数据
 查询集合 employees 中age 大于20，小于30的数据：
 ```javascript
-db.company.employee.find({"$and":[{"age":{"$gt":20}},{"age":{"$lt":30}}]});
+db.company.employee.find ({ "$and" : [{ "age" : { "$gt" : 20 }} , { "age" : { "$lt" : 30 } } });
 ```
 
 操作截图：
@@ -100,12 +112,12 @@ db.company.employee.find({"$and":[{"age":{"$gt":20}},{"age":{"$lt":30}}]});
 #### 更新集合中的数据
 1）更新JSON 实例集合 employees 中的数据，将 empno 为10001的记录 age 更改为34：
 ```javascript
-db.company.employee.update({"$set":{"age":34}},{"empno":10001});
+db.company.employee.update ( { "$set" : { "age" : 34 } } , { "empno" : 10001 });
 ```
 
 2）查询数据结果确认 empno 为10001的记录更新是否成功：
 ```javascript
-db.company.employee.find({"empno":10001});
+db.company.employee.find ( { "empno" : 10001 } );
 ```
 
 操作截图：
@@ -115,12 +127,12 @@ db.company.employee.find({"empno":10001});
 #### 删除集合中的数据
 1）删除集合 employees 中的数据，将 empno 为10006的记录删除：
 ```javascript
-db.company.employee.remove({"empno":10006});
+db.company.employee.remove ( { "empno" : 10006 } ) ;
 ```
 
 2）查询数据结果确认 empno 为10006的记录是否成功删除：
 ```javascript
-db.company.employee.find();
+db.company.employee.find ();
 ```
 
 操作截图：
@@ -131,12 +143,12 @@ db.company.employee.find();
 ## 索引使用
 1）在集合 employee 的 ename 字段上创建索引：
 ```javascript
-db.company.employee.createIndex("idx_ename",{ename:1},false);
+db.company.employee.createIndex ("idx_ename", { ename : 1 }, false);
 ```
 
 2）查看集合 employee 上创建的索引：
 ```javascript
-db.company.employee.listIndexes();
+db.company.employee.listIndexes ();
 ```
 
 操作截图：
@@ -145,7 +157,7 @@ db.company.employee.listIndexes();
 
 3）显示集合 employees 查询语句执行计划：
 ```javascript
-db.company.employee.find({"ename":"Georgi"}).explain();
+db.company.employee.find ( { "ename" : "Georgi" } ).explain();
 ```
 
 操作截图：
