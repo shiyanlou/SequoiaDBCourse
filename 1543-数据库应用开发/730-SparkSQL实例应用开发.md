@@ -10,7 +10,7 @@ version: 1.0
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
-本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中SequoiaSQL-SparkSQL 数据库实例包括2个worker节点，SequoiaDB 巨杉数据库包括1个引擎协调节点，1个编目节点与3个数据节点。
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中SequoiaSQL-SparkSQL 数据库实例包括2个 worker 节点，SequoiaDB 巨杉数据库包括1个引擎协调节点，1个编目节点与3个数据节点。
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/f94f233be5f5d42622a2f29ec0c30c1f)
 
@@ -73,7 +73,7 @@ jps
 
 #### 登录到 SparkSQL 实例 Beeline Shell
 ```
-/opt/spark/bin/beeline -u jdbc:hive2://localhost:10000
+/opt/spark/bin/beeline -u 'jdbc:hive2://localhost:10000'
 ```
 
 操作截图：
@@ -91,25 +91,43 @@ use company;
 
 #### 在 SequoiaDB 中创建集合空间、集合
 进入 SequoiaDB Shell，在 SequoiaDB 中创建集合空间 company，集合 employee：
+1）使用 Linux 命令行进入 SequoiaDB Shell；
+```
+sdb
+```
+
+1）使用 javascript 语言连接协调节点；
 ```javascript
-db = new Sdb();
-db.createDomain("company_domains", ["group1", "group2", "group3"], {AutoSplit:true});
-db.createCS("company",{Domain:"company_domains"});
-db.company.createCL("employee",{"ShardingKey":{"_id":1},"ShardingType":"hash","ReplSize":-1,"Compressed":true,"CompressionType":"lzw","AutoSplit":true,"EnsureShardingIndex":false});
+var db = new Sdb ("localhost", 11810) ;
+```
+
+2）创建 company_domains 逻辑域；
+```javascript
+db.createDomain("company_domains", ["group1", "group2", "group3"], { AutoSplit : true }) ;
+```
+3）创建 company 集合空间；
+```javascript
+db.createCS("company", { Domain : "company_domains" }) ;
+```
+
+4）创建 employee 集合，并使用 _id 进行 hash 分区；
+```javascript
+db.company.createCL("employee", { "ShardingKey" : { "_id" : 1 }, "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
 ```
 
 #### 在 SparkSQL 实例中创建表并与 SequoiaDB 集合空间、集合关联
 进入SparkSQL Beeline Shell中，在 SparkSQL 实例中创建表并与 SequoiaDB 中的集合空间、集合关联：
-```
-create table employee(
+```sql
+CREATE TABLE employee (
 empno      INT,
 ename VARCHAR(128),
 age INT
-)using com.sequoiadb.spark options(
+) USING 
+ com.sequoiadb.spark OPTIONS (
 host 'localhost:11810',
 collectionspace 'company',
 collection 'employee'
-);
+) ;
 ```
 
 >Note: 
@@ -121,19 +139,19 @@ collection 'employee'
 
 #### 通过关联表插入数据
 在 SparkSQL 实例关联表 employee 中插入数据：
-```
-INSERT INTO employee VALUES (10001,'Georgi',48);
-INSERT INTO employee VALUES (10002,'Bezalel',21);
-INSERT INTO employee VALUES (10003,'Parto',33);
-INSERT INTO employee VALUES (10004,'Chirstian',40);
-INSERT INTO employee VALUES (10005,'Kyoichi',23);
-INSERT INTO employee VALUES (10006,'Anneke',19);
+```sql
+INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
+INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
+INSERT INTO employee VALUES (10003, 'Parto', 33) ;
+INSERT INTO employee VALUES (10004, 'Chirstian', 40) ;
+INSERT INTO employee VALUES (10005, 'Kyoichi', 23) ;
+INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 ```
 
 #### 查询关联表插入数据
 查询 SparkSQL 实例关联表 employee 中 age 大于20，小于30的数据：
 ```
-select * from employee where age > 20 and age < 30;
+SELECT * FROM employee WHERE age > 20 AND age < 30;
 ```
 
 操作截图：
@@ -144,7 +162,7 @@ select * from employee where age > 20 and age < 30;
 #### 通过已有表创建表
 1）通过已有表 employee 创建表 employee_bak，并将表中的数据存放到指定域、集合空间中：
 ```
-create table employee_bak using com.sequoiadb.spark options(
+CREATE TABLE employee_bak USING com.sequoiadb.spark OPTIONS (
 host 'localhost:11810',
 domain 'company_domains',
 collectionspace 'company_bak',
@@ -154,12 +172,12 @@ shardingkey '{_id:1}',
 shardingtype 'hash',
 compressiontype 'lzw'
 )
-as select * from employee;
+AS SELECT * FROM employee;
 ```
 
 2）查看 employee_bak 表中的数据：
 ```
-select * from employee
+SELECT * FROM employee
 ```
 
 操作截图：
