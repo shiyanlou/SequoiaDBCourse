@@ -116,12 +116,12 @@ show create table employee;
 在分区表 employee 中插入数据：
 
 ```sql
-INSERT INTO employee VALUES (10001,'Georgi',48) ;
-INSERT INTO employee VALUES (10002,'Bezalel',21) ;
-INSERT INTO employee VALUES (10003,'Parto',33) ;
-INSERT INTO employee VALUES (10004,'Chirstian',40) ;
-INSERT INTO employee VALUES (10005,'Kyoichi',23) ;
-INSERT INTO employee VALUES (10006,'Anneke',19) ;
+INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
+INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
+INSERT INTO employee VALUES (10003, 'Parto', 33) ;
+INSERT INTO employee VALUES (10004, 'Chirstian', 40) ;
+INSERT INTO employee VALUES (10005, 'Kyoichi', 23) ;
+INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 ```
 
 #### 查询分区表中的数据
@@ -177,13 +177,13 @@ select * from employee ;
 1）在分区表 employee 的 ename 字段上创建索引：
 
 ```sql
-alter table employee add index idx_ename(ename);
+alter table employee add index idx_ename(ename) ;
 ```
 
 2）显示分区表 employee 查询语句执行计划：
 
 ```sql
-explain select * from employee where ename = 'Georgi';
+explain select * from employee where ename = 'Georgi' ;
 ```
 
 操作截图：
@@ -367,7 +367,7 @@ public class Delete {
 
 ## 总结
 
-通过本课程，我们验证了 SequoiaDB 巨杉数据库所支持的 MySQL 语法，并对底层数据存储分布进行了直接验证。可以看出：
-- SequoiaSQL-MySQL 实例 100% 兼容标准的 MySQL 语法；
-- SequoiaDB 巨杉数据库底层存储为分布式架构，数据可均匀分布在多个分区中；
+通过本课程，我们通过 MySQL 语法在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并对数据表进行了 CRUD 的基本数据操作；同时展示了使用 JAVA 语言对数据表进行数据操作。可以看出：
+- SequoiaSQL-MySQL 实例兼容标准的 MySQL 语法；
 - Java语言操作 SequoiaSQL-MySQL 实例中的数据与操作原生 MySQL 中的数据无任何差异，可做到无缝切换；
+
