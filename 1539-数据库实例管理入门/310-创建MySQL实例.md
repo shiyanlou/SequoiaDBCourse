@@ -1,7 +1,18 @@
-## 二，MySQL实例简介步骤
+---
+show: step
+version: 1.0
+enable_checker: true
+---
+
+# MySQL实例简介
 MySQL 是一款开源的关系型数据库管理系统，也是目前最流行的关系型数据库管理系统之一，支持标准的 SQL 语言。 SequoiaDB 支持创建MySQL实例，完全兼容MySQL语法和协议，用户可以使用SQL语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他MySQL语法操作。SequoiaDB所支持的 MySQL 版本 MySQL 5.7.24+ 。
 
-### 2.1 课程环境准备步骤
+## 1 课程介绍
+本实验基于Sequoiadb数据库提供的Docker镜像，能够一步一步的带领你在linux环境中部署巨杉数据库的MySQL实例。
+
+## 2 课程环境准备
+课程环境是一个docker 容器，已经安装了一个单副本的巨杉数据库，包括了多种实例的安装介质，可以在这容器中完成多种实例的安装配置。
+
 在属主机上启动docker 课程容器，并进入container。
 
 docker run -it --privileged=true --name sdbtestfu -h sdb sdbinstance5
@@ -22,7 +33,7 @@ sdbstart -t all
 sdblist -l
 ```
 
-### 2.2 root用户安装MySQL实例程序
+## 3 root用户安装MySQL实例程序
 ```
 ./sequoiasql-mysql-3.2.4-linux_x86_64-installer.run --mode text
 ```
@@ -39,7 +50,7 @@ Please wait while Setup installs SequoiaSQL MySQL Server on your computer.
 ----------------------------------------------------------------------------
 Setup has finished installing SequoiaSQL MySQL Server on your computer.
 ```
-### 2.3 创建MySQL实例
+## 4 创建MySQL实例
 ```
 su - sdbadmin
 
@@ -90,7 +101,7 @@ Replica size of write operations.（副本同步策略，sdb多副本的部署�
 
 sequoiadb_replica_size=1
 
-### 2.4 MySQL实例操作
+## 5 MySQL实例操作
 查看实例状态
 ```
 ./sdb_sql_ctl status
@@ -111,7 +122,7 @@ Starting instance myinst ...
 
 ok (PID: 13162)
 ```
-### 2.5 在MySQL实例中创建数据库
+## 6 在MySQL实例中创建数据库
 
 首页sdbadmin用户执行：
 ```
@@ -186,7 +197,7 @@ mysql> show databases;
 5 rows in set (0.01 sec)
 ```
 
-### 2.6 在MySQL实例中创建测试表
+## 7 在MySQL实例中创建测试表
 在mysql实例配置中缺省使用sequoiadb存储引擎，所以在生成表的时候可以不用指定存储引擎。
 ```
 mysql> use testsdb;
@@ -392,7 +403,10 @@ Takes 0.001140s.
 Return 2 row(s).
 Takes 0.005336s.
 > quit
+
 ```
+## 结束课程
+
 执行完成，退出docker
 ```
 $exit

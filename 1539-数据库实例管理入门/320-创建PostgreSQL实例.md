@@ -1,7 +1,18 @@
-## 三，PostgreSQL 实例简介
+---
+show: step
+version: 1.0
+enable_checker: true
+---
+
+# PostgreSQL 实例简介
 SequoiaDB支持创建PostgreSQL实例，完全兼容PostgreSQL语法，用户可以使用SQL语句访问SequoiaDB数据库，完成对数据的增、删、查、改及其他操作。
 
-### 3.1准备课程环境
+## 1 课程介绍
+本实验基于Sequoiadb数据库提供的Docker镜像，能够一步一步的带领你在linux环境中部署巨杉数据库的PostgreSQL实例。
+
+## 2 准备课程环境
+课程环境是一个docker 容器，已经安装了一个单副本的巨杉数据库，包括了多种实例的安装介质，可以在这容器中完成多种实例的安装配置。
+
 在属主机上启动docker课程容器，并进入container。
 ```
 docker run -it --privileged=true --name sdbtestfu -h sdb sdbinstance5
@@ -20,7 +31,7 @@ cd /sequoiadb/sequoiadb-3.2.4
 ls -l ls -l sequoiasql-postgresql-3.2.4-x86_64-installer.run
 ```
 
-### 3.2 安装PostgreSQL实例,使用缺省的安装参数：
+## 3 安装PostgreSQL实例,使用缺省的安装参数：
 ```
 ./sequoiasql-postgresql-3.2.4-x86_64-installer.run --mode text
 ```
@@ -34,7 +45,7 @@ Please wait while Setup installs SequoiaSQL PostgreSQL Server on your computer.
 ----------------------------------------------------------------------------
 Setup has finished installing SequoiaSQL PostgreSQL Server on your computer.
 ```
-### 3.3 创建pgsql实例,数据库及配置实例
+## 4 创建pgsql实例,数据库及配置实例
 ```
 su - sdbadmin
 cd /opt/sequoiasql/postgresql/bin
@@ -99,7 +110,7 @@ CREATE SERVER
 ```
 pgsdb=# \q
 ```
-### 3.4 在sequoisdb中创建测试集合并关联到pgsql实例
+## 5 在sequoisdb中创建测试集合并关联到pgsql实例
 在sdb中创建CL
 
 查看sdb中的CL
@@ -193,7 +204,7 @@ gsdb=# \d testtab1;
 Server: sdb_server
 FDW Options: (collectionspace 'pgsdb', collection 'testtab1', "decimal" 'on')
 ```
-### 3.5 在PostgreSQL实例中对数据进行操作
+## 6 在PostgreSQL实例中对数据进行操作
 ```
 pgsdb=# select * from testtab1;
  my_name | my_age |   my_address    
@@ -229,7 +240,7 @@ pgsdb=# select * from testtab1;
 ```
 pgsdb=# \q
 ```
-### 3.6 在sdb中观看数据，数据与psql中看到的一致.
+## 7 在sdb中观看数据，数据与psql中看到的一致.
 ```
 sdb
 > db=new Sdb()
@@ -278,6 +289,7 @@ Return 5 row(s).
 Takes 0.001041s.
 > quit
 ```
+
 删除pgsql 实例
 ```
 root@sdb:/sequoiadb/sequoiadb-3.2.4# cd /opt/sequoiasql/postgresql
@@ -285,6 +297,9 @@ root@sdb:/opt/sequoiasql/postgresql# ls
 bin  checksum.md5  compatible.sh  conf  include  lib  myinst.log  preUninstall.sh  share  uninstall  uninstall.dat
 root@sdb:/opt/sequoiasql/postgresql# ./uninstall
 ```
+
+## 结束课程
+
 执行完成，退出docker
 ```
 #exit
