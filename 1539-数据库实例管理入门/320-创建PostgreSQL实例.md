@@ -4,307 +4,208 @@ version: 1.0
 enable_checker: true
 ---
 
-# PostgreSQL 实例简介
-SequoiaDB支持创建PostgreSQL实例，完全兼容PostgreSQL语法，用户可以使用SQL语句访问SequoiaDB数据库，完成对数据的增、删、查、改及其他操作。
+
 
 ## 1 课程介绍
-本实验基于Sequoiadb数据库提供的Docker镜像，能够一步一步的带领你在linux环境中部署巨杉数据库的PostgreSQL实例。
+#### PostgreSQL 实例简介
+SequoiaDB支持创建PostgreSQL实例，完全兼容PostgreSQL语法，用户可以使用SQL语句访问SequoiaDB数据库，完成对数据的增、删、查、改及其他操作。
 
-## 2 准备课程环境
-课程环境是一个docker 容器，已经安装了一个单副本的巨杉数据库，包括了多种实例的安装介质，可以在这容器中完成多种实例的安装配置。
-
-在属主机上启动docker课程容器，并进入container。
+##  root用户安装 PostgreSQL 实例程序
+#### 获取 root 密码
+1）点击右侧工具栏的 “SSH 直连” 链接即可弹出shiyanlou的用户密码；
+2）使用系统用户 shiyanlou 重置 root 密码；
+```shell
+sudo passwd root
 ```
-docker run -it --privileged=true --name sdbtestfu -h sdb sdbinstance5
+3）切换到 root 用户；
 ```
-一下步骤在Container中执行。
+su 
+```
+4）解压安装包；
+```
+tar -zxvf sequoiadb-3.4-linux_x86_64.tar.gz
+```
 
-启动sdb：
+5）进入解压目录；
+```shell
+cd sequoiadb-3.4
+```
+
+6）设置文件权限为可执行
+```
+chmod +x sequoiasql-postgresql-3.4-x86_64-installer.run 
+```
+6）安装 SequoiaSQL-MySQL 实例；
+```
+./sequoiasql-postgresql-3.4-x86_64-installer.run --mode text
+```
+安装步骤选择说明请参考：
+* [SequoiaSQL-PostgreSQL 实例安装向导说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1521595270-edition_id-0)
+
+## 4 创建 PostgreSQL 实例
+
+1）切换 sdbadmin 用户；
 ```
 su - sdbadmin
-sdbstart -t all
-sdblist -l
 ```
-进入PostgreSQL安装目录，检查是否有PostgreSQL安装包.
+2）进入 SequoiaSQL-MySQL 实例安装目录；
 ```
-cd /sequoiadb/sequoiadb-3.2.4
-ls -l ls -l sequoiasql-postgresql-3.2.4-x86_64-installer.run
+cd /opt/sequoiasql/postgresql
 ```
 
-## 3 安装PostgreSQL实例,使用缺省的安装参数：
+3）查看MySQL实例情况；
 ```
-./sequoiasql-postgresql-3.2.4-x86_64-installer.run --mode text
+./bin/sdb_sql_ctl status
 ```
-```
-Please wait while Setup installs SequoiaSQL PostgreSQL Server on your computer.
 
- Installing
- 0% ______________ 50% ______________ 100%
- #########################################
-
-----------------------------------------------------------------------------
-Setup has finished installing SequoiaSQL PostgreSQL Server on your computer.
-```
-## 4 创建pgsql实例,数据库及配置实例
-```
-su - sdbadmin
-cd /opt/sequoiasql/postgresql/bin
-```
-检查pgsql实例情况
-```
-./sdb_sql_ctl status
-
-INSTANCE   PID        SVCNAME    PGDATA                                   PGLOG                                   
+预期输出：
+INSTANCE   PID        SVCNAME    SQLDATA                                  SQLLOG                                  
 Total: 0; Run: 0
+没有实例
+
+4）创建PostgreSQL实例：
 ```
-创建PostgreSQL实例：
+./bin/sdb_sql_ctl addinst myinst -D database/5432/
 ```
-./sdb_sql_ctl addinst myinst -D database/5432/
-Adding instance myinst ...
-ok
-```
-再次检查实例
+
+5）检查创建的实例状态
 ```
 ./sdb_sql_ctl status
-INSTANCE   PID        SVCNAME    PGDATA                                   PGLOG                                   
-myinst     -          -          /opt/sequoiasql/postgresql/bin/database/5432/ /opt/sequoiasql/postgresql/myinst.log   
-Total: 1; Run: 0
 ```
-启动pgsql实例
+6）如果未展示，启动pgsql实例
 ```
-./sdb_sql_ctl start myinst
-Starting instance myinst ...
-ok (PID: 120650)
+./bin/sdb_sql_ctl start myinst
 ```
-检查实例状态：
-```
-./sdb_sql_ctl status      
-INSTANCE   PID        SVCNAME    PGDATA                                   PGLOG                                   
-myinst     120650     5432       /opt/sequoiasql/postgresql/bin/database/5432/ /opt/sequoiasql/postgresql/myinst.log   
-Total: 1; Run: 1
-```
-创建 SequoiaSQL PostgreSQL 的 database
-```
-./sdb_sql_ctl createdb pgsdb myinst
 
-Creating database myinst ...
-ok
+5）检查创建的实例状态
 ```
-进入 SequoiaSQL PostgreSQL shell 环境
+./sdb_sql_ctl status
 ```
-./psql -p 5432 pgsdb
-```
-管理sdb与pgsql 的数据库和表
 
-加载SequoiaDB连接驱动
-```
-pgsdb=# create extension sdb_fdw;
-CREATE EXTENSION
-```
-配置与SequoiaDB连接参数
-```
-pgsdb=# create server sdb_server foreign data wrapper sdb_fdw options(address '127.0.0.1', service '11810', preferedinstance 'A', transaction 'off');
-CREATE SERVER
-```
-退出psql命令行：
-```
-pgsdb=# \q
-```
-## 5 在sequoisdb中创建测试集合并关联到pgsql实例
-在sdb中创建CL
+## 创建数据库及配置实例
 
-查看sdb中的CL
+1）创建 company 数据库实例；
 ```
-sdbadmin@sdb:/opt/sequoiasql/postgresql/bin$ sdb
-Welcome to SequoiaDB shell!
-help() for help, Ctrl+c or quit to exit
-> db=new Sdb()
-localhost:11810
-Takes 0.003692s.
-> db.list(4);
-Return 0 row(s).
-Takes 0.000809s.
+./sdb_sql_ctl createdb company myinst
 ```
-创建集合空间pgsdb名字与PostgreSQL中创建的数据库名称相同：
-```
-> db.createCS("pgsdb")
-localhost:11810.pgsdb
-Takes 0.004101s.
-```
-创建集合testtab1并插入数据：
-```
-> db.pgsdb.createCL("testtab1")
-localhost:11810.pgsdb.testtab1
-Takes 0.450711s.
-> db.pgsdb.testtab1.insert({my_name:"Name1",my_age:40,my_address:"chengd1.sichuan"})
-{
-  "InsertedNum": 1,
-  "DuplicatedNum": 0
-}
-Takes 0.001143s.
-> db.pgsdb.testtab1.insert({my_name:"Name2",my_age:42,my_address:"chengd2.sichuan"})
-{
-  "InsertedNum": 1,
-  "DuplicatedNum": 0
-}
-Takes 0.000590s.
-> db.pgsdb.testtab1.insert({my_name:"Name3",my_age:43,my_address:"chengd3.sichuan"})
-{
-  "InsertedNum": 1,
-  "DuplicatedNum": 0
-}
-Takes 0.000631s.
-> db.pgsdb.testtab1.insert({my_name:"Name4",my_age:44,my_address:"chengd4.sichuan"})
-{
-  "InsertedNum": 1,
-  "DuplicatedNum": 0
-}
-Takes 0.000586s.
 
->  db.list(SDB_LIST_COLLECTIONS)
-{
-  "Name": "pgsdb.testtab1"
-}
+2）进入 PostgreSQL shell；
 ```
-退出sdb命令行：
+./bin/psql -p 5432 company
 ```
-> quit
-```
-关联SequoiaDB的集合空间与集合,创建一个外表，结构与sdb中的集合一致：
-进入psql命令行：
-```
-./psql -p 5432 pgsdb
 
-create foreign table testtab1 (my_name text, my_age int,my_address text) server sdb_server options ( collectionspace 'pgsdb', collection 'testtab1', decimal 'on');
-CREATE FOREIGN TABLE
+3）加载SequoiaDB连接驱动
 ```
-更新表的统计信息
+create extension sdb_fdw;
 ```
-pgsdb=# analyze testtab1;
-ANALYZE
-```
-检查表：
-```
-pgsdb=# \d
-              List of relations
- Schema |   Name   |     Type      |  Owner   
---------+----------+---------------+----------
- public | testtab1 | foreign table | sdbadmin
-(1 row)
-```
-看到一个foreign table。
-```
-gsdb=# \d testtab1;
-        Foreign table "public.testtab1"
-   Column   |  Type   | Modifiers | FDW Options 
-------------+---------+-----------+-------------
- my_name    | text    |           | 
- my_age     | integer |           | 
- my_address | text    |           | 
-Server: sdb_server
-FDW Options: (collectionspace 'pgsdb', collection 'testtab1', "decimal" 'on')
-```
-## 6 在PostgreSQL实例中对数据进行操作
-```
-pgsdb=# select * from testtab1;
- my_name | my_age |   my_address    
----------+--------+-----------------
- Name1   |     40 | chengd1.sichuan
- Name2   |     42 | chengd2.sichuan
- Name3   |     43 | chengd3.sichuan
- Name4   |     44 | chengd4.sichuan
- 
- pgsdb=# delete from testtab1 where my_age=44;
-DELETE 1
-pgsdb=# select * from testtab1;
- my_name | my_age |   my_address    
----------+--------+-----------------
- Name1   |     40 | chengd1.sichuan
- Name2   |     42 | chengd2.sichuan
- Name3   |     43 | chengd3.sichuan
-(3 rows)
 
-pgsdb=# insert into testtab1(my_name,my_age,my_address) values('Name4',44,'chengdu4.sichuan');
-INSERT 0 1
+4）配置与SequoiaDB连接参数
+```
+pgsdb=# CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw OPTIONS(address '127.0.0.1', service '11810', preferedinstance 'A', transaction 'off');
+```
+5）退出PostgreSQL shell；
+```
+\q
+```
 
-pgsdb=# select * from testtab1;
- my_name | my_age |    my_address    
----------+--------+------------------
- Name1   |     40 | chengd1.sichuan
- Name2   |     42 | chengd2.sichuan
- Name3   |     43 | chengd3.sichuan
- Name4   |     44 | chengdu4.sichuan
-(4 rows)
-```
-退出psql命令行：
-```
-pgsdb=# \q
-```
-## 7 在sdb中观看数据，数据与psql中看到的一致.
+## 在 SequoiaDB 巨杉数据库引擎中创建域、集合空间、集合
+1）通过 Linux 命令行进入 SequoiaDB Shell
 ```
 sdb
-> db=new Sdb()
-> db.pgsdb.testtab1.find()
-{
-  "_id": {
-    "$oid": "5e12eed9a56655cfdcebe905"
-  },
-  "my_name": "Name1",
-  "my_age": 40,
-  "my_address": "chengd1.sichuan"
-}
-{
-  "_id": {
-    "$oid": "5e12eee6a56655cfdcebe906"
-  },
-  "my_name": "Name2",
-  "my_age": 42,
-  "my_address": "chengd2.sichuan"
-}
-{
-  "_id": {
-    "$oid": "5e12eef1a56655cfdcebe907"
-  },
-  "my_name": "Name3",
-  "my_age": 43,
-  "my_address": "chengd3.sichuan"
-}
-{
-  "_id": {
-    "$oid": "5e12f2d816120eac4b000000"
-  },
-  "my_name": "Name4",
-  "my_age": 44,
-  "my_address": "chengdu4.sichuan"
-}
-{
-  "_id": {
-    "$oid": "5e12f31e16120eac4b000001"
-  },
-  "my_name": "Name5",
-  "my_age": 45,
-  "my_address": "chengdu5.sichuan"
-}
-Return 5 row(s).
-Takes 0.001041s.
-> quit
+```
+2）通过 javascript 语言连接协调节点，获取数据库连接；
+```javascript
+var db = new Sdb ("localhost",11810) ;
 ```
 
-删除pgsql 实例
+3）创建 company_domain 逻辑域；
+
+```javascript
+db.createDomain ("company_domain", ["group1", "group2", "group3"], { AutoSplit : true }) ;
 ```
-root@sdb:/sequoiadb/sequoiadb-3.2.4# cd /opt/sequoiasql/postgresql
-root@sdb:/opt/sequoiasql/postgresql# ls
-bin  checksum.md5  compatible.sh  conf  include  lib  myinst.log  preUninstall.sh  share  uninstall  uninstall.dat
-root@sdb:/opt/sequoiasql/postgresql# ./uninstall
+4）创建 company 集合空间；
+```javascript
+db.createCS ("company", { Domain : "company_domain" }) ;
 ```
 
-## 结束课程
+5）创建 employee 集合；
+```javascript
+db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
+```
 
-执行完成，退出docker
+## 集合数据操作
+通过 SequoiaDB Shell 操作集合中数据。
+
+#### 集合中插入数据
+1）在 JSON 实例集合 company 中插入数据 ：
+```javascript
+db.company.employee.insert ({ "empno" : 1 , "ename" : "Georgi" , "age" : 48 }) ;
+db.company.employee.insert ({ "empno" : 2 , "ename" : "Bezalel" , "age" : 21 }) ;
 ```
-#exit
+2）退出 SequoiaDB Shell；
 ```
-在属主机中，删除Container
+quit ;
 ```
-docker rm sdbtestfu
+
+## 关联 PostgreSQL 实例关联 SequoiaDB 的集合空间与集合
+1）进入 PostgreSQL Shell 命令行：
 ```
+./bin/psql -p 5432 company
+```
+2）创建 company 数据库外表；
+```
+CREATE FOREIGN TABLE employee (
+  empno integer, 
+  ename text,
+  age integer
+) SERVER sdb_server 
+  OPTIONS ( collectionspace 'company', collection 'employee', decimal 'on') ;
+```
+
+## 6 在 PostgreSQL 实例中对数据进行操作
+1）更新表的统计信息
+```
+analyze employee ;
+```
+2）查询 employee 表中的数据；
+```
+select * from employee ;
+```
+
+3）写入数据
+```
+insert into employee values (3, 'Jack', 27)
+```
+
+4）更改数据
+update employee set age = 28 where ename = 'Jack';
+
+5）查看员工 Jack 的岁数是否更改为28
+```
+select * from employee where ename = 'Jack' ;
+```
+
+
+## 巨杉数据库引擎中的数据是否与 PostgreSQL 实例中数据一致
+1）通过 Linux 命令行进入 SequoiaDB Shell
+```
+sdb
+```
+2）通过 javascript 语言连接协调节点，获取数据库连接；
+```javascript
+var db = new Sdb ("localhost",11810) ;
+```
+3）查询 employee 集合中的数据是否与PostgreSQL 实例操作的结果一致；
+
+```
+db.company.employee.find() ;
+```
+
+3）退出 SequoiaDB Shell；
+```
+quit ;
+```
+
+## 总结
+
+

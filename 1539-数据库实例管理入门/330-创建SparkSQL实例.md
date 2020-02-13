@@ -3,96 +3,110 @@ show: step
 version: 1.0
 enable_checker: true
 ---
-# SparkSQL实例简介
-Sequoiadb作为一个分布式集群数据库，可以为Spark提供数据；使用SparkSQL接口可以通过SQL方式非常方便的访问sequoiadb中存储的数据；并且可以在一个多副本的集群中，把spark部署在一个数据副本的服务器上，与其它副本隔离
 
-## 1 课程介绍
-本实验基于Sequoiadb数据库提供的Docker镜像，能够一步一步的带领你在linux环境中部署巨杉数据库的SparkSQL实例。
 
-## 2 准备课程环境
-课程环境是一个docker 容器，已经安装了一个单副本的巨杉数据库，包括了多种实例的安装介质，可以在这容器中完成多种实例的安装配置。
+## 课程介绍
+本实验一步一步的带领你在linux环境中部署巨杉数据库的SparkSQL实例。
 
-在属主机上启动docker课程容器，并进入container。
+#### SparkSQL实例简介
+Apache Spark 是专为大规模数据处理而设计的快速通用的计算引擎。Spark为结构化数据处理引入了一个称为Spark SQL的编程模块。它提供了一个称为DataFrame的编程抽象，并且可以充当分布式SQL查询引擎。
+
+## 在 SequoiaDB-MySQL 实例中创建 Spark 元数据库
+1）使用MySQL Shell 连接 SequoiaDB-MySQL 实例；
+```shell
+bin/mysql -S database/3306/mysqld.sock -u root
 ```
-docker run -it --privileged=true --name sdbtestfu -h sdb sdbinstance5
+2) 设置远程连接权限
+```sql
+UPDATE mysql.user SET host='%' WHERE user='root';
 ```
-以下步骤在Container中执行。
-
-Spark实例目录及启动sdb进程。
-``` 
-su - sdbadmin
-sdbstart -t all
-sdblist -l
-cd /opt
-ls -l
-
-cd spark-2.1.3-bin-hadoop2.7
-ls -l
+3）刷新权限
+```sql
+FLUSH PRIVILEGES;
 ```
-本例中安装了spark 2.1.3
 
-## 3 Spark 实例配置
+4）设置 SequoiaDB-MySQL 实例的root用户密码；
+```sql
+ALTER USER root@'%' IDENTIFIED BY 'root' ;
+```
+
+5）创建元数据库；
+```sql
+CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
+```
+
+## 创建测试数据库实例及数据表
+1）创建数据库实例，并切换到该数据库；
+```
+create database company ;
+use company;
+```
+2）创建包含自增主键字段的 employee 表；
+
+```sql
+CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
+```
+
+3）进行基本的数据写入操作；
+
+```sql
+INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
+INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
+```
+
+4）退出 MySQL Shell；
+```shell
+\q
+```
+
+## Spark 实例配置
 
 配置用户互信，已经安装了ssh软件包；由于是由sdbadmin用户启动Spark,所以需要配置sdbadmin用户的ssh互相关系。
 
-使用root用户，启动sshd：
+1）执行ssh-keygen生成公钥和密钥，执行后连续回车即可；
 ```
-/etc/init.d/ssh start
- * Starting OpenBSD Secure Shell server sshd 
-```
-为sdbadmin 用户配置互相：
-```
-su - sdbadmin
-
-ssh sdb ssh-keygen -t rsa
-ssh sdb cat ~/.ssh/id_rsa.pub>>~/.ssh/authorized_keys
-```
-sdbadmin的密码是：sdbadmin
-
-单机不需要拷贝到其它服务器上，如果是多机部署，需要配置所有服务器的互相关系。
-```
-scp ~/.ssh/authorized_keys ~/.ssh/known_hosts sdb:~/.ssh/
-```
-测试互相关系：
-```
-ssh sdb
+ssh-keygen -t rsa
 ```
 
-配置Spark运行参数，编辑文件spark-env.sh
+2）查看本机主机名
+
+```shell
+hostname
 ```
 
-cd /opt/spark-2.1.3-bin-hadoop2.7/conf
-vi spark-env.sh
+3）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
 ```
-添加配置,使用ifconfig 看看Container的ip地址；根据输出的ip地址修改：
-示例如下：
+ssh-copy-id  sdbadmin@本机主机名
 ```
-SPARK_MASTER_PORT="7077"
-SPARK_MASTER_IP=172.17.0.3
-SPARK_CLASSPATH=/opt/sequoiadb/spark/spark-sequoiadb_2.11-3.2.4.jar:/opt/sequoiadb/java/sequoiadb-driver-3.2.4.jar:/opt/spark-2.1.3-bin-hadoop2.7/jars/mysql-connector-java-5.1.47.jar
-MASTER="spark://${SPARK_MASTER_IP}:${SPARK_MASTER_PORT}"
-#SPARK_WORK_MEMORY=1g
-#SPARK_EXECUTOR_CORES=2
-export JAVA_HOME=/opt/sequoiadb/java/jdk
-```
-配置slaves
+
+>
+>Note:
+>
+> sdbadmin的密码是：sdbadmin
+> 单机不需要拷贝到其它服务器上，如果是多机部署，需要配置所有服务器的互相关系。
+
+
+4）配置Spark运行参数，编辑文件spark-env.sh
 ```
 cd /opt/spark-2.1.3-bin-hadoop2.7/conf
-cp slaves.template slaves
-vi slaves
 ```
-在文件末尾增加slave运行的服务器名称，本例在本机上运行：
-```
-localhost
-```
-配置spark的hive-site.xml文件，在本例中已经配置，使用mysql做为元数据库，mysql的用户名和密码是：sdbadmin
-```
-cd /opt/spark-2.1.3-bin-hadoop2.7/conf
-vi hive-site.xml
 
-sdbadmin@sdb:/opt/spark-2.1.3-bin-hadoop2.7/conf$ more hive*xml
+5）编辑 spark-env.sh 文件
+
+```shell
+vi conf/spark-env.sh
 ```
-示例如下：
+增加以下两行
+```
+SPARK_WORKER_INSTANCES=2
+SPARK_MASTER_HOST=本机主机名
+```
+6）创建设置元数据数据库配置文件hive-site.xml
+
+```
+vi conf/hive-site.xml
+```
+输入以下内容到 hive-site.xml 文件
 ```
 <configuration>
    <property>
@@ -101,7 +115,7 @@ sdbadmin@sdb:/opt/spark-2.1.3-bin-hadoop2.7/conf$ more hive*xml
    </property>
    <property>
       <name>javax.jdo.option.ConnectionURL</name>
-      <value>jdbc:mysql://sdb:3306/metastore?createDatabaseIfNotExist=true</value>
+      <value>jdbc:mysql://localhost:3306/metastore?createDatabaseIfNotExist=true</value>
       <description>JDBC connect string for a JDBC metastore</description>
    </property>
    <property>
@@ -111,266 +125,77 @@ sdbadmin@sdb:/opt/spark-2.1.3-bin-hadoop2.7/conf$ more hive*xml
    </property>
    <property>
       <name>javax.jdo.option.ConnectionUserName</name>
-      <value>sdbadmin</value>
+      <value>root</value>
    </property>
    <property>
       <name>javax.jdo.option.ConnectionPassword</name>
-      <value>sdbadmin</value>
+      <value>root</value>
    </property>
    <property>
       <name>datanucleus.autoCreateSchema</name>
-      <value>false</value>
+      <value>true</value>
       <description>creates necessary schema on a startup if one doesn't exist. set this to false, after creating it once</description>
    </property>
 </configuration>
 ```
-创建mysql实例,用于存储sparksql的元数据信息。
-
-1.root用户安装mysql实例
-```
-cd /sequoiadb/sequoiadb-3.2.4
-./sequoiasql-mysql-3.2.4-linux_x86_64-installer.run --mode text
-```
-缺省参数安装。
-
-2.创建MySQL实例
-```
-su - sdbadmin
-cd /opt/sequoiasql/mysql/bin
-./sdb_sql_ctl addinst myinst -D database/3306/
-```
-启动mysql实例作为元数据库,并添加用户。
-
-```
-mysql -h127.0.0.1 -uroot -p
-
-create user 'sdbadmin'@'%' identified by 'sdbadmin';
-GRANT ALL PRIVILEGES ON metastore.* TO 'sdbadmin'@'%' IDENTIFIED BY 'sdbadmin' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-quit;
-```
-
-## 4 启动spark实例
-```
-/opt/spark-2.1.3-bin-hadoop2.7/sbin/start-all.sh
-```
-检查spark进程是否启动：
-```
-netstat -an|grep 7077
-sdbadmin@sdb:/opt/sequoiasql/mysql/bin$ netstat -an|grep 7077
-tcp        0      0 172.17.0.3:7077         0.0.0.0:*               LISTEN     
-tcp        0      0 172.17.0.3:37452        172.17.0.3:7077         ESTABLISHED
-tcp        0      0 172.17.0.3:7077         172.17.0.3:37452        ESTABLISHED
-```
-启动用于在spark中执行SQL的thriftserver进程：
-```
-/opt/spark-2.1.3-bin-hadoop2.7/sbin/start-thriftserver.sh --master spark://sdb:7077
-```
-检查thriftserver是否启动：
-```
-netstat -an|grep 10000
-tcp        0      0 0.0.0.0:10000           0.0.0.0:*               LISTEN     
-```
-
-## 5 在sdb中创建测试用集合空间和集合
-使用sdb命令行工具：
-
-```
-sdb
-> db=new Sdb()
-
-> db.createCS("sparkCS")
-localhost:11810.sparkCS
-Takes 0.184759s.
-> db.sparkCS.createCL("sparkCL")
-localhost:11810.sparkCS.sparkCL
-Takes 0.624262s.
-```
-插入测试数据：
-```
-> db.sparkCS.sparkCL.insert({my_name:"testuser1",my_age:20,my_address:"chengdu1,sichuan"})
-{
-  "InsertedNum": 1,
-  "DuplicatedNum": 0
-}
-Takes 0.006908s.
-> db.sparkCS.sparkCL.insert({my_name:"testuser2",my_age:22,my_address:"chengdu2,sichuan"})
-{
-  "InsertedNum": 1,
-  "DuplicatedNum": 0
-}
-Takes 0.002743s.
-> db.sparkCS.sparkCL.insert({my_name:"testuser3",my_age:23,my_address:"chengdu3,sichuan"})
-{
-  "InsertedNum": 1,
-  "DuplicatedNum": 0
-}
-Takes 0.001164s.
-```
-在sdb中查询数据：
-```
-> db.sparkCS.sparkCL.find()
-{
-  "_id": {
-    "$oid": "5e169d46a28dc4ea1b1a71fe"
-  },
-  "my_name": "testuser1",
-  "my_age": 20,
-  "my_address": "chengdu1,sichuan"
-}
-{
-  "_id": {
-    "$oid": "5e169d52a28dc4ea1b1a71ff"
-  },
-  "my_name": "testuser2",
-  "my_age": 22,
-  "my_address": "chengdu2,sichuan"
-}
-{
-  "_id": {
-    "$oid": "5e169d5ba28dc4ea1b1a7200"
-  },
-  "my_name": "testuser3",
-  "my_age": 23,
-  "my_address": "chengdu3,sichuan"
-}
-Return 3 row(s).
-
-quit
-```
-## 6 在beeline中，通过sparkSQL实例操作数据。
-
-启动beeline，然后操作数据。
-```
-cd /opt/spark-2.1.3-bin-hadoop2.7/bin
-/opt/spark-2.1.3-bin-hadoop2.7/bin/beeline -u jdbc:hive2://sdb:10000 -n sdbadmin -p sdbadmin
-Connecting to jdbc:hive2://sdb:10000
-log4j:WARN No appenders could be found for logger (org.apache.hive.jdbc.Utils).
-log4j:WARN Please initialize the log4j system properly.
-log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
-Connected to: Spark SQL (version 2.1.3)
-Driver: Hive JDBC (version 1.2.1.spark2)
-Transaction isolation: TRANSACTION_REPEATABLE_READ
-Beeline version 1.2.1.spark2 by Apache Hive
-0: jdbc:hive2://sdb:10000> 
-```
-或者进入beeline之后再连接数据库：
-```
-beeline> !connect jdbc:hive2://sdb:10000
-```
-关联sdb中的集合空间和集合，为spark中的一张表：
-```
-0: jdbc:hive2://sdb:10000> CREATE table sparkCL ( my_name string, my_age int,my_address string) using com.sequoiadb.spark OPTIONS ( host 'sdb:11810', collectionspace 'sparkCS', collection 'sparkCL');
-+---------+--+
-| Result  |
-+---------+--+
-+---------+--+
-No rows selected (1.378 seconds)
-0: jdbc:hive2://sdb:10000> select * from sparkCL;
-+------------+---------+-------------------+--+
-|  my_name   | my_age  |    my_address     |
-+------------+---------+-------------------+--+
-| testuser1  | 20      | chengdu1,sichuan  |
-| testuser2  | 22      | chengdu2,sichuan  |
-| testuser3  | 23      | chengdu3,sichuan  |
-+------------+---------+-------------------+--+
-3 rows selected (4.646 seconds)
-0: jdbc:hive2://sdb:10000> 
-```
-
-通过spark 插入数据：
-```
-0: jdbc:hive2://sdb:10000> insert into sparkCL values("testuser4",24,"chengdu4,sichuan");
-+---------+--+
-| Result  |
-+---------+--+
-+---------+--+
-No rows selected (0.442 seconds)
-0: jdbc:hive2://sdb:10000> select * from sparkCL;
-+------------+---------+-------------------+--+
-|  my_name   | my_age  |    my_address     |
-+------------+---------+-------------------+--+
-| testuser1  | 20      | chengdu1,sichuan  |
-| testuser2  | 22      | chengdu2,sichuan  |
-| testuser3  | 23      | chengdu3,sichuan  |
-| testuser4  | 24      | chengdu4,sichuan  |
-+------------+---------+-------------------+--+
-4 rows selected (0.395 seconds)
-0: jdbc:hive2://sdb:10000> 
-
-0: jdbc:hive2://sdb:10000> select * from sparkCL where my_name="testuser1";
-+------------+---------+-------------------+--+
-|  my_name   | my_age  |    my_address     |
-+------------+---------+-------------------+--+
-| testuser1  | 20      | chengdu1,sichuan  |
-+------------+---------+-------------------+--+
-1 row selected (0.385 seconds)
-0: jdbc:hive2://sdb:10000> !quit
-```
 
 
-## 7 在sdb中查看数据.
-使用sdb命令行工具查看数据：
+## 4 启动 Spark 实例
+
+1）启动 Spark 
+```shell
+sbin/start-all.sh
 ```
-sdbadmin@sdb:/opt/spark-2.1.3-bin-hadoop2.7/conf$ sdb
-Welcome to SequoiaDB shell!
-help() for help, Ctrl+c or quit to exit
-> db=new Sdb()
-localhost:11810
-Takes 0.001274s.
-> db.sparkCS.sparkCL.find()
-{
-  "_id": {
-    "$oid": "5e169d46a28dc4ea1b1a71fe"
-  },
-  "my_name": "testuser1",
-  "my_age": 20,
-  "my_address": "chengdu1,sichuan"
-}
-{
-  "_id": {
-    "$oid": "5e169d52a28dc4ea1b1a71ff"
-  },
-  "my_name": "testuser2",
-  "my_age": 22,
-  "my_address": "chengdu2,sichuan"
-}
-{
-  "_id": {
-    "$oid": "5e169d5ba28dc4ea1b1a7200"
-  },
-  "my_name": "testuser3",
-  "my_age": 23,
-  "my_address": "chengdu3,sichuan"
-}
-{
-  "_id": {
-    "$oid": "5e16a755e4b07352e3230430"
-  },
-  "my_name": "testuser4",
-  "my_age": 24,
-  "my_address": "chengdu4,sichuan"
-}
-Return 4 row(s).
-Takes 0.001660s.
-> quit
+
+2）查看 Spark 的 master 和 worker 是否启动完成
+jps
+
+3）启动thriftserver
+```shell
+sbin/start-thriftserver.sh --master spark://`hostname`:7077  --executor-cores 2    --total-executor-cores 4 --executor-memory 1g
 ```
-## 8 停止SparkSQL实例
+
+4）进入 beeline 客户端测试 sql；
+
+```shell
+bin/beeline
 ```
-cd /opt/spark-2.1.3-bin-hadoop2.7/sbin
+5）连接10000端口获取 thriftserver 连接
 ```
-停止thriftserver
+!connect jdbc:hive2://localhost:10000
+```
+
+6）创建 company 数据库'
+```
+CREATE DATABASE company ;
+```
+
+7）创建映射表;
+
+```
+CREATE TABLE company.employee(
+empno int,
+ename string,
+age int
+) USING com.sequoiadb.spark OPTIONS ( host 'localhost:11810' ,collectionspace 'company', collection 'employee', username '',password '') ;
+```
+
+8）测试运行 sql ；
+```
+SELECT avg(age) FROM company.employee ;
+```
+
+## 停止SparkSQL实例
+1）停止thriftserver
 ``` 
 ./stop-thriftserver.sh 
 ```
-停止spark
+2）停止spark
 ```
 ./stop-all.sh
 ```
-## 结束课程
-退出Container
-```
-$exit
-#exit
-```
-不要删除Container：sdbtestfu 用于后面的多实例课程。
+## 总结
+
+
+
+
