@@ -5,7 +5,7 @@ version: 1.0
 
 ## 课程介绍
 
-本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 SparkSQL 实例的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的插入、查询操作。
+本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 SequoiaSQL-SparkSQL 实例和启动了 thriftserver 的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的插入、查询操作。
 
 #### 请点击右侧选择使用的实验环境
 
@@ -69,70 +69,75 @@ jps
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/38da9d7707133b1d6623538ccc6b2ea8)
 
-## 创建数据库及数据表
+## 创建集合空间、集合
 
-#### 登录到 SparkSQL 实例 Beeline Shell
-```
-/opt/spark/bin/beeline -u 'jdbc:hive2://localhost:10000'
-```
+进入 SequoiaDB Shell，在 SequoiaDB 中创建集合空间 company，集合 employee，存储 SparkSQL 操作的数据。
 
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/01f1446fa12682164739d1dc36724334)
-
-#### 创建数据库
-在 SparkSQL 实例中创建数据库company，并切换至company库：
-```
-create database company ;
-use company ;
-```
-## 关联集合空间、集合
-在 SparkSQL 实例中关联 SequoiaDB 数据库中的集合空间、集合。
-
-#### 在 SequoiaDB 中创建集合空间、集合
-进入 SequoiaDB Shell，在 SequoiaDB 中创建集合空间 company，集合 employee：
 1）使用 Linux 命令行进入 SequoiaDB Shell；
 ```
 sdb
 ```
 
-1）使用 javascript 语言连接协调节点；
+2）使用 javascript 语言连接协调节点；
 ```javascript
 var db = new Sdb ("localhost", 11810) ;
 ```
 
-2）创建 company_domains 逻辑域；
+3）创建 company_domains 逻辑域；
+
 ```javascript
-db.createDomain ("company_domains", ["group1", "group2", "group3"], { AutoSplit : true }) ;
-```
-3）创建 company 集合空间；
-```javascript
-db.createCS ("company", { Domain : "company_domains" }) ;
+db.createDomain ("company_domain", ["group1", "group2", "group3"], { AutoSplit : true } ) ;
 ```
 
-4）创建 employee 集合，并使用 _id 进行 hash 分区；
+4）创建 company 集合空间；
+```javascript
+db.createCS ("company", { Domain : "company_domain" } ) ;
+```
+
+5）创建 employee 集合，并使用 _id 进行 hash 分区；
 ```javascript
 db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 }, "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
 ```
 
-#### 在 SparkSQL 实例中创建表并与 SequoiaDB 集合空间、集合关联
-进入SparkSQL Beeline Shell中，在 SparkSQL 实例中创建表并与 SequoiaDB 中的集合空间、集合关联：
+6）退出 SequoiaDB Shell；
+```
+quit ;
+```
+
+## SparkSQL 实例中创建数据库及数据表
+在 SparkSQL 实例中创建数据库及数据表并与 SequoiaDB 数据库引擎中的集合空间和集合关联。
+
+#### 创建数据库
+
+1）使用 Beeline 客户端连接 SparkSQL 实例服务；
+
+```
+/opt/spark/bin/beeline -u 'jdbc:hive2://localhost:10000'
+```
+
+2）在 SparkSQL 实例中创建数据库 company，并切换至company库；
+
+```
+create database company ;
+use company ;
+```
+
+
+#### 关联实例与数据库引擎中的集合
+
+在 SparkSQL 实例中创建表并与 SequoiaDB 数据库存储引擎中的集合空间、集合关联；
+
 ```sql
 CREATE TABLE employee (
 empno      INT,
 ename VARCHAR(128),
 age INT
-) USING 
- com.sequoiadb.spark OPTIONS (
-host 'localhost:11810',
-collectionspace 'company',
-collection 'employee'
-) ;
+) USING com.sequoiadb.spark 
+ OPTIONS ( host 'localhost:11810', collectionspace 'company', collection 'employee' ) ;
 ```
 
->Note: 
->
-> [SparkSQL 实例参数配置](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)
+从 SparkSQL 实例中创建视图、表及数据类型对应关系的详细说明请参考：
+[SparkSQL 实例访问SequoiaDB数据库存储引擎](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)
 
 ## 关联表数据操作
 使用 SparkSQL 实例操作关联表中的数据。
@@ -149,9 +154,11 @@ INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 ```
 
 #### 查询关联表插入数据
-查询 SparkSQL 实例关联表 employee 中 age 大于20，小于30的数据：
-```
-SELECT * FROM employee WHERE age > 20 AND age < 30 ;
+
+使用 SparkSQL 实例查询员工平均年龄。
+
+```sql
+SELECT avg(age) FROM employee ;
 ```
 
 操作截图：
@@ -161,10 +168,10 @@ SELECT * FROM employee WHERE age > 20 AND age < 30 ;
 
 #### 通过已有表创建表
 1）通过已有表 employee 创建表 employee_bak，并将表中的数据存放到指定域、集合空间中；
-```
+```sql
 CREATE TABLE employee_bak USING com.sequoiadb.spark OPTIONS (
 host 'localhost:11810',
-domain 'company_domains',
+domain 'company_domain',
 collectionspace 'company_bak',
 collection 'employee',
 autosplit true,
@@ -176,8 +183,8 @@ AS SELECT * FROM employee ;
 ```
 
 2）查看 employee_bak 表中的数据；
-```
-SELECT * FROM employee ;
+```sql
+SELECT * FROM employee_bak ;
 ```
 
 操作截图：
