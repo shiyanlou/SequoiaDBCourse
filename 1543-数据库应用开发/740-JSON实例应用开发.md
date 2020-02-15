@@ -5,26 +5,26 @@ version: 1.0
 
 ## 课程介绍
 
-本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎中部署 S3 对象存储，及使用 S3 接口实现桶的增、删、查，对象的增、删、查，对象的版本管理，以及分段上传的操作。
+之前的小节通过 SequoiaSQL-MySQL、 SequoiaSQL-PostgreSQL 数据库实例对数据进行增删改查。同时，对分布式存储引擎中的数据，SequoiaDB 巨杉数据库支持通过 JSON API 的方式直接进行查询与修改。SequoiaDB 巨杉数据库存储引擎的交互式命令行界面为 SequoiaDB Shell，使用 JavaScript 作为其脚本开发语言。
 
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
-本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，包括1个 SequoiaS3 实例，1个引擎协调节点，1个编目节点与3个数据节点。
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括1个引擎协调节点，1个编目节点与3个数据节点。
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6d366b14e1053c62e0a3a12b100e780a)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/dd11cb78ba9732f36f58883df952282a)
 
 详细了解 SequoiaDB 巨杉数据库系统架构：
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
 #### 实验环境
-课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaS3 实例均为 3.4 版本。
+课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎为 3.4 版本。
 
 ## 切换用户及查看数据库版本
 
 #### 切换到 sdbadmin 用户
 
-部署 SequoiaDB 巨杉数据库和 SequoiaS3 实例的操作系统用户为 sdbadmin。
+部署 SequoiaDB 巨杉数据库的操作系统用户为 sdbadmin。
 ```
 su - sdbadmin
 ```
@@ -60,332 +60,135 @@ sdblist
 >
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
 
-## 环境检查及配置
-
-#### 检查Java环境
-SequoiaS3 对象存储实例采用Java语言开发，实例运行时需Java环境。
-
-1）查看java是否已部署
-```
-java -version
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/bee0cd9f2967ebc8b95a147295ceb17a)
-
-2）如未配置，则以sdbadmin用户登录，修改.bashrc文件，增加JAVA_HOME：
-```shell
-vi ~/.bashrc
-```
-示例配置：
-```
-JAVA_HOME=/opt/sequoiadb/java/jdk
-CLASSPATH=$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-PATH=$JAVA_HOME/bin:$PATH
-export JAVA_HOME CLASSPATH PATH
-```
-
-#### 检查 SequoiaS3 实例文件
-S3实例相关文件在 SequoiaDB 安装目录 /opt/sequoiadb/tools/sequoias3中，具体文件和目录如下：
-```
-ls /opt/sequoiadb/tools/sequoias3
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/5167597b4ddab677aa97005c86413a64)
-
-
-## 配置 SequoiaDB 巨杉数据库存储引擎
-
-SequoiaS3 对接的 SequoiaDB 需开启RC级别事务，且配置为等锁模式；
+## 创建域、集合空间、集合
 
 1）通过 Linux 命令行进入 SequoiaDB Shell；
+
 ```
 sdb
 ```
+
 2）通过 javascript 语言连接协调节点，获取数据库连接；
+
 ```javascript
-var db = new Sdb ("localhost", 11810) ;
-```
-3）开启RC级别事务，且配置为等锁模式；
-```javascript
-db.updateConf ( { transactionon : true , transisolation : 1 ,  translockwait : true } ) ;
+var db = new Sdb ("localhost",11810) ;
 ```
 
-4）创建元数据逻辑域；
+3）创建 company_domain 逻辑域；
+
 ```javascript
-db.createDomain("metaDomain", ["group1", "group2", "group3"], { AutoSplit : true } ) ;
+db.createDomain ("company_domain", ["group1", "group2", "group3"], { AutoSplit : true }) ;
 ```
-5）创建对象数据逻辑域；
+
+4）创建 company 集合空间；
+
 ```javascript
-db.createDomain("dataDomain", ["group1", "group2", "group3"], { AutoSplit : true } ) ;
+db.createCS ("company", { Domain : "company_domain" }) ;
+```
+
+5）创建 employee 集合；
+
+```javascript
+db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
 ```
 
 6）退出 SequoiaDB Shell；
 ```
 quit ;
 ```
-## 配置 SequoiaS3 实例
-
-1）进入 SequoiaS3 包目录
-```
-cd /opt/sequoiadb/tools/sequoias3
-```
-
-2）配置 SequoiaS3，打开 config 目录中的 application.properties 文件
-```
-vi config/application.properties
-```
-
-增加如下配置：
-```
-#配置对外监听端口
-server.port=8002
-#配置 coord 节点的 IP 和端口，可以配置多组并使用逗号分隔
-sdbs3.sequoiadb.url=sequoiadb://localhost:11810
-sdbs3.sequoiadb.meta.domain=metaDomain
-sdbs3.sequoiadb.data.domain=dataDomain
-```
-上述配置是启动 SequoiaS3 的基础配置，其他配置请参考本章末尾的配置说明。
-
 
 >Note:
 >
-> - 阅读tools/sequoias3目录中的README.txt文件。注意缺省的用户名，AccessKeyID，SecreatKeyID，本例中使用这些参数访问S3接口。  
-> - 默认管理员账户名：administrator，默认管理员AccessKeyID：ABCDEFGHIJKLMNOPQRST，默认管理员用户SecreatKeyID：abcdefghijklmnopqrstuvwxyz0123456789ABCD  
-> - 详细配置说明： [SequoiaS3 实例参数配置](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1573442163-edition_id-304)  
-
-
-## 启动 SequoiaS3 实例
-1）配置修改完成后，通过 ./sequoias3.sh 可执行脚本启动 SequoiaS3
-```
-/opt/sequoiadb/tools/sequoias3/sequoias3.sh start
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/d547e6d8befdb84517bff001f16fa123)
-
-2）进入 SequoiaDB Shell，查看 SequoiaS3 元数据表,SequoiaS3 实例在启动的时候如果这些元数据表不存在会自动创建：
-
-使用 linux 命令进入 SequoiaDB Shell；
-
-```
-sdb
-```
-
-使用javascript语法连接协调节点，获取 db 数据库连接；
-
-```javascript
-var db= new Sdb ("localhost", 11810) ;
-```
-
-查看集合列表；
-
-```
-db.list (SDB_SNAP_COLLECTIONS) ;
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/345997bd39819f06bc253d71b5ed861e)
-
-退出 SequoiaDB Shell；
-
-```
-quit ;
-```
-
-3）如需停止 SequoiaS3 进程，执行 stop -p {port} 停止监听指定端口的 SequoiaS3 进程，或执行 stop -a 停止所有 SequoiaS3 进程
-```shell
-/opt/sequoiadb/tools/sequoias3/sequoias3.sh stop -p 8002
-```
-
->Note:
-> 
-> 可通过 sequoias3.sh --help 查看命令参数使用；
-
-## 用户接口相关操作
-在本例中将使用 curl restful 方式来测试 SequoiaS3 用户接口，主要包括用户创建、密钥获取、用户删除等相关操作。
-
-#### 创建用户
-
-使用 curl 创建用户 s3user（其中ABCDEFGHIJKLMNOPQRST为默认管理员AccessKeyID，为 abcdefghijklmnopqrstuvwxyz0123456789ABCD 默认管理员用户SecreatKeyID）：
-```shell
-curl -v -X POST "http://localhost:8002/users/?Action=CreateUser&UserName=s3user&role=admin" -H "Host: localhost:8002" -H "Authorization: AWS ABCDEFGHIJKLMNOPQRST:abcdefghijklmnopqrstuvwxyz0123456789ABCD"
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/5b571c0d9ded3e416fc4affce48ffd76)
-
-#### 获取用户的访问秘钥
-
-使用 curl 获取 s3user 用户访问秘钥（需管理员用户权限）：
-```shell
-curl -v -X POST "http://localhost:8002/users/?Action=GetAccessKey&UserName=s3user" -H "Host: localhost:8002" -H "Authorization: AWS ABCDEFGHIJKLMNOPQRST:abcdefghijklmnopqrstuvwxyz0123456789ABCD" 
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/53d9dfd68d8fb8fbba5249a8d40a081d)
-
-#### 删除用户
-
-使用 curl 删除用户 s3user（需管理员用户权限）：
-```shell
-curl -v -X POST "http://localhost:8002/users/?Action=DeleteUser&UserName=s3user" -H "Host: localhost:8002" -H "Authorization: AWS ABCDEFGHIJKLMNOPQRST:abcdefghijklmnopqrstuvwxyz0123456789ABCD"
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/e0267e8b5867327ae968d2780431a809)
-
-## 桶接口相关操作
-在本例中将使用 curl restful 方式来测试 SequoiaS3 桶接口，主要包括桶创建、桶获取、桶删除等相关操作。
-
-#### 创建桶
-使用 curl 创建桶 sdbbucket：
-```shell
-curl -v -X PUT "http://localhost:8002/sdbbucket" -H "Host: localhost:8002" -H "Authorization: AWS ABCDEFGHIJKLMNOPQRST:abcdefghijklmnopqrstuvwxyz0123456789ABCD"  
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/32f11fd47cf46e476af9b00c8a884f37)
-
-#### 获取桶信息
-使用 curl 获取所有桶信息：
-
-```shell
-curl -v -X GET "http://localhost:8002" -H "Host: localhost:8002" -H "Authorization: AWS ABCDEFGHIJKLMNOPQRST:abcdefghijklmnopqrstuvwxyz0123456789ABCD" 
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/c399b7ad771ce6a9238df565765e0de7)
-
-#### 删除桶
-1）使用 curl 删除桶 sdbbucket：
-
-```shell
-curl -v -X DELETE "http://localhost:8002/sdbbucket" -H "Host: localhost:8002" -H "Authorization: AWS ABCDEFGHIJKLMNOPQRST:abcdefghijklmnopqrstuvwxyz0123456789ABCD"
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6aef63ac325f816b1260741630a153ff)
-
-2）检查桶是否存在，确认结果中是否存在桶 sdbbucket：
-```shell
-curl -v GET "http://localhost:8002" -H "Host: localhost:8002" -H "Authorization: AWS ABCDEFGHIJKLMNOPQRST:abcdefghijklmnopqrstuvwxyz0123456789ABCD"
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/a46bfc4a2fcae682eb6a30679b2f11d1)
-
-
-## 桶接口相关操作
-在本例中将使用 curl restful 方式来测试 SequoiaS3 文件对象接口，主要包括文件对象上传、下载、删除相关操作。
-
-#### 文件对象上传
-1）向桶sdbbucket中上传文件，sequoia-s3-3.4.jar：
-
-```shell
-ls /opt/sequoiadb/tools/sequoias3/sequoia-s3-3.4.jar
-```
-
-2）使用 curl 向 sdbbucket 中写入文件“sequoia-s3-3.4.jar”，在S3中的名称是”sdbs3.jar“。
-```shell
-curl -X PUT -T "/opt/sequoiadb/tools/sequoias3/sequoia-s3-3.4.jar" "http://localhost:8002/sdbbucket/sdbs3.jar" -H "Host: localhost:8002" -H "Authorization: AWS ABCDEFGHIJKLMNOPQRST:abcdefghijklmnopqrstuvwxyz0123456789ABCD"  -H "Content-Type: text/plain"
-```
-
-3）进入 SequoiaDB Shell，查看对象是否上传成功：
-
-使用 linux 命令进入 SequoiaDB Shell；
-
-```shell
-sdb
-```
-
-使用javascript语法连接协调节点，获取 db 数据库连接；
-
-```javascript
-var db= new Sdb ("localhost", 11810) ;
-```
-
-在元数据集合中查找文件名，确定是否上传成功；
-
-```
-db.S3_SYS_Meta.S3_ObjectMeta.find ( { "Key" : "sdbs3.jar" } ) ;
-```
-
-退出 SequoiaDB Shell；
-```
-quit ;
-```
-
->Note:
+> - 集合（Collection）是数据库中存放文档的逻辑对象。任何一条文档必须属于一个且仅一个集合。
+> - 集合空间（CollectionSpace）是数据库中存放集合的物理对象。任何一个集合必须属于一个且仅一个集合空间。
+> - 域（Domain）是由若干个复制组（ReplicaGroup）组成的逻辑单元。每个域都可以根据定义好的策略自动管理所属数据，如数据切片和数据隔离等。
 >
-> - 上传前去确保桶 sdbbucket 存在，如不存在，使用上述命令创建 sdbbucket 桶对象。  
-> - 第一次上传对象时，会创建 S3_ObjectData* 的集合，该集合用于保存对象文件。  
 
-#### 文件对象下载
-1）从桶 sdbbucket 中读取文件对象 “sdbs3.jar”，并存放到本地目录 sdbs3.jar 文件中；
 
-```shell
-curl -o sdbs3.jar -X GET "http://localhost:8002/sdbbucket/sdbs3.jar" -H "Host: localhost:8002" -H "Authorization: AWS ABCDEFGHIJKLMNOPQRST:abcdefghijklmnopqrstuvwxyz0123456789ABCD"  -H "Content-Type: text/plain" 
+## 集合数据操作
+通过 SequoiaDB Shell 操作集合中数据。
+
+#### 集合中插入数据
+在 JSON 实例集合 company 中插入数据 ：
+```javascript
+db.company.employee.insert ({ "empno" : 10001 , "ename" : "Georgi" , "age" : 48 }) ;
+db.company.employee.insert ({ "empno" : 10002 , "ename" : "Bezalel" , "age" : 21 }) ;
+db.company.employee.insert ({ "empno" : 10003 , "ename" : "Parto" , "age" : 33 }) ;
+db.company.employee.insert ({ "empno" : 10004 , "ename" : "Chirstian" , "age" : 40 }) ;
+db.company.employee.insert ({ "empno" : 10005 , "ename" : "Kyoichi" , "age" : 23 }) ;
+db.company.employee.insert ({ "empno" : 10006 , "ename" : "Anneke" , "age" : 19 }) ;
+```
+
+#### 查询集合中的数据
+查询集合 employees 中age 大于20，小于30的数据：
+```javascript
+db.company.employee.find ( { "age" : { "$gt" : 20 , "$lt" : 30 } } ) ;
 ```
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7359de9bde9d165d21e5a9029fdf0e0b)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/95b0770b9305772d6c795fe29a0b02d6)
 
-2）查看下载的文件 sdbs3.jar，观察该文件与 sequoia-s3-3.4.jar 大小是否一致：
-```shell
-ls -trl
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/2344f68c5f160315919c996195a239fb)
-
-#### 文件对象删除
-1）从桶 sdbbucket 中删除文件对象 “sdbs3.jar”；
-
-```shell
-curl -X DELETE "http://localhost:8002/sdbbucket/sdbs3.jar" -H "Host: localhost:8002" -H "Authorization: AWS ABCDEFGHIJKLMNOPQRST:abcdefghijklmnopqrstuvwxyz0123456789ABCD" 
-```
-
-2）进入 SequoiaDB Shell，查看对象是否删除成功；
-
-使用 linux 命令进入 SequoiaDB Shell；
-```shell
-sdb
-```
-
-使用javascript语法连接协调节点，获取 db 数据库连接；
+#### 更新集合中的数据
+1）更新JSON 实例集合 employees 中的数据，将 empno 为10001的记录 age 更改为34；
 
 ```javascript
-var db= new Sdb ("localhost", 11810) ;
+db.company.employee.update ( { "$set" : { "age" : 34 } } , { "empno" : 10001 }) ;
 ```
 
-在元数据集合中查找文件名，确定是否删除成功；
-```
-db.S3_SYS_Meta.S3_ObjectMeta.find ( { "Key" : "sdbs3.jar" } ) ;
+2）查询数据结果确认 empno 为10001的记录更新是否成功；
+
+```javascript
+db.company.employee.find ( { "empno" : 10001 } ) ;
 ```
 
-退出 SequoiaDB Shell；
+操作截图：
 
-```
-quit ;
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/39b91f46f3ce79d27b342f224e4a8535)
+
+#### 删除集合中的数据
+1）删除集合 employees 中的数据，将 empno 为10006的记录删除；
+
+```javascript
+db.company.employee.remove ( { "empno" : 10006 } ) ;
 ```
 
+2）查询数据结果确认 empno 为10006的记录是否成功删除；
+
+```javascript
+db.company.employee.find () ;
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/b7d47eedfcfbf827afc606f55af5565e)
+
+
+## 索引使用
+1）在集合 employee 的 ename 字段上创建索引；
+```javascript
+db.company.employee.createIndex ("idx_ename", { ename : 1 }, false) ;
+```
+
+2）查看集合 employee 上创建的索引；
+```javascript
+db.company.employee.listIndexes () ;
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/668e701adf5c780653096b32391a9f4c)
+
+3）显示集合 employees 查询语句执行计划；
+
+```javascript
+db.company.employee.find ( { "ename" : "Georgi" } ).explain() ;
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0afc05df8deddc2ac5b285768c0b372e)
 
 ## 总结
 
-在本课程中我们通过 AWS S3 接口访问 SequoiaS3 实例，从而实现文件的上传、下载和删除操作。
-
+我们通过 javascript 语法对 SequoiaDB 巨杉数据库 JSON 实例进行了创建集合空间、集合、索引以及数据的 CRUD 基本操作。
