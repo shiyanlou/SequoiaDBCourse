@@ -130,7 +130,7 @@ use company ;
 ```sql
 CREATE TABLE employee (
 empno      INT,
-ename VARCHAR(128),
+ename STRING,
 age INT
 ) USING com.sequoiadb.spark 
  OPTIONS ( host 'localhost:11810', collectionspace 'company', collection 'employee' ) ;
