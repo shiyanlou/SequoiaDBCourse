@@ -61,29 +61,49 @@ sdblist
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
 
 ## 创建域、集合空间、集合
-1）通过 Linux 命令行进入 SequoiaDB Shell
+
+1）通过 Linux 命令行进入 SequoiaDB Shell；
+
 ```
 sdb
 ```
-1）通过 javascript 语言连接协调节点，获取数据库连接；
+
+2）通过 javascript 语言连接协调节点，获取数据库连接；
+
 ```javascript
 var db = new Sdb ("localhost",11810) ;
 ```
 
-2）创建 company_domain 逻辑域；
+3）创建 company_domain 逻辑域；
 
 ```javascript
 db.createDomain ("company_domain", ["group1", "group2", "group3"], { AutoSplit : true }) ;
 ```
-3）创建 company 集合空间；
+
+4）创建 company 集合空间；
+
 ```javascript
 db.createCS ("company", { Domain : "company_domain" }) ;
 ```
 
-4）创建 employee 集合；
+5）创建 employee 集合；
+
 ```javascript
 db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
 ```
+
+6）退出 SequoiaDB Shell；
+```
+quit ;
+```
+
+>Note:
+>
+> - 集合（Collection）是数据库中存放文档的逻辑对象。任何一条文档必须属于一个且仅一个集合。
+> - 集合空间（CollectionSpace）是数据库中存放集合的物理对象。任何一个集合必须属于一个且仅一个集合空间。
+> - 域（Domain）是由若干个复制组（ReplicaGroup）组成的逻辑单元。每个域都可以根据定义好的策略自动管理所属数据，如数据切片和数据隔离等。
+>
+
 
 ## 集合数据操作
 通过 SequoiaDB Shell 操作集合中数据。
@@ -102,7 +122,7 @@ db.company.employee.insert ({ "empno" : 10006 , "ename" : "Anneke" , "age" : 19 
 #### 查询集合中的数据
 查询集合 employees 中age 大于20，小于30的数据：
 ```javascript
-db.company.employee.find ( { "$and" : [{ "age" : { "$gt" : 20 }} , { "age" : { "$lt" : 30 } } } ) ;
+db.company.employee.find ( { "age" : { "$gt" : 20 , "$lt" : 30 } } ) ;
 ```
 
 操作截图：
@@ -110,12 +130,14 @@ db.company.employee.find ( { "$and" : [{ "age" : { "$gt" : 20 }} , { "age" : { "
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/95b0770b9305772d6c795fe29a0b02d6)
 
 #### 更新集合中的数据
-1）更新JSON 实例集合 employees 中的数据，将 empno 为10001的记录 age 更改为34：
+1）更新JSON 实例集合 employees 中的数据，将 empno 为10001的记录 age 更改为34；
+
 ```javascript
 db.company.employee.update ( { "$set" : { "age" : 34 } } , { "empno" : 10001 }) ;
 ```
 
-2）查询数据结果确认 empno 为10001的记录更新是否成功：
+2）查询数据结果确认 empno 为10001的记录更新是否成功；
+
 ```javascript
 db.company.employee.find ( { "empno" : 10001 } ) ;
 ```
@@ -125,12 +147,14 @@ db.company.employee.find ( { "empno" : 10001 } ) ;
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/39b91f46f3ce79d27b342f224e4a8535)
 
 #### 删除集合中的数据
-1）删除集合 employees 中的数据，将 empno 为10006的记录删除：
+1）删除集合 employees 中的数据，将 empno 为10006的记录删除；
+
 ```javascript
 db.company.employee.remove ( { "empno" : 10006 } ) ;
 ```
 
-2）查询数据结果确认 empno 为10006的记录是否成功删除：
+2）查询数据结果确认 empno 为10006的记录是否成功删除；
+
 ```javascript
 db.company.employee.find () ;
 ```
@@ -141,12 +165,12 @@ db.company.employee.find () ;
 
 
 ## 索引使用
-1）在集合 employee 的 ename 字段上创建索引：
+1）在集合 employee 的 ename 字段上创建索引；
 ```javascript
 db.company.employee.createIndex ("idx_ename", { ename : 1 }, false) ;
 ```
 
-2）查看集合 employee 上创建的索引：
+2）查看集合 employee 上创建的索引；
 ```javascript
 db.company.employee.listIndexes () ;
 ```
@@ -155,7 +179,8 @@ db.company.employee.listIndexes () ;
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/668e701adf5c780653096b32391a9f4c)
 
-3）显示集合 employees 查询语句执行计划：
+3）显示集合 employees 查询语句执行计划；
+
 ```javascript
 db.company.employee.find ( { "ename" : "Georgi" } ).explain() ;
 ```
