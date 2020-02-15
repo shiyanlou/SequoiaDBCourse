@@ -7,10 +7,10 @@ enable_checker: true
 
 
 ## 课程介绍
-本实验基于Sequoiadb数据库提供的Docker镜像，能够一步一步的带领你在linux环境中部署巨杉数据库的MySQL实例。
+本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎的环境中，安装部署 SequoiaSQL-MySQL 实例，并进行简单的使用。
 
-#### MySQL实例简介
-MySQL 是一款开源的关系型数据库管理系统，也是目前最流行的关系型数据库管理系统之一，支持标准的 SQL 语言。 SequoiaDB 支持创建MySQL实例，完全兼容MySQL语法和协议，用户可以使用SQL语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他MySQL语法操作。SequoiaDB所支持的 MySQL 版本 MySQL 5.7.24+ 。
+#### MySQL 实例简介
+MySQL 是一款开源的关系型数据库管理系统，也是目前最流行的关系型数据库管理系统之一，支持标准的 SQL 语言。 SequoiaDB 支持创建MySQL实例，完全兼容MySQL语法和协议，用户可以使用SQL语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他MySQL语法操作。
 
 #### 部署架构：
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个引擎协调节点，1个编目节点与3个数据节点。
@@ -24,9 +24,12 @@ MySQL 是一款开源的关系型数据库管理系统，也是目前最流行�
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
 
-##  root用户安装MySQL实例程序
+##  安装 SequoiaSQL-MySQL 实例程序
+安装 SequoiaSQL-MySQL 实例程序需要 root 系统用户，root 用户密码需用通过重置的方式获取。
+
 #### 获取 root 密码
 1）点击右侧工具栏的 “SSH 直连” 链接即可弹出shiyanlou的用户密码；
+
 2）使用系统用户 shiyanlou 重置 root 密码；
 ```shell
 sudo passwd root
@@ -45,7 +48,7 @@ tar -zxvf sequoiadb-3.4-linux_x86_64.tar.gz
 cd sequoiadb-3.4
 ```
 
-6）设置文件权限为可执行
+6）设置 SequoiaSQL-MySQL 实例程序权限为可执行；
 ```
 chmod +x sequoiasql-mysql-3.4-linux_x86_64-installer.run  
 ```
@@ -56,20 +59,24 @@ chmod +x sequoiasql-mysql-3.4-linux_x86_64-installer.run
 安装步骤选择说明请参考：
 * [SequoiaSQL-MySQL 实例安装向导说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1521595270-edition_id-0)
 
-## 4 创建MySQL实例
+## 创建 MySQL 实例
 
 1）切换 sdbadmin 用户；
+
 ```
 su - sdbadmin
 ```
+
 2）进入 SequoiaSQL-MySQL 实例安装目录；
+
 ```
 cd /opt/sequoiasql/mysql
 ```
 
 3）查看MySQL实例情况；
+
 ```
-./bin/sdb_sql_ctl status
+bin/sdb_sql_ctl status
 ```
 
 预期输出：
@@ -78,22 +85,25 @@ Total: 0; Run: 0
 没有实例
 
 4）创建数据库实例；
-```
-./bin/sdb_sql_ctl addinst myinst -D database/3306/
 
-Adding instance myinst ...
-Start instance myinst ...
 ```
-查看实例：
+bin/sdb_sql_ctl addinst myinst -D database/3306/
 ```
-./bin/sdb_sql_ctl status
+
+5）查看实例；
+
+```
+bin/sdb_sql_ctl status
 ```
 ```
 INSTANCE   PID        SVCNAME    SQLDATA                                  SQLLOG                                  
 myinst     1059       -          /opt/sequoiasql/mysql/bin/database/3306/ /opt/sequoiasql/mysql/myinst.log        
 Total: 1; Run: 1
 ```
-## 配置文件讲解
+
+## 查看配置文件
+
+
 1）配置文件位置
 ```
 ls -l /opt/sequoiasql/mysql/database/3306/auto.cnf
@@ -103,61 +113,62 @@ ls -l /opt/sequoiasql/mysql/database/3306/auto.cnf
 ```
 cat /opt/sequoiasql/mysql/database/3306/auto.cnf
 ```
-重要参数：
 
-- sequoiadb_conn_addr : SequoiaDB addresses（包括巨杉数据库协调节点的主机名/ip地址，端口号；可以配置多个协调节点）
+Note:
+>配置参数有三种修改方式: 
+>- 使用工具 sdb_sql_ctl 修改配置，例如：
+> bin/sdb_sql_ctl chconf myinst --sdb-auto-partition=OFF
+> 
+> - 修改实例数据目录下的配置文件 auto.cnf，在[mysqld]下添加/更改对应配置项，例如：
+> sequoiadb_auto_partition=OFF
+> 
+> - 通过 MySQL 命令行修改，例如：
+> SET GLOBAL sequoiadb_auto_partition=OFF ;
+> 详细配置参数说明：[MySQL 实例配置](http://doc.sequoiadb.com/cn/SequoiaDB-cat_id-1566551297-edition_id-304#引擎配置使用说明)
+>
 
-- sequoiadb_replica_size : Replica size of write operations.（副本同步策略，sdb多副本的部署情况使用-1.）
+## 创建数据库及数据表
 
+进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
 
-## 5 MySQL实例操作
-查看实例状态
-```
-./bin/sdb_sql_ctl status
-```
-如果在运行，先停止实例
-```
-./bin/sdb_sql_ctl stop myinst
-```
-启动mysql实例
-```
-./sdb_sql_ctl start myinst 
-```
-## 6 在MySQL实例中创建数据库
+#### 登录 MySQL shell 
 
-1）使用 MySQL Shell 连接 SequoiaSQL-MySQL 实例；
 ```
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
-2）检查现有数据库；
-```
-show databases ;
+
+#### 创建数据库实例
+
+```sql
+CREATE DATABASE company ;
+USE company ;
 ```
 
-3）创建数据库实例，并切换到该数据库；
-```
-create database company ;
-use company;
-```
-4）创建包含自增主键字段的 employee 表；
+#### 创建数据表
+在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎，包含主键或唯一键的表将会默认以唯一键作为分区键，进行自动分区。
+
+
+1）创建包含自增主键字段的 employee 表；
 
 ```sql
 CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
 ```
 
-5）进行基本的数据写入操作；
+2）进行基本的数据写入操作；
 
 ```sql
 INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
 INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
 ```
 
-6）退出 MySQL Shell；
+3）退出 MySQL Shell；
 ```shell
 \q
 ```
 
-## 在SequoiaDB 巨杉数据库引擎中查看存储情况
+## 存储引擎中查看数据
+查看 SequoiaSQL-MySQL 实例中表 employee 在 SequoiaDB 数据库存储引擎中对应的分区表，并查看数据记录。
+
 1）使用 Linux 命令行进去 SequoiaDB Shell；
 ```
 sdb
@@ -171,8 +182,8 @@ var db=new Sdb("localhost", 11810) ;
 ```
 db.list(SDB_LIST_COLLECTIONS) ;
 ```
-操作截图：
-4）查找 employee 中的数据，查看是否为 SequoiaDB-MySQL 实例中插入的数据；
+
+4）查找 employee 中的数据，查看是否为 SequoiaSQL-MySQL 实例中插入的数据；
 
 ```
 db.company.employee.find() ;
@@ -188,7 +199,9 @@ db.company.employee.insert({ ename:"Ben" , age:20 }) ;
 quit ;
 ```
 
-## 查询 SequoiaDB Shell 中插入的数据能否在 SequoiaDB-MySQL 实例查询
+#### 查询 MySQL 实例数据
+
+查询 SequoiaDB Shell 中插入的数据能否在 SequoiaDB-MySQL 实例查询
 
 
 1）使用 MySQL Shell 连接 SequoiaSQL-MySQL 实例；
