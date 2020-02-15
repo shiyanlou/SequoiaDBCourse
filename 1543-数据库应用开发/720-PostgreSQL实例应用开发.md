@@ -5,7 +5,7 @@ version: 1.0
 
 ## 课程介绍
 
-本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 PostgreSQL 实例的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他 PostgreSQL 语法操作。
+本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 PostgreSQL 实例的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其它 PostgreSQL 语法操作。
 
 #### 请点击右侧选择使用的实验环境
 
@@ -44,7 +44,9 @@ sequoiadb --version
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1d1b4057ef81bc03b825926d3071183a)
 
-## 查看节点启动列表
+## 检查就绪状态
+
+#### 查看节点启动列表
 
 查看 SequoiaDB 巨杉数据库引擎节点列表
 
@@ -60,9 +62,13 @@ sdblist
 >
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
 
-检查 PostgreSQL 实例
+
+#### 检查实例状态
+
+查看 PostgreSQL 实例状态。
+
 ```
-/opt/sequoiasql/postgresql/bin/sdb_sql_ctl listinst
+/opt/sequoiasql/postgresql/bin/sdb_sql_ctl status
 ```
 
 操作截图：
@@ -72,7 +78,7 @@ sdblist
 ## 创建数据库
 1）在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
 
-以 sdbadmin 用户登录，在 PostgreSQL 实例创建数据库 company：
+以 sdbadmin 用户登录，在 PostgreSQL 实例创建数据库 company；
 ```
 /opt/sequoiasql/postgresql/bin/sdb_sql_ctl createdb company myinst
 ```
@@ -81,7 +87,7 @@ sdblist
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/41b0823324fdd49a4c108c44bbf919df)
 
-2）查看数据库：
+2）查看数据库；
 ```
 /opt/sequoiasql/postgresql/bin/psql -l
 ```
@@ -92,12 +98,12 @@ sdblist
 
 ## 配置 PostgreSQL 实例
 #### 加载 SequoiaDB 连接驱动
-1）登录到 PostgreSQL 实例 Shell：
-```
+1）登录到 PostgreSQL 实例 Shell；
+```shell
 /opt/sequoiasql/postgresql/bin/psql -p 5432 company
 ```
 
-2）加载SequoiaDB连接驱动
+2）加载SequoiaDB连接驱动；
 ```sql
 CREATE EXTENSION sdb_fdw ;
 ```
@@ -105,9 +111,8 @@ CREATE EXTENSION sdb_fdw ;
 #### 配置与 SequoiaDB 连接参数
 在 PostgreSQL 实例中配置 SequoiaDB 连接参数：
 ```sql
-CREATE SERVER sdb_server 
-    FOREIGN DATA WRAPPER sdb_fdw 
-    OPTIONS (address '127.0.0.1', service '11810', user '', password '', preferedinstance 'A', transaction 'off' ) ;
+CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw 
+    OPTIONS (address '127.0.0.1', service '11810', user '', password '', preferedinstance 'A', transaction 'on' ) ;
 ```
 
 >Note:
@@ -123,48 +128,55 @@ CREATE SERVER sdb_server
 > - cipherfile 设置加密文件，默认为 ./passwd 
 
 ## 关联集合空间、集合
-在 PostgreSQL 实例中关联 SequoiaDB 数据库中的集合空间、集合。
+在 PostgreSQL 实例中关联 SequoiaDB 数据库引擎中的集合空间、集合。
 
-#### 在 PostgreSQL 实例中创建外部表
-进入 SequoiaDB Shell，在 SequoiaDB 中创建集合空间 company，集合 employee：
+#### SequoiaDB 数据库引擎中创建集合
+进入 SequoiaDB Shell，在 SequoiaDB 巨杉数据库引擎中创建集合空间 company，集合 employee。
 
 1）通过 Linux 命令行进入 SequoiaDB Shell；
 ```
 sdb
 ```
-1）通过 javascript 语言连接协调节点，获取数据库连接；
+2）通过 JavaScript 语言连接协调节点，获取数据库连接；
 ```javascript
 var db = new Sdb ("localhost",11810) ;
 ```
 
-2）创建 company_domains 逻辑域；
+3）创建 company_domains 逻辑域；
 
 ```javascript
-db.createDomain ("company_domains", ["group1", "group2", "group3"], { AutoSplit : true }) ;
+db.createDomain ("company_domains", ["group1", "group2", "group3"], { AutoSplit : true } ) ;
 ```
-3）创建 company 集合空间；
+4）创建 company 集合空间；
 ```javascript
-db.createCS ("company",{Domain:"company_domains"}) ;
+db.createCS ("company", { Domain : "company_domains" } ) ;
 ```
 
-4）创建 employee 集合；
+5）创建 employee 集合；
 ```javascript
-db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
+db.company.createCL ("employee", { "ShardingKey" : { "_id" : 1} , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
+```
+6）退出 SequoiaDB Shell；
+
+```
+quit ;
 ```
 
 操作截图：
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/283c4851aaf4bb04fea3f47408243b03)
 
-#### PostgreSQL 实例外部表与 SequoiaDB 集合空间、集合关联
-将 PostgreSQL 实例中的外表并与 SequoiaDB 中的集合空间、集合关联：
+#### 实例与数据引擎中集合关联
+将 PostgreSQL 实例中的外表并与 SequoiaDB 中的集合空间、集合关联。
+
 ```sql
 CREATE FOREIGN TABLE employee (
      empno INT,
      ename VARCHAR(128),
      age INT
-) SERVER sdb_server
-OPTIONS ( collectionspace 'company', collection 'employee', decimal 'on' ) ;
+  ) 
+  SERVER sdb_server
+  OPTIONS ( collectionspace 'company', collection 'employee', decimal 'on' ) ;
 ```
 
 >Note:
@@ -177,11 +189,12 @@ OPTIONS ( collectionspace 'company', collection 'employee', decimal 'on' ) ;
 > - 默认情况下，表的字段映射到 SequoiaDB 中为小写字符，如果强制指定字段为大写字符，创建方式参考“注意事项1”。
 > - 映射 SequoiaDB 的数组类型，创建方式参考“注意事项2”。
 
-## 关联表数据操作
+## 实例操作数据库引擎集合的数据
 使用 PostgreSQL 实例操作关联表中的数据。
 
 #### 通过关联表插入数据
-在 PostgreSQL 实例外表 employee 中插入数据：
+在 PostgreSQL 实例中向外表 employee 中插入数据；
+
 ```sql
 INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
 INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
@@ -191,8 +204,8 @@ INSERT INTO employee VALUES (10005, 'Kyoichi', 23) ;
 INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 ```
 
-#### 插入关联表中的数据
-查询 PostgreSQL 实例外表 employee 中 age 大于20，小于30的数据：
+#### 查询 employee 表中的数据
+查询 PostgreSQL 实例外表 employee 中 age 大于20，小于30的数据。
 ```sql
 SELECT * FROM employee WHERE age > 20 AND age < 30 ;
 ```
@@ -203,12 +216,15 @@ SELECT * FROM employee WHERE age > 20 AND age < 30 ;
 
 
 #### 更新关联表中的数据
-更新 PostgreSQL 实例外表 employee 中的数据，将 empno 为10001的记录 age 更改为34：
+
+1）更新 PostgreSQL 实例外表 employee 中的数据，将 empno 为10001的记录 age 更改为34；
+
 ```SQL
-UPDATE employee SET age=34 WHERE empno=10001 ;
+UPDATE employee SET age=34 WHERE empno = 10001 ;
 ```
 
 2）查询数据结果确认 empno 为10001的记录更新是否成功：
+
 ```SQL
 SELECT * FROM employee ;
 ```
@@ -218,12 +234,12 @@ SELECT * FROM employee ;
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/d822b2d32288d17baf8fc6c99a75c514)
 
 #### 删除关联表中的数据
-1）删除 PostgreSQL 实例外表 employee 中的数据，将 empno 为10006的记录删除：：
+1）删除 PostgreSQL 实例外表 employee 中的数据，将 empno 为10006的记录删除；
 ```SQL
-DELETE FROM employee WHERE empno=10006 ;
+DELETE FROM employee WHERE empno = 10006 ;
 ```
 
-2）查询数据结果确认 empno 为10006的记录是否成功删除：
+2）查询数据结果确认 empno 为10006的记录是否成功删除；
 ```SQL
 SELECT * FROM employee ;
 ```
@@ -236,12 +252,12 @@ SELECT * FROM employee ;
 通过 PostgreSQL 实例查看执行计划及通过过滤条件查看 SequoiaDB 执行计划。
 
 #### 索引使用
-1）进入 SequoiaDB Shell，在 SequoiaDB 集合 employee 的ename字段上创建索引：
+1）进入 SequoiaDB Shell，在 SequoiaDB 数据库引擎集合 employee 的 ename 字段上创建索引；
 ```javascript
 db.company.employee.createIndex ("idx_ename", { ename : 1 }, false) ;  
 ```
 
-2）在 PostgreSQL 实例显示表 employee 查询语句执行计划：
+2）在 PostgreSQL 实例查看表 employee 查询语句执行计划；
 ```SQL
 EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
 ```
@@ -250,17 +266,43 @@ EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6c240851d0dbd8d67c6a5ecfbd2646bc)
 
-3）进入 SequoiaDB Shell，根据上述输出中的Filter，在 SequoiaDB 中显示集合 employee 查询语句执行计划：
+3）进入 SequoiaDB Shell，根据上述输出中的Filter，在 SequoiaDB 中显示集合 employee 查询语句执行计划。
+
+
+
+
+通过 Linux 命令行进入 SequoiaDB Shell；
+
+```
+sdb
+```
+
+通过 JavaScript 语言连接协调节点，获取数据库连接；
+
+```javascript
+var db = new Sdb ("localhost",11810) ;
+```
+
+查看执行计划；
+
 ```javascript
 db.company.employee.find ({ "ename": { "$et": "Georgi" } }).explain() ;
 ```
+
 
 操作截图：
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/a9ea5e8421244d5010ff08fcc7019e15)
 
+退出 SequoiaDB Shell；
+
+```
+quit ;
+```
+
+
 ## Java 语言操作 PostgreSQL 实例中的数据
-本节内容主要用来演示 Java 语言操作 SequoiaDB-PostgreSQL 实例中的数据，为相关开发人员提供参考。
+本节内容主要用来演示 Java 语言操作 SequoiaSQL-PostgreSQL 实例中的数据，为相关开发人员提供参考。
 
 #### 连接 PostgreSQL 实例：
 ```
@@ -426,7 +468,6 @@ public class Delete {
 
 ## 总结
 
-通过本课程，我们验证了 SequoiaDB 巨杉数据库所支持的 PostgreSQL 语法，并对底层数据存储分布进行了直接验证。可以看出：
+通过本课程，我们验证了 SequoiaDB 巨杉数据库所支持的 PostgreSQL 语法，并展示了使用 JAVA 语言对 SequoiaSQL-PostgreSQL 实例中的表进行 CRUD 操作。可以看出：
 - SequoiaSQL-PostgreSQL 实例兼容标准的 PostgreSQL 语法；
-- SequoiaDB 巨杉数据库底层存储为分布式架构，数据可均匀分布在多个分区中；
 - Java语言操作 SequoiaSQL-PostgreSQL 实例中的数据与操作原生 PostgreSQL 中的数据无任何差异，可做到无缝切换；
