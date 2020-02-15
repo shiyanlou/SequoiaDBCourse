@@ -74,14 +74,14 @@ sdblist
 
 #### 登录 MySQL 实例 Shell
 ```
-mysql -h 127.0.0.1 -P 3306 -u root -p
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
 #### 创建数据库
 在MySQL实例中创建新数据库company，并切换至company库：
 ```sql
-create database company;
-use company;
+create database company ;
+use company ;
 ```
 
 #### 创建分区表
@@ -92,7 +92,7 @@ CREATE TABLE employee (
 	ename VARCHAR(128),
 	age INT,
 	PRIMARY KEY (empno)
-) ENGINE = sequoiadb COMMENT = "雇员表 , sequoiadb:{ table_options : { ShardingKey : { 'empno' : 1 } , ShardingType : 'hash' , 'Compressed' : true , 'CompressionType' : 'lzw' , 'AutoSplit' : true , 'EnsureShardingIndex' : false } }" ;
+) ENGINE = sequoiadb COMMENT = "雇员表, sequoiadb:{ table_options : { ShardingKey : { 'empno' : 1 } , ShardingType : 'hash' , 'Compressed' : true , 'CompressionType' : 'lzw' , 'AutoSplit' : true , 'EnsureShardingIndex' : false } }" ;
 ```
 
 >Note:
@@ -102,7 +102,7 @@ CREATE TABLE employee (
 2）查看 MySQL 实例分区表结构；
 
 ```sql
-show create table employee;
+show create table employee ;
 ```
 
 操作截图：
@@ -113,7 +113,7 @@ show create table employee;
 通过 SequoiaSQL-MySQL 实例进行数据插入、查询、更新、删除操作。
 
 #### 分区表中插入数据
-在分区表 employee 中插入数据：
+在分区表 employee 中插入数据.
 
 ```sql
 INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
@@ -137,13 +137,13 @@ select * from employee where age > 20 and age < 30 ;
 
 
 #### 更新分区表中的数据
-1）更新分区表 employee 中的数据，将 empno 为10001的记录 age 更改为34：
+1）更新分区表 employee 中的数据，将 empno 为10001的记录 age 更改为34；
 
 ```sql
 update employee set age=34 where empno=10001 ;
 ```
 
-2）查询数据结果确认 empno 为10001的记录更新是否成功：
+2）查询数据结果确认 empno 为10001的记录更新是否成功；
 
 ```sql
 select * from employee ;
@@ -154,13 +154,13 @@ select * from employee ;
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/dcf250f3fc2c0cbfb37af7d2e904e04a)
 
 #### 删除分区表中的数据
-1）删除分区表 employees 中的数据，将 empno 为10006的记录删除：
+1）删除分区表 employees 中的数据，将 empno 为10006的记录删除；
 
 ```sql
 delete from employee where empno=10006 ;
 ```
 
-2）查询数据结果确认 empno 为10006的记录是否成功删除：
+2）查询数据结果确认 empno 为10006的记录是否成功删除；
 
 ```sql
 select * from employee ;
@@ -174,13 +174,13 @@ select * from employee ;
 通过 SequoiaSQL-MySQL 实例进行表上索引的创建及查看执行计划。
 
 #### 分区表中索引使用
-1）在分区表 employee 的 ename 字段上创建索引：
+1）在分区表 employee 的 ename 字段上创建索引；
 
 ```sql
 alter table employee add index idx_ename(ename) ;
 ```
 
-2）显示分区表 employee 查询语句执行计划：
+2）显示分区表 employee 查询语句执行计划；
 
 ```sql
 explain select * from employee where ename = 'Georgi' ;
@@ -192,7 +192,7 @@ explain select * from employee where ename = 'Georgi' ;
 
 
 ## Java 语言操作 MySQL 实例中的数据
-本节内容主要用来演示 Java 语言操作 SequoiaDB-MySQL 实例中的数据，为相关开发人员提供参考。
+本节内容主要用来演示 Java 语言操作 SequoiaSQL-MySQL 实例中的数据，为相关开发人员提供参考。
 
 #### 连接 MySQL 实例
 
