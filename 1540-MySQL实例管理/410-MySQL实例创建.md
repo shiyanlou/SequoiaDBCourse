@@ -9,21 +9,20 @@ enable_checker: true
 
 ## 课程介绍
 
-本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，对 MySQL 进行实例创建，并向数据表中写入一定量数据。
+本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及安装了 SequoiaSQL-MySQL 程序的环境中，创建 MySQL 实例及数据库和数据表，并向数据表中写入一定量数据。
 
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
-本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SequoiaSQL-MySQL 数据库实例节点、1个引擎协调节点，1个编目节点与3个数据分区，9个数据节点。
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SequoiaSQL-MySQL 数据库实例节点、1个引擎协调节点，1个编目节点与3个数据节点。
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/bcf1c4b3404f34cb22cd48494c10135c)
+![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
 
 详细了解 SequoiaDB 巨杉数据库系统架构：
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
 #### 实验环境
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
-
 
 
 ## 切换用户及查看数据库版本
@@ -46,9 +45,10 @@ sequoiadb --version
 ```
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/03eb5c621476f2788a52a6ea755b23bd)
+![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/b4082b0d6d6bdf89d229aa713a53759d)
 
-#### 查看节点启动列表
+
+## 查看节点启动列表
 
 查看 SequoiaDB 巨杉数据库引擎节点列表
 
@@ -56,85 +56,93 @@ sequoiadb --version
 sdblist 
 ```
 
-操作截图:  
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/cdc72e13c0eb5bedfbeb94c800c94f36)
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/02fcaa58ac27e91688ead137fa748d6e)
 
 >Note:
 >
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
 
-#### 检查 MySQL 实例进程
 
-查看 MySQL 数据库实例
-```
-/opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
-```
 
-操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/92856e2e05fee65495cb876332cd34c6)
+## 创建 MySQL 实例
 
-查看数据库实例进程
+此实验环境已经安装了 SequoiaSQL-MySQL 程序，我们直接添加 MySQL 实例。
+
+1）切换到 SequoiaSQL-MySQL 安装目录；
 ```
-ps -elf | grep mysql
+cd /opt/sequoiasql/mysql
 ```
 
-操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/41b259ef9f2b7f16466b3d89606998c4)
+2）添加实例；
+```
+bin/sdb_sql_ctl addinst myinst -D database/3306/
+```
 
-#### 创建数据库及数据表
+>Note:
+>
+> 指定实例名为myinst，该实例名映射相应的数据目录和日志路径，用户可以根据自己需要指定不同的实例名，实例默认端口号为3306。
+
+3）查看实例，可以看到实例名为 myinst 的数据和日志目录信息；
+```
+bin/sdb_sql_ctl listinst
+```
+
+4）启动实例；
+```
+bin/sdb_sql_ctl start myinst
+```
+
+5）查看实例状态；
+
+```
+bin/sdb_sql_ctl status
+```
+
+
+
+## 创建数据库及数据表
 
 进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
 
-#### 登录 MySQL Shell 
+#### 创建数据库
+
+1）登录 MySQL Shell；
 
 ```
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/b667a6cc7f74c4b19d832efe32054996)
+2）在 MySQL 实例中创建新数据库 company，并切换到 company；
 
-
-
-## 创建 MySQL 实例和数据表
-
-#### 创建数据库实例
-
-在 MySQL 实例中创建新数据库company
 ```sql
 CREATE DATABASE company ;
+USE company ;
 ```
 
-查看 MySQL 实例中的数据库：
+3）查看 MySQL 实例中的数据库；
+
 ```sql
 SHOW DATABASES ;
 ```
 
-操作截图:  
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/736645861ddbc077ce588b4ab35f3ebd)
-
-
 #### 创建分区表
+在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎，包含主键或唯一键的表将会默认以唯一键作为分区键，进行自动分区。
 
-在 MySQL 实例 company 数据库中创建分区表 employee
+1）在 MySQL 实例 company 数据库中创建数据表 employee；
+
 ```sql
-USE company ;
 CREATE TABLE employee (
-    emp_no      INT             NOT NULL,
-    birth_date  DATE            NOT NULL,
-    first_name  VARCHAR(14)     NOT NULL,
-    last_name   VARCHAR(16)     NOT NULL,
-    gender      ENUM ('M','F')  NOT NULL,    
-    hire_date   DATE            NOT NULL,
-    PRIMARY KEY (emp_no)
-)
-ENGINE=sequoiadb COMMENT="雇员表, sequoiadb:{ table_options: { ShardingKey: { 'emp_no': 1 }, ShardingType: 'hash','Compressed':true,'CompressionType':'lzw','AutoSplit':true,'EnsureShardingIndex':false } }";
+	empno INT,
+	ename VARCHAR(128),
+	age INT,
+	PRIMARY KEY (empno)
+) ENGINE = sequoiadb COMMENT = "雇员表, sequoiadb:{ table_options : { ShardingKey : { 'empno' : 1 } , ShardingType : 'hash' , 'Compressed' : true , 'CompressionType' : 'lzw' , 'AutoSplit' : true , 'EnsureShardingIndex' : false } }" ;
 ```
 
-操作截图:  
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/a08a299c8b2e94efa0b855bf18e7a0f0)
+2）查看数据库引擎；
 
-查看数据库引擎
 ```sql
 SHOW ENGINES ;
 ```
@@ -142,7 +150,7 @@ SHOW ENGINES ;
 操作截图:  
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/d2caef2b1c019578ea0f2d211678ea01)
 
-查看 company 数据库中创建分区表 employee
+3）查看 company 数据库中创建分区表 employee；
 ```sql
 SHOW CREATE TABLE employee;
 ```
@@ -154,20 +162,12 @@ SHOW CREATE TABLE employee;
 
 ## 数据表中写入数据
 
-#### 分区表中插入数据
+#### 分区表中写入数据
 在分区表 employee 中插入数据：
+
 ```sql
-INSERT INTO employee VALUES (10001,'1953-09-02','Georgi','Facello','M','1986-06-26');
-
-INSERT INTO employee VALUES (10002,'1964-06-02','Bezalel','Simmel','F','1985-11-21');
-
-INSERT INTO employee VALUES (10003,'1959-12-03','Parto','Bamford','M','1986-08-28');
-
-INSERT INTO employee VALUES (10004,'1954-05-01','Chirstian','Koblick','M','1986-12-01');
-
-INSERT INTO employee VALUES (10005,'1955-01-21','Kyoichi','Maliniak','M','1989-09-12');
-
-INSERT INTO employee VALUES (10006,'1953-04-20','Anneke','Preusig','F','1989-06-02');
+INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
+INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
 ```
 
 操作截图:  
@@ -175,13 +175,15 @@ INSERT INTO employee VALUES (10006,'1953-04-20','Anneke','Preusig','F','1989-06-
 
 
 
-#### 查询分区表 employee 中的数据：
-查看总的数据
+#### 查询分区表 employee 中的数据
+
+查询向 employee 表写入的数据
+
 ```sql
 SELECT * FROM employee ;
 ```
 
-预期输出:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/baba6318103bed34547796ab1b598a05)
 
 
+## 总结
+通过本课程，我们通过 MySQL 语法在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并对数据表进行了写入和查询操作；

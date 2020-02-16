@@ -32,6 +32,7 @@ enable_checker: true
 #### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
+
 ```
 su - sdbadmin
 ```
@@ -47,7 +48,7 @@ sequoiadb --version
 ```
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/03eb5c621476f2788a52a6ea755b23bd)
+![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/b4082b0d6d6bdf89d229aa713a53759d)
 
 #### 查看节点启动列表
 
@@ -58,7 +59,8 @@ sdblist
 ```
 
 操作截图:  
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/cdc72e13c0eb5bedfbeb94c800c94f36)
+![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/02fcaa58ac27e91688ead137fa748d6e)
+
 
 >Note:
 >
@@ -83,111 +85,118 @@ ps -elf | grep mysql
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/41b259ef9f2b7f16466b3d89606998c4)
 
 
-## 事务提交
 
-#### 登录到 MySQL 实例
 
-登录 MySQL 实例
+## 创建数据库及数据表
+
+进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
+
+#### 登录 MySQL shell 
+
 ```
-/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root -p
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/b667a6cc7f74c4b19d832efe32054996)
+#### 创建数据库实例
 
-#### 执行事务提交操作
-
-选择 company 数据库
 ```sql
+CREATE DATABASE company ;
 USE company ;
 ```
 
-开启事务操作
+#### 创建数据表并初始化数据
+在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎，包含主键或唯一键的表将会默认以唯一键作为分区键，进行自动分区。
+
+
+1）创建包含自增主键字段的 employee 表；
+
 ```sql
-START TRANSACTION ;
+CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
+```
+2）插入数据；
+```sql
+INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
+INSERT INTO employee (ename, age) VALUES ("Alice", 21) ;
 ```
 
-执行SQL语句，主要包含插入与更新
+## 事务提交
+SequoiaDB 巨杉数据库的 MySQL 数据库实例支持完整的事务操作能力，本小节将验证其基本的回滚与提交能力。
+
+#### 执行事务提交操作
+
+1）开启事务操作；
+
 ```sql
-INSERT INTO employee VALUES (10007,'1953-09-02','Georgi','Facello','M','1986-06-26') ;
-
-INSERT INTO employee VALUES (10008,'1964-06-02','Bezalel','Simmel','F','1985-11-21') ;
-
-INSERT INTO employee VALUES (10009,'1959-12-03','Parto','Bamford','M','1986-08-28') ;
-
-UPDATE employee
-SET first_name = 'Anneke_UPDATE', 
-    last_name = 'Preusig_UPDATE', 
-    hire_date = '2020-01-01'
-WHERE emp_no = 10006 ;
+BEGIN ;
 ```
 
-执行事务提交操作
+2）执行SQL语句，包含写入与更新；
+```sql
+INSERT INTO employee (ename, age) VALUES ("Ben", 25) ;
+UPDATE employee SET age = 22 WHERE ename = "Alice" ;
+```
+
+3）执行事务提交操作；
+
 ```sql
 COMMIT ;
 ```
 
-操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/dec1dd362ea3dc685251563778fab9c2)
-
 #### 事务提交操作的结果验证
 
-查询数据， 验证事务提交的数据结果
+查询数据，验证事务提交的数据结果，是否写入与更新成功；
+
 ```sql
-SELECT * FROM employee WHERE emp_no IN (10006, 10007, 10008, 10009) ;
+SELECT * FROM employee ;
 ```
 
 操作截图:
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/f78e6cb02f4a2adb0a8badacfca821db)
 
-> 如操作截图显示，其中empo_no 为 10007，10008，10009 的记录插入到数据库；而 empo_no 为 10006 的记录更新成功
+
+
+> 如操作截图显示，事务内的操作均被提交成功：雇员 Ben 的信息已经写入，并且 Alice 的年龄被更新成功。
 
 
 ## 事务回滚
 
 #### 执行事务提交操作
 
-开启事务操作
+1）开启事务操作；
+
 ```sql
-START TRANSACTION ;
+BEGIN ;
 ```
 
-执行SQL语句，主要包含插入与更新
+2）执行SQL语句，主要包含插入与更新；
+
 ```sql
-INSERT INTO employee VALUES (10010,'1953-09-02','Georgi','Facello','M','1986-06-26') ;
-
-INSERT INTO employee VALUES (10011,'1964-06-02','Bezalel','Simmel','F','1985-11-21') ;
-
-INSERT INTO employee VALUES (10012,'1959-12-03','Parto','Bamford','M','1986-08-28') ;
-
-UPDATE employee
-SET first_name = 'Anneke_ROLEBK', 
-    last_name = 'Preusig_ROLEBK', 
-    hire_date = '2020-01-01'
-WHERE emp_no = 10006 ;
+INSERT INTO employee (ename, age) VALUES ("Janey", 27) ;
+UPDATE employee SET age = 26 WHERE ename = "Ben" ;
 ```
 
-执行事务回滚操作
+3）执行事务回滚操作；
+
 ```sql
 ROLLBACK ;
 ```
-
-操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/9e8cde81aa0230e22de427f8e2b61d29)
 
 
 #### 事务回滚操作的结果验证
 
 查询数据， 验证事务回滚后的数据结果
+
 ```sql
-SELECT * FROM employee WHERE emp_no IN (10010, 10011, 10012, 10006) ;
+SELECT * FROM employee ;
 ```
 
 操作截图:
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/a3ae2f29c1ed07dabef88e9fc9c4429a)
 
-> 如操作截图显示，其中 empo_no 为 10010，10011，10012 的记录未插入到数据库；而 empo_no 为 10006 的记录也没有更新。
+> 如操作截图显示，雇员 Janey 的信息未写入到数据库；而 Ben 的年龄也没有更新。
 
 
+## 总结
+本课程通过在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并对其事务进行了验证。
 
 
