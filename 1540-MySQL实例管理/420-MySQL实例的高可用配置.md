@@ -10,7 +10,8 @@ enable_checker: true
 ## 课程介绍
 
 SequoiaSQL-MySQL 的架构使集群中的多个 MySQL 实例均为主机模式，都可对外提供读写服务。由于各实例的元数据均只存储在该实例本身，SequoiaSQL-MySQL 提供了元数据同步工具，用来保证 MySQL 服务的高可用。当一个 MySQL 实例退出后，连接该实例的应用可以切换到其它实例，获得对等的读写服务。  
-本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，对 MySQL 进行实例高可用的配置。
+
+本课程将带领您在2台机器中展示 MySQL 进行实例高可用的配置，其中1台已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境，另外一台已经安装了 MySQL 实例。
 
 #### 请点击右侧选择使用的实验环境
 
@@ -24,8 +25,6 @@ MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插�
 
 #### 实验环境
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
-
-
 
 ## 切换用户及查看数据库版本
 
@@ -42,14 +41,15 @@ su - sdbadmin
 #### 查看巨杉数据库版本
 
 查看 SequoiaDB 巨杉数据库引擎版本
+
 ```
 sequoiadb --version
 ```
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/03eb5c621476f2788a52a6ea755b23bd)
+![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/b4082b0d6d6bdf89d229aa713a53759d)
 
-#### 查看节点启动列表
+## 查看节点启动列表
 
 查看 SequoiaDB 巨杉数据库引擎节点列表
 
@@ -57,53 +57,36 @@ sequoiadb --version
 sdblist 
 ```
 
-操作截图:  
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/cdc72e13c0eb5bedfbeb94c800c94f36)
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/02fcaa58ac27e91688ead137fa748d6e)
 
 >Note:
 >
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
 
-#### 检查 MySQL 实例进程
-
-查看 MySQL 数据库实例
-```
-/opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
-```
-
-操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/92856e2e05fee65495cb876332cd34c6)
-
-查看数据库实例进程
-```
-ps -elf | grep mysql
-```
-
-操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/41b259ef9f2b7f16466b3d89606998c4)
-
-
 
 ## 创建元数据同步用户
-
-#### 登录到 MySQL 实例
-```
-/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root -p
-```
-
-操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/b667a6cc7f74c4b19d832efe32054996)
-
+进行元数据同步的 MySQL 实例均要设置用户名和密码，故需连接两个MySQL 实例进行设置，本步骤展示对本机实例进行设置。
 
 #### 创建数据库同步的用户
 
-在所有 MySQL 实例上创建用于同步元数据的 MySQL 用户。
+1）登录 MySQL Shell，连接本机的 MySQL 实例；
+
+```
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
+```
+
+> 设置完成 127.0.0.1 的 MySQL 实例，需要对 172.17.0.2 的 MySQL 实例也进行设置。
+
+2）创建用于同步元数据的 MySQL 用户。
 
 ```sql
 CREATE USER 'sdbadmin'@'%' IDENTIFIED BY 'sdbadmin' ; 
 ```
 
 并授予所有权限，用户名与密码在所有实例上保持一致。
+
 ```sql
 GRANT all on *.* TO 'sdbadmin'@'%' with grant option ; 
 FLUSH PRIVILEGES ;
@@ -116,7 +99,9 @@ FLUSH PRIVILEGES ;
 
 
 #### 检查及验证同步的用户
-查询数据库用户的权限
+
+1）查询数据库用户的权限；
+
 ```sql
 SHOW GRANTS FOR sdbadmin ;
 ```
@@ -124,7 +109,8 @@ SHOW GRANTS FOR sdbadmin ;
 操作截图:
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/fcff6a32b56524b705e743e2e9a1ca0f)
 
-退出 MySQL Shell， 使用 sdbadmin 用户重新登陆
+2）退出 MySQL Shell， 使用 sdbadmin 用户重新登陆；
+
 ```
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u sdbadmin -p
 ```
@@ -135,6 +121,7 @@ SHOW GRANTS FOR sdbadmin ;
 
 
 ## 审计插件部署
+进行元数据同步的 MySQL 实例均要部署审计插件，本步骤展示对本机实例进行设置。操作完成后需要 ssh 到 172.17.0.2 进行相同操作。
 
 #### 审计插件准备
 
@@ -249,6 +236,7 @@ ls -alt /opt/sequoiasql/mysql/database/auditlog/
 
 
 ## 部署元数据同步工具
+进行元数据同步的 MySQL 实例均要部署元数据同步工具，本步骤展示对本机实例进行设置。操作完成后需要 ssh 到 172.17.0.2 进行相同操作。
 
 #### 元数据同步工具配置
 
@@ -335,7 +323,7 @@ datefmt=
 
 #### 启动元数据同步工具
 
-在完成所有配置后，在各实例所在主机的 sdbadmin 用户下，执行以下命令在后台启动同步工具
+在完成所有配置后，在各实例所在主机的 sdbadmin 用户下，执行以下命令在后台启动同步工具：
 
 ```
 python /opt/sequoiasql/mysql/tools/metaSync/meta_sync.py &
@@ -353,12 +341,71 @@ crontab 编辑的内容如下
 
 #### 验证元数据同步工具
 linux 系统后台进程作业配置检查
+
 ```
 crontab -l
 ```
+## 验证元数据同步情况
 
-> 从sdb01机上创建一个表
+进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，并创建数据表。
 
-> 从sdb02机上查看表是否创建成功
+#### 登录 MySQL shell 
 
+```
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root -p
+```
 
+#### 创建数据库实例
+
+```sql
+CREATE DATABASE company ;
+USE company ;
+```
+
+#### 创建数据表，并写入数据
+
+1）创建包含自增主键字段的 employee 表；
+
+```sql
+CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
+```
+
+2）写入数据；
+
+```sql
+INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
+INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
+```
+
+3）查询数据；
+
+```
+SELECT * FROM employee ;
+```
+
+4）退出 MySQL Shell；
+```
+\q
+```
+
+#### 验证172.17.0.2机器的 MySQL 实例
+
+1）登录 MySQL Shell，连接172.17.0.2的 MySQL 实例；
+
+```
+/opt/sequoiasql/mysql/bin/mysql -h 172.17.0.2 -P 3306 -u root -p
+```
+2） 切换数据库；
+
+```sql
+USE company ;
+```
+
+3）查询 employee 表；
+
+```
+SELECT * FROM employee ;
+```
+
+## 总结
+本课程我们学会了 MySQL 实例的高可用配置并进行了验证，包括创建数据库用户、审计插件部署和元数据同步工具部署。
