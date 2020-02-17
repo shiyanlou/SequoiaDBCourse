@@ -184,7 +184,7 @@ collectionspace：指定集合空间名称。
 
 collection：指定集合的名称。
 
-preferredinstance：指定副本编号，这里指定副本编号为3（上面指定的instanceid）。
+preferedinstance：指定从节点的副本编号，这里指定副本编号为3（选择从节点的instanceid）。
 
 更多的SparkSQL创建表参数说明，请参考如下链接：
 
