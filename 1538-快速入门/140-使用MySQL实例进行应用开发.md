@@ -34,17 +34,17 @@ su - sdbadmin
 
 ## 使用 MySQL shell 进行操作
 
-1) 登录 MySQL shell
+1）登录 MySQL shell
 ```
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-2) 查看 MySQL 存储引擎，确认默认存储引擎为 SequoiaDB
+2）查看 MySQL 存储引擎，确认默认存储引擎为 SequoiaDB
 ```sql
 show engines ;
 ```
 
-3) 创建数据库
+3）创建数据库
 ```sql
 CREATE DATABASE company ;
 USE company ;
@@ -240,7 +240,7 @@ DESC employee ;
 TRUNCATE TABLE employee ;
 ```
 
-2) 验证 employee 数据表已被清空
+2）验证 employee 数据表已被清空
 ```sql
 select * from employee ;
 ```
