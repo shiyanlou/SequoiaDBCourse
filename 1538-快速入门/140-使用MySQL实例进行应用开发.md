@@ -25,7 +25,7 @@ enable_checker: true
 ## 切换用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
-```
+```shell
 su - sdbadmin
 ```
 >Note:
@@ -35,7 +35,7 @@ su - sdbadmin
 ## 使用 MySQL shell 进行操作
 
 1）登录 MySQL shell；
-```
+```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
@@ -80,12 +80,12 @@ INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 本节内容主要用来演示 Java 语言操作 SequoiaSQL-MySQL 实例中的数据，为相关开发人员提供参考。源码已经放置在 /home/sdbadmin/source 目录下。
 
 1）进入源码放置目录；
-```
+```shell
 cd /home/sdbadmin/source/mysql
 ```
 
 2）查看 java 文件，一共5个文件；
-```
+```shell
 ls -trl
 ```
 
@@ -99,7 +99,7 @@ ls -trl
 > - Delete.java    删除数据类
 
 3）对 java 文件进行编译；
-```
+```shell
 javac -d . *.java
 ```
 
@@ -110,7 +110,7 @@ javac -d . *.java
 
 1）运行 Insert 类的代码；
 
-```
+```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ```
 
@@ -159,7 +159,7 @@ public class Insert {
 
 1）运行 Select 类的代码；
 
-```
+```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
@@ -209,13 +209,13 @@ public class Select {
 
 1）运行 Update 类代码；
 
-```
+```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Update
 ```
 
 2）查询确认10001雇员的年龄已经被更改为 49；
 
-```
+```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
@@ -258,13 +258,13 @@ public class Update {
 
 1）运行 Delete 类的代码；
 
-```
+```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Delete
 ```
 
 2）查询确认 empno 为 10006 的雇员信息已经被删除；
 
-```
+```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
