@@ -3,7 +3,6 @@ show: step
 version: 1.0
 enable_checker: true
 ---
-
 # 使用MySQL实例进行应用开发
 
 ## 课程介绍
@@ -93,13 +92,9 @@ ls -trl
 >Note：
 >
 >MySQLConnection.java   连接数据库类
->
 >Insert.java  写入数据类
->
 >Select.java 查询数据类
->
 >Update.java 更新数据类
->
 >Delete.java    删除数据类
 
 3）对 java 文件进行编译；
@@ -112,7 +107,7 @@ javac -d . *.java
 
 本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并写入数据；
 
-1）运行代码查看效果；
+1）运行 Insert 类的代码；
 
 ```
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
@@ -161,7 +156,7 @@ public class Insert {
 
 本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并查询数据
 
-1）运行代码查看效果；
+1）运行 Select 类的代码；
 
 ```
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
@@ -211,7 +206,7 @@ public class Select {
 
 本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并更新数据；
 
-1）运行代码查看效果；
+1）运行 Update 类代码；
 
 ```
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Update
@@ -260,7 +255,7 @@ public class Update {
 
 本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并删除数据；
 
-1）运行代码查看效果；
+1）运行 Delete 类的代码；
 
 ```
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Delete
@@ -305,4 +300,6 @@ public class Delete {
 
 
 ## 总结
-SequoiaSQL-MySQL 实例兼容 MySQL 语法，使用 MySQL 的驱动即可完成对 MySQL 实例的数据操作。从原生 MySQL 切换到 SequoiaDB 巨杉数据库可以做到平滑迁移，应用无需修改代码。
+SequoiaSQL-MySQL 实例兼容 MySQL 语法，用户可通过 MySQL 的方式操作 SequoiaDB 数据库。
+
+
