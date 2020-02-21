@@ -9,6 +9,7 @@ enable_checker: true
 ## 课程介绍
 
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他 MySQL 语法操作，最后展示如何使用 MySQL 的 JAVA 驱动对数据进行 CRUD 操作。
+
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
