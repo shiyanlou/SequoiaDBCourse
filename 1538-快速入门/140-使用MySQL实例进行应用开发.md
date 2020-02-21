@@ -300,6 +300,6 @@ public class Delete {
 
 
 ## 总结
-SequoiaSQL-MySQL 实例兼容 MySQL 语法，用户可通过 MySQL 的方式操作 SequoiaDB 数据库。
+SequoiaSQL-MySQL 实例完全兼容 MySQL 语法，使用 MySQL 的驱动即可完成对 MySQL 实例的数据操作。应用从原生 MySQL 切换到 SequoiaDB 巨杉数据库可以做到平滑迁移，无需修改代码。
 
 
