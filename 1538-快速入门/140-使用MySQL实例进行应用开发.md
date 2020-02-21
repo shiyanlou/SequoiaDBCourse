@@ -90,10 +90,15 @@ ls -trl
 
 
 >Note：
+>
 >MySQLConnection.java   连接数据库类
+>
 >Insert.java  写入数据类
+>
 >Select.java 查询数据类
+>
 >Update.java 更新数据类
+>
 >Delete.java    删除数据类
 
 3）对 java 文件进行编译；
