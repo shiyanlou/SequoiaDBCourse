@@ -1,16 +1,16 @@
 ---
 show: step
-version: 1.0 
+version: 2.0 
 ---
 
 ## 课程介绍
 
-本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他MySQL 语法操作。
+本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他 MySQL 语法操作。
 
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
-本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SequoiaSQL-MySQL 数据库实例节点、1个引擎协调节点，1个编目节点与3个数据节点。
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个引擎协调节点、1 个编目节点与3个数据节点。
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7668dd33f9b1bee6a5d4209bcb529023)
 
@@ -18,14 +18,14 @@ version: 1.0
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
 #### 实验环境
-课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
+课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本，SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
 ## 切换用户及查看数据库版本
 
 #### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
-```
+```shell
 su - sdbadmin
 ```
 >Note:
@@ -34,9 +34,9 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本
+查看 SequoiaDB 巨杉数据库引擎版本。
 
-```
+```shell
 sequoiadb --version
 ```
 
@@ -48,7 +48,7 @@ sequoiadb --version
 
 查看 SequoiaDB 巨杉数据库引擎节点列表
 
-```
+```shell
 sdblist 
 ```
 
@@ -58,10 +58,10 @@ sdblist
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
+>如果显示的节点数量少于上图中的数量，请稍等初始化完成并重试该步骤
 
 检查 MySQL 实例
-```
+```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
 
@@ -73,12 +73,12 @@ sdblist
 进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
 
 #### 登录 MySQL 实例 Shell
-```
+```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
 #### 创建数据库
-在MySQL实例中创建新数据库company，并切换至company库：
+在MySQL实例中创建新数据库 company，并切换至 company 库：
 ```sql
 create database company ;
 use company ;
@@ -102,7 +102,7 @@ CREATE TABLE employee (
 2）查看 MySQL 实例分区表结构；
 
 ```sql
-show create table employee ;
+show create table employee;
 ```
 
 操作截图：
@@ -185,6 +185,11 @@ alter table employee add index idx_ename(ename) ;
 ```sql
 explain select * from employee where ename = 'Georgi' ;
 ```
+3）退出客户端
+
+```sql
+mysql>\q
+```
 
 操作截图：
 
@@ -192,40 +197,37 @@ explain select * from employee where ename = 'Georgi' ;
 
 
 ## Java 语言操作 MySQL 实例中的数据
-本节内容主要用来演示 Java 语言操作 SequoiaSQL-MySQL 实例中的数据，为相关开发人员提供参考。
+本节内容主要用来演示 Java 语言操作 SequoiaSQL-MySQL 实例中的数据，为相关开发人员提供参考。源码已经放置在 /home/sdbadmin/source 目录下。
 
-#### 连接 MySQL 实例
+1）进入源码放置目录；
 
-```java
-import java.sql.*;
+```shell
+cd /home/sdbadmin/source/mysql
+```
 
-public class MySQLConnection {
+2）查看 java 文件，一共5个 java 文件；
 
-    private String url;
-    private String username;
-    private String password;
-    private String driver = "com.mysql.jdbc.Driver";
+```shell
+ls -trl
+```
 
-    public MySQLConnection(String url, String username, String password){
-        this.url = url;
-        this.username = username;
-        this. password = password;
-    }
+>Note：
+>
+> - MySQLConnection.java   连接数据库类
+> - Insert.java            写入数据类
+> - Select.java            查询数据类
+> - Update.java            更新数据类
+> - Delete.java            删除数据类
 
-    public Connection getConnection(){
-        Connection connection = null;
-        try {
-            Class.forName(driver);
-            connection = DriverManager.getConnection(url, username, password);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
-}
+3）首先对连接的 java 文件进行编译；
+
+```shell
+javac -d . MySQLConnection.java
 ```
 
 #### 在 MySQL 实例中插入数据
+
+1）修改 Insert.java 代码如下：
 
 ```java
 import java.sql.Connection;
@@ -247,12 +249,10 @@ public class Insert {
         String sql = "INSERT INTO employee VALUES";
         PreparedStatement psmt = connection.prepareStatement("");
         StringBuffer sb = new StringBuffer();
-        sb.append("(").append(10001).append(",").append("'Georgi'").append(",").append(48).append("),");
-        sb.append("(").append(10002).append(",").append("'Bezalel'").append(",").append(21).append("),");
-        sb.append("(").append(10003).append(",").append("'Parto'").append(",").append(33).append("),");
-        sb.append("(").append(10004).append(",").append("'Chirstian'").append(",").append(40).append("),");
-        sb.append("(").append(10005).append(",").append("'Kyoichi'").append(",").append(23).append("),");
-        sb.append("(").append(10006).append(",").append("'Anneke'").append(",").append(19).append("),");
+        //sb.append("(").append(20001).append(",").append("'Quincy'").append(",").append(30).append("),");
+        sb.append("(").append(20004).append(",").append("'Quincy'").append(",").append(30).append("),");
+        sb.append("(").append(20005).append(",").append("'Newton'").append(",").append(31).append("),");
+        sb.append("(").append(20006).append(",").append("'Dan'").append(",").append(32).append("),");
 
         sb.deleteCharAt(sb.length() - 1);
         sql = sql + sb.toString();
@@ -263,8 +263,25 @@ public class Insert {
     }
 }
 ```
+2）对插入的 java 进行编译；
+
+```shell
+javac -d . Insert.java
+```
+
+3）运行 Insert 类的代码可以将数据插入；
+
+```shell
+
+java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
+```
+
+4）插入操作截图：
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/8bd056fb349bf57f152591728d2044c9-0)
 
 #### 从 MySQL 实例中查询数据
+
+1）修改 Select.java 查询代码如下：
 
 ```java
 import java.sql.Connection;
@@ -275,7 +292,7 @@ import java.sql.SQLException;
 public class Select {
     private static String url = "jdbc:mysql://localhost:3306/company?useUnicode=true&characterEncoding=utf-8&useSSL=false";
     private static String username = "root";
-    private static String password = "admin";
+    private static String password = "";
 
     public static void main(String[] args) throws SQLException {
         select();
@@ -285,26 +302,42 @@ public class Select {
         MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
 
         Connection connection = mysqlConnection.getConnection();
-        String sql = "select * from employee";
+        String sql = "SELECT empno,ename  FROM employee";
         PreparedStatement psmt = connection.prepareStatement(sql);
         ResultSet rs = psmt.executeQuery();
         System.out.println("----------------------------------------------------------------------");
-        System.out.println("empno \t ename \t age");
+        //System.out.println("empno \t ename \t age");
+        System.out.println("empno \t ename \t ");
         System.out.println("----------------------------------------------------------------------");
         while(rs.next()){
-            Integer empno = rs.getInt("emp_no");
+            Integer empno = rs.getInt("empno");
             String ename = rs.getString("ename");
-            Integer age = rs.getInt("age");
-
-            System.out.println(empno + "\t" + ename + "\t" + age);
+            //Integer age = rs.getInt("age");
+            //System.out.println(empno + "\t" + ename + "\t" + age);
+            System.out.println(empno + "\t" + ename + "\t") ;
         }
         connection.close();
     }
 }
 ```
+2）对查询的 java 文件进行编译；
+
+```shell
+javac -d . Select.java
+```
+
+3）运行 Select 类的代码；
+
+```shell
+java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
+```
+
+4）查询截图：
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/b45914dd6398ff798b23b6896b2c8e3f-0)
 
 #### 在 MySQL 实例中更新数据
 
+1）修改 Update 代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -314,7 +347,7 @@ import java.sql.SQLException;
 public class Update {
     private static String url = "jdbc:mysql://localhost:3306/company?useUnicode=true&characterEncoding=utf-8&useSSL=false";
     private static String username = "root";
-    private static String password = "admin";
+    private static String password = "";
 
     public static void main(String[] args) throws SQLException {
         update();
@@ -324,19 +357,42 @@ public class Update {
         MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
 
         Connection connection = mysqlConnection.getConnection();
-        String sql = "update employee set age = ? where empno = ?";
+        //String sql = "update employee set  = ? where empno = ?";
+        String sql = "update employee set ename = ? where empno = ?";
         PreparedStatement psmt = connection.prepareStatement(sql);
-        psmt.setInt(1, 37);
+        //psmt.setInt(1, 49);
+        psmt.setString(1, "Georgi_2");
         psmt.setInt(2, 10001);
         psmt.execute();
 
         connection.close();
     }
 }
+2）对更新的 java 文件进行编译；
+
+```shell
+javac -d . Update.java
 ```
+
+3）运行 Update 类代码；
+
+```shell
+java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Update
+```
+
+4）查询确认10001雇员的名字已经被更改为 Georgi_2 ；
+
+```shell
+java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
+```
+
+5）更新操作截图：
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/607ff9eaed36b9b923eed207d24ac01d-0)
+
 
 #### 在 MySQL 实例中删除数据
 
+1）修改 Delete.java 代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -358,12 +414,33 @@ public class Delete {
         Connection connection = mysqlConnection.getConnection();
         String sql = "delete from employee where empno = ?";
         PreparedStatement psmt = connection.prepareStatement(sql);
-        psmt.setInt(1, 10006);
+        //psmt.setInt(1, 10006);
+        psmt.setInt(1, 10001);
         psmt.execute();
         connection.close();
     }
 }
 ```
+2）对删除的 java 文件进行编译；
+
+```shell
+javac -d . Delete.java
+```
+
+3）运行 Delete 类的代码；
+
+```shell
+java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Delete
+```
+
+4）查询确认 empno 为 10001 的雇员信息已经被删除；
+
+```shell
+java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
+```
+
+5）删除操作截图：
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/38b7cbba8d8587625456b271b2cec2c4-0)
 
 ## 总结
 
