@@ -33,6 +33,34 @@ su - sdbadmin
 >
 >用户 sdbadmin 的密码为 sdbadmin
 
+#### 查看巨杉数据库版本
+
+查看 SequoiaDB 巨杉数据库引擎版本
+
+```
+sequoiadb --version
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1d1b4057ef81bc03b825926d3071183a)
+
+## 查看节点启动列表
+
+查看 SequoiaDB 巨杉数据库引擎节点列表
+
+```
+sdblist 
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3ebdc835c21b5685d858918d25a9f372)
+
+>Note:
+>
+>如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
+
 ## 使用 MySQL shell 进行操作
 
 1）登录 MySQL shell；
