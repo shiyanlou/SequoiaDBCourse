@@ -24,20 +24,8 @@ enable_checker: true
 #### 实验环境
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
-## 检查服务状态
 
-1）切换至 root 用户，在 `[sudo] password for shiyanlou:` 后输入当前用户的密码
-```
-sudo su
-```
-> Note:
-> 当前用户的密码在右侧工具栏 [SSH直连]
-
-2）检查 SequoiaSQL-MySQL 实例服务是否可用
-```
- service sequoiasql-mysql status
-```
-#### 切换到 sdbadmin 用户
+## 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin
 
@@ -61,13 +49,14 @@ sequoiadb --version
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1d1b4057ef81bc03b825926d3071183a)
 
-## 查看节点启动列表
+## 查看服务节点情况
 
-查看 SequoiaDB 巨杉数据库引擎节点列表。
+#### 查看 SequoiaDB 巨杉数据库引擎节点列表
 
 ```
 sdblist 
 ```
+
 
 操作截图：
 
@@ -76,6 +65,16 @@ sdblist
 >Note:
 >
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
+
+#### 查看 MySQL 实例服务状态
+
+```shell
+ /opt/sequoiasql/mysql/bin/sdb_sql_ctl status
+```
+
+>Note:
+>
+>如果 PID 显示为空，请稍等初始化完成并重试该步骤
 
 ## 使用 MySQL shell 进行操作
 
