@@ -1,6 +1,6 @@
 ---
 show: step
-version: 1.0 
+version: 2.0 
 ---
 
 ## 课程介绍
@@ -10,7 +10,7 @@ version: 1.0
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
-本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中SequoiaSQL-SparkSQL 数据库实例包括2个 worker 节点，SequoiaDB 巨杉数据库包括1个引擎协调节点，1个编目节点与3个数据节点。
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中SequoiaSQL-SparkSQL 数据库实例包括 2 个 worker 节点，SequoiaDB 巨杉数据库包括 1 个引擎协调节点，1 个编目节点与 3 个数据节点。
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/f94f233be5f5d42622a2f29ec0c30c1f)
 
@@ -25,7 +25,7 @@ version: 1.0
 #### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-SparkSQL 实例的操作系统用户为 sdbadmin。
-```
+```shell
 su - sdbadmin
 ```
 >Note:
@@ -36,7 +36,7 @@ su - sdbadmin
 
 查看 SequoiaDB 巨杉数据库引擎版本
 
-```
+```shell
 sequoiadb --version
 ```
 
@@ -48,7 +48,7 @@ sequoiadb --version
 
 查看 SequoiaDB 巨杉数据库引擎节点列表
 
-```
+```shell
 sdblist 
 ```
 
@@ -58,10 +58,10 @@ sdblist
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
+>如果显示的节点数量少于上图中的数量，请稍等初始化完成并重试该步骤
 
 检查 SparkSQL 实例
-```
+```shell
 jps
 ```
 
@@ -74,7 +74,7 @@ jps
 进入 SequoiaDB Shell，在 SequoiaDB 中创建集合空间 company，集合 employee，存储 SparkSQL 操作的数据。
 
 1）使用 Linux 命令行进入 SequoiaDB Shell；
-```
+```shell
 sdb
 ```
 
@@ -100,7 +100,7 @@ db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 }, "ShardingType
 ```
 
 6）退出 SequoiaDB Shell；
-```
+```javascript
 quit ;
 ```
 
@@ -111,13 +111,13 @@ quit ;
 
 1）使用 Beeline 客户端连接 SparkSQL 实例服务；
 
-```
+```shell
 /opt/spark/bin/beeline -u 'jdbc:hive2://localhost:10000'
 ```
 
 2）在 SparkSQL 实例中创建数据库 company，并切换至company库；
 
-```
+```sql
 create database company ;
 use company ;
 ```
@@ -155,10 +155,10 @@ INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 
 #### 查询关联表插入数据
 
-使用 SparkSQL 实例查询员工平均年龄。
+使用 SparkSQL 实例查询员工年龄为20至24之间的记录。
 
 ```sql
-SELECT avg(age) FROM employee ;
+SELECT * FROM employee  WHERE age BETWEEN  20 AND 24;
 ```
 
 操作截图：
@@ -190,6 +190,12 @@ SELECT * FROM employee_bak ;
 操作截图：
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9b2f6201953abb8679f52b5d3e02ffc1)
+
+退出 SparkSQL 的客户端
+
+```sql 
+0: jdbc:hive2://localhost:10000> !q
+```
 
 ## 总结
 
