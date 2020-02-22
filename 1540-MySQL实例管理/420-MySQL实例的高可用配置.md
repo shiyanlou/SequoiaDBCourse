@@ -6,7 +6,9 @@ enable_checker: true
 
 # MySQL 实例的高可用配置
 
+
 ## 课程介绍
+
 
 SequoiaSQL-MySQL 的架构使集群中的多个 MySQL 实例均为主机模式，都可对外提供读写服务。由于各实例的元数据均只存储在该实例本身，SequoiaSQL-MySQL 提供了元数据同步工具，用来保证 MySQL 服务的高可用。当一个 MySQL 实例退出后，连接该实例的应用可以切换到其它实例，获得对等的读写服务。  
 
