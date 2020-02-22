@@ -1,6 +1,7 @@
 ---
 show: step
-version: 2.0 
+version: 10.0
+enable_checker: true
 ---
 
 ## 课程介绍
