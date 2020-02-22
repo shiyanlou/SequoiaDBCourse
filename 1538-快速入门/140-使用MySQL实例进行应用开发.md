@@ -6,6 +6,7 @@ enable_checker: true
 
 # 使用MySQL实例进行应用开发
 
+
 ## 课程介绍
 
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他 MySQL 语法操作，最后展示如何使用 MySQL 的 JAVA 驱动对数据进行 CRUD 操作。
@@ -23,12 +24,15 @@ enable_checker: true
 #### 实验环境
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
-## 切换用户
 
-部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
+## 切换到 sdbadmin 用户
+
+部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin
+
 ```shell
 su - sdbadmin
 ```
+
 >Note:
 >
 >用户 sdbadmin 的密码为 sdbadmin
@@ -45,13 +49,14 @@ sequoiadb --version
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1d1b4057ef81bc03b825926d3071183a)
 
-## 查看节点启动列表
+## 查看服务状态
 
-查看 SequoiaDB 巨杉数据库引擎节点列表
+#### 查看 SequoiaDB 巨杉数据库引擎节点列表
 
 ```
 sdblist 
 ```
+
 
 操作截图：
 
@@ -60,6 +65,16 @@ sdblist
 >Note:
 >
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
+
+#### 查看 MySQL 实例是否已经启动
+
+```shell
+ /opt/sequoiasql/mysql/bin/sdb_sql_ctl status
+```
+
+>Note:
+>
+>如果 PID 显示为空，请稍等初始化完成并重试该步骤
 
 ## 使用 MySQL shell 进行操作
 
