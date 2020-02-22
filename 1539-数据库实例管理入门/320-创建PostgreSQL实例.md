@@ -19,48 +19,41 @@ SequoiaDB 巨杉数据库支持创建 PostgreSQL 实例，完全兼容PostgreSQL
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
 #### 实验环境
-课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
+课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-PostgreSQL 实例均为 3.4 版本。
 
 
 
-##  安装 SequoiaSQL-MySQL 实例程序
-安装 SequoiaSQL-MySQL 实例程序需要 root 系统用户，root 用户密码需用通过重置的方式获取。
+##  安装 SequoiaSQL-PostgreSQL 实例程序
+安装 SequoiaSQL-PostgreSQL 实例程序需要 root 系统用户，程序已经提前放置在 /home/shiyanlou/sequoiadb-3.4 目录。
 
-#### 获取 root 密码
-1）点击右侧工具栏的 “SSH 直连” 链接即可弹出shiyanlou的用户密码；
-
-2）使用系统用户 shiyanlou 重置 root 密码；
-```shell
-sudo passwd root
+1）切换至 root 用户，在 `[sudo] password for shiyanlou:` 后输入当前用户的密码
 ```
-3）切换到 root 用户；
-```shell
-su 
+sudo su
 ```
-4）解压安装包；
-```shell
-tar -zxvf sequoiadb-3.4-linux_x86_64.tar.gz
-```
+> Note:
+> 当前用户的密码在右侧工具栏 [SSH直连]
 
-5）进入解压目录；
-```shell
-cd sequoiadb-3.4
-```
 
-6）设置 SequoiaSQL-PostgreSQL 实例程序权限为可执行；
-```shell
-chmod +x sequoiasql-postgresql-3.4-linux_x86_64-installer.run  
-```
-6）安装 SequoiaSQL-MySQL 实例；
+2）进入软件包放置目录；
 
 ```shell
-./sequoiasql-postgresql-3.4-linux_x86_64-installer.run --mode text
+cd /home/shiyanlou/sequoiadb-3.4
 ```
 
-安装步骤选择说明请参考：
+3）设置 SequoiaSQL-PostgreSQL 实例程序权限为可执行；
+```shell
+chmod +x sequoiasql-postgresql-3.4-x86_64-installer.run  
+```
+4）安装 SequoiaSQL-MySQL 实例；
+
+```shell
+./sequoiasql-postgresql-3.4-x86_64-installer.run   --mode text
+```
+
+安装步骤选择说明请参考（本示例安装仅使用默认选择）：
 * [SequoiaSQL-PostgreSQL 实例安装向导说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519628019-edition_id-304)
 
-## 4 创建 PostgreSQL 实例
+## 创建 PostgreSQL 实例
 
 1）切换 sdbadmin 用户；
 
@@ -74,67 +67,21 @@ su - sdbadmin
 cd /opt/sequoiasql/postgresql
 ```
 
-3）查看 PostgreSQL 实例情况；
+
+3）创建 PostgreSQL 实例；
+```
+bin/sdb_sql_ctl addinst myinst -D database/5432/
+```
+
+4）启动 PostgreSQL 实例；
 
 ```
-./bin/sdb_sql_ctl status
-```
-
-预期输出：
-INSTANCE   PID        SVCNAME    SQLDATA                                  SQLLOG                                  
-Total: 0; Run: 0
-没有实例
-
-4）创建 PostgreSQL 实例；
-```
-./bin/sdb_sql_ctl addinst myinst -D database/5432/
+bin/sdb_sql_ctl start myinst
 ```
 
 5）检查创建的实例状态；
 ```
-./sdb_sql_ctl status
-```
-
-6）如果未展示，启动 PostgreSQL 实例；
-
-```
-./bin/sdb_sql_ctl start myinst
-```
-
-7）检查创建的实例状态；
-```
-./sdb_sql_ctl status
-```
-
-## 创建数据库及配置实例
-
-1）创建 company 数据库实例；
-
-```
-./sdb_sql_ctl createdb company myinst
-```
-
-2）进入 PostgreSQL shell；
-
-```
-./bin/psql -p 5432 company
-```
-
-3）加载SequoiaDB连接驱动；
-
-```
-create extension sdb_fdw;
-```
-
-4）配置与SequoiaDB连接参数；
-
-```
-pgsdb=# CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw OPTIONS(address '127.0.0.1', service '11810', preferedinstance 'A', transaction 'on');
-```
-
-5）退出 PostgreSQL shell；
-```
-\q
+bin/sdb_sql_ctl status
 ```
 
 ## 创建域、集合空间、集合
@@ -175,7 +122,6 @@ db.company.employee.insert ({ "empno" : 1 , "ename" : "Georgi" , "age" : 48 }) ;
 db.company.employee.insert ({ "empno" : 2 , "ename" : "Bezalel" , "age" : 21 }) ;
 ```
 
-
 7）退出 SequoiaDB Shell ；
 
 ```
@@ -183,13 +129,34 @@ quit ;
 ```
 
 
+## 创建数据库及配置实例
 
-## 关联 PostgreSQL 实例关联 SequoiaDB 的集合空间与集合
-1）进入 PostgreSQL Shell 命令行：
+1）创建 company 数据库实例；
+
 ```
-./bin/psql -p 5432 company
+bin/sdb_sql_ctl createdb company myinst
 ```
-2）创建 company 数据库外表；
+
+2）进入 PostgreSQL shell；
+
+```shell
+bin/psql -p 5432 company
+```
+
+3）加载SequoiaDB连接驱动；
+
+```sql
+create extension sdb_fdw;
+```
+
+4）配置与SequoiaDB连接参数；
+
+```sql
+CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw 
+OPTIONS(address '127.0.0.1', service '11810', preferedinstance 'A', transaction 'on');
+```
+
+5）创建 company 数据库外表；
 
 ```
 CREATE FOREIGN TABLE employee (
@@ -199,6 +166,9 @@ CREATE FOREIGN TABLE employee (
 ) SERVER sdb_server 
   OPTIONS ( collectionspace 'company', collection 'employee', decimal 'on') ;
 ```
+
+
+
 
 ## 在 PostgreSQL 实例中对数据进行操作
 
