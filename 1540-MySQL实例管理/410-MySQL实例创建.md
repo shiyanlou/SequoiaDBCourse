@@ -188,4 +188,4 @@ SELECT * FROM employee ;
 
 
 ## 总结
-通过本课程，我们学习了在 SequoiaSQL-MySQL 实例上创建数据库company和数据表employee，并在数据表上进行了写入和查询操作；
+通过本课程，我们学习了在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并在数据表上进行了写入和查询操作；
