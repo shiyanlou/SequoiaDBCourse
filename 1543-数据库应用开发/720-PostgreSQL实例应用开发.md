@@ -1,6 +1,6 @@
 ---
 show: step
-version: 1.0 
+version: 2.0 
 ---
 
 ## 课程介绍
@@ -10,7 +10,7 @@ version: 1.0
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
-本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SequoiaSQL-PostgreSQL 数据库实例节点、1个引擎协调节点，1个编目节点与3个数据节点。
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括： 1 个 SequoiaSQL-PostgreSQL 数据库实例节点、1 个引擎协调节点，1 个编目节点与3个数据节点。
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/ef825173c9cd86053b61306ca6df9c65)
 
@@ -25,7 +25,8 @@ version: 1.0
 #### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-PostgreSQL 实例的操作系统用户为 sdbadmin。
-```
+
+```shell
 su - sdbadmin
 ```
 >Note:
@@ -36,7 +37,7 @@ su - sdbadmin
 
 查看 SequoiaDB 巨杉数据库引擎版本
 
-```
+```shell
 sequoiadb --version
 ```
 
@@ -50,7 +51,7 @@ sequoiadb --version
 
 查看 SequoiaDB 巨杉数据库引擎节点列表
 
-```
+```shell
 sdblist 
 ```
 
@@ -60,14 +61,14 @@ sdblist
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
+>如果显示的节点数量少于上图中的数量，请稍等初始化完成并重试该步骤
 
 
 #### 检查实例状态
 
 查看 PostgreSQL 实例状态。
 
-```
+```shell
 /opt/sequoiasql/postgresql/bin/sdb_sql_ctl status
 ```
 
@@ -79,7 +80,7 @@ sdblist
 1）在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
 
 以 sdbadmin 用户登录，在 PostgreSQL 实例创建数据库 company；
-```
+```shell
 /opt/sequoiasql/postgresql/bin/sdb_sql_ctl createdb company myinst
 ```
 
@@ -88,7 +89,7 @@ sdblist
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/41b0823324fdd49a4c108c44bbf919df)
 
 2）查看数据库；
-```
+```shell
 /opt/sequoiasql/postgresql/bin/psql -l
 ```
 
@@ -110,6 +111,7 @@ CREATE EXTENSION sdb_fdw ;
 
 #### 配置与 SequoiaDB 连接参数
 在 PostgreSQL 实例中配置 SequoiaDB 连接参数：
+
 ```sql
 CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw 
     OPTIONS (address '127.0.0.1', service '11810', user '', password '', preferedinstance 'A', transaction 'on' ) ;
@@ -127,14 +129,19 @@ CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw
 > - token 设置加密口令 
 > - cipherfile 设置加密文件，默认为 ./passwd 
 
-## 关联集合空间、集合
+退出 PostgreSQL 客户端
+```sql
+company=#\q
+```
+
+## 创建关联集合空间、集合
 在 PostgreSQL 实例中关联 SequoiaDB 数据库引擎中的集合空间、集合。
 
 #### SequoiaDB 数据库引擎中创建集合
 进入 SequoiaDB Shell，在 SequoiaDB 巨杉数据库引擎中创建集合空间 company，集合 employee。
 
 1）通过 Linux 命令行进入 SequoiaDB Shell；
-```
+```shell
 sdb
 ```
 2）通过 JavaScript 语言连接协调节点，获取数据库连接；
@@ -158,7 +165,7 @@ db.company.createCL ("employee", { "ShardingKey" : { "_id" : 1} , "ShardingType"
 ```
 6）退出 SequoiaDB Shell；
 
-```
+```javascript
 quit ;
 ```
 
@@ -167,6 +174,13 @@ quit ;
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/283c4851aaf4bb04fea3f47408243b03)
 
 #### 实例与数据引擎中集合关联
+
+登录到 PostgreSQL 实例 Shell；
+
+```shell
+/opt/sequoiasql/postgresql/bin/psql -p 5432 company
+```
+
 将 PostgreSQL 实例中的外表并与 SequoiaDB 中的集合空间、集合关联。
 
 ```sql
@@ -178,6 +192,14 @@ CREATE FOREIGN TABLE employee (
   SERVER sdb_server
   OPTIONS ( collectionspace 'company', collection 'employee', decimal 'on' ) ;
 ```
+
+检查 PostgreSQL 中创建的表
+```sql
+company=#\d
+```
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/f69ea401a8a33279cd6e6eaf6882cb74-0)
 
 >Note:
 >
@@ -219,13 +241,13 @@ SELECT * FROM employee WHERE age > 20 AND age < 30 ;
 
 1）更新 PostgreSQL 实例外表 employee 中的数据，将 empno 为10001的记录 age 更改为34；
 
-```SQL
+```sql
 UPDATE employee SET age=34 WHERE empno = 10001 ;
 ```
 
 2）查询数据结果确认 empno 为10001的记录更新是否成功：
 
-```SQL
+```sql
 SELECT * FROM employee ;
 ```
 
@@ -235,13 +257,18 @@ SELECT * FROM employee ;
 
 #### 删除关联表中的数据
 1）删除 PostgreSQL 实例外表 employee 中的数据，将 empno 为10006的记录删除；
-```SQL
+```sql
 DELETE FROM employee WHERE empno = 10006 ;
 ```
 
 2）查询数据结果确认 empno 为10006的记录是否成功删除；
-```SQL
+```sql
 SELECT * FROM employee ;
+```
+退出 PostgreSQL 客户端
+
+```sql
+company=#\q
 ```
 
 操作截图：
@@ -252,43 +279,29 @@ SELECT * FROM employee ;
 通过 PostgreSQL 实例查看执行计划及通过过滤条件查看 SequoiaDB 执行计划。
 
 #### 索引使用
-1）进入 SequoiaDB Shell，在 SequoiaDB 数据库引擎集合 employee 的 ename 字段上创建索引；
-```javascript
-db.company.employee.createIndex ("idx_ename", { ename : 1 }, false) ;  
-```
+1）通过 Linux 命令行进入 SequoiaDB Shell；
 
-2）在 PostgreSQL 实例查看表 employee 查询语句执行计划；
-```SQL
-EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6c240851d0dbd8d67c6a5ecfbd2646bc)
-
-3）进入 SequoiaDB Shell，根据上述输出中的Filter，在 SequoiaDB 中显示集合 employee 查询语句执行计划。
-
-
-
-
-通过 Linux 命令行进入 SequoiaDB Shell；
-
-```
+```shell
 sdb
 ```
 
-通过 JavaScript 语言连接协调节点，获取数据库连接；
+2）通过 JavaScript 语言连接协调节点，获取数据库连接；
 
 ```javascript
 var db = new Sdb ("localhost",11810) ;
 ```
 
-查看执行计划；
+3）进入 SequoiaDB Shell，在 SequoiaDB 数据库引擎集合 employee 的 ename 字段上创建索引；
+
+```javascript
+db.company.employee.createIndex ("idx_ename", { ename : 1 }, false) ;  
+```
+
+4）查看执行计划；
 
 ```javascript
 db.company.employee.find ({ "ename": { "$et": "Georgi" } }).explain() ;
 ```
-
 
 操作截图：
 
@@ -300,44 +313,53 @@ db.company.employee.find ({ "ename": { "$et": "Georgi" } }).explain() ;
 quit ;
 ```
 
+5）在 PostgreSQL 实例查看表 employee 查询语句执行计划，看到此查询已经使用索引；
+
+```sql
+EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
+```
+
+退出 PostgreSQL 客户端
+```sql
+company=#\q
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6c240851d0dbd8d67c6a5ecfbd2646bc)
+
+
 
 ## Java 语言操作 PostgreSQL 实例中的数据
-本节内容主要用来演示 Java 语言操作 SequoiaSQL-PostgreSQL 实例中的数据，为相关开发人员提供参考。
+本节内容主要用来演示 Java 语言操作 SequoiaSQL-PostgreSQL 实例中的数据，为相关开发人员提供参考。源码已经放置在 /home/sdbadmin/source 目录下。
 
-#### 连接 PostgreSQL 实例：
+1）进入源码放置目录；
+```shell
+cd /home/sdbadmin/source/postgresql
 ```
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
-public class PostgreSQLConnection {
+2）查看 java 文件，一共5个 java 文件；
+```shell
+ls -trl
+```
 
-    private String url;
-    private String username;
-    private String password;
-    private String driver = "org.postgresql.Driver";
+>Note：
+>
+> - PostgreSQLConnection.java   连接数据库类
+> - Insert.java                 写入数据类
+> - Select.java                 查询数据类
+> - Update.java                 更新数据类
+> - Delete.java                 删除数据类
 
-    public PostgreSQLConnection(String url, String username, String password){
-        this.url = url;
-        this.username = username;
-        this. password = password;
-    }
+3）首先对连接的 java 文件进行编译；
 
-    public Connection getConnection(){
-        Connection connection = null;
-        try {
-            Class.forName(driver);
-            connection = DriverManager.getConnection(url, username, password);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
-}
+```shell
+javac -d . PostgreSQLConnection.java
 ```
 
 #### 在 PostgreSQL 实例中插入数据：
-```
+1）修改 Insert.java 查询代码如下：
+```java
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -356,12 +378,10 @@ public class Insert {
         String sql = "INSERT INTO employee VALUES";
         Statement stmt = connection.createStatement();
         StringBuffer sb = new StringBuffer();
-        sb.append("(").append(10001).append(",").append("'Georgi'").append(",").append(48).append("),");
-        sb.append("(").append(10002).append(",").append("'Bezalel'").append(",").append(21).append("),");
-        sb.append("(").append(10003).append(",").append("'Parto'").append(",").append(33).append("),");
-        sb.append("(").append(10004).append(",").append("'Chirstian'").append(",").append(40).append("),");
-        sb.append("(").append(10005).append(",").append("'Kyoichi'").append(",").append(23).append("),");
-        sb.append("(").append(10006).append(",").append("'Anneke'").append(",").append(19).append("),");
+        //sb.append("(").append(30001).append(",").append("'Mike'").append(",").append(20).append("),");
+        sb.append("(").append(30004).append(",").append("'Mike'").append(",").append(20).append("),");
+        sb.append("(").append(30005).append(",").append("'Donna'").append(",").append(21).append("),");
+        sb.append("(").append(30006).append(",").append("'Jack'").append(",").append(22).append("),");
 
         sb.deleteCharAt(sb.length() - 1);
         sql = sql + sb.toString();
@@ -371,9 +391,26 @@ public class Insert {
     }
 }
 ```
+2）对插入的 java 进行编译；
+
+```shell
+javac -d . Insert.java
+```
+
+3）运行 Select 类的代码；
+
+```shell
+ java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Insert
+```
+
+4）插入操作截图：
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3ff51f3645fc34c76dd9a628438ac402-0)
+5）插入记录后查询结果如下
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/f5331a4f0e8694a5ec0a8c9227d1c282-0)
 
 #### 从 PostgreSQL 实例中查询数据：
-```
+1）修改 Select.java 查询代码如下：
+```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -395,22 +432,40 @@ public class Select {
         PreparedStatement psmt = connection.prepareStatement(sql);
         ResultSet rs = psmt.executeQuery();
         System.out.println("----------------------------------------------------------------------");
-        System.out.println("empno \t ename \t age");
+        //System.out.println("empno \t ename \t age");
+        System.out.println("empno \t  \t age");
         System.out.println("----------------------------------------------------------------------");
         while(rs.next()){
-            Integer empno = rs.getInt("emp_no");
-            String ename = rs.getString("ename");
+            Integer empno = rs.getInt("empno");
+            //String ename = rs.getString("ename");
             Integer age = rs.getInt("age");
 
-            System.out.println(empno + "\t" + ename + "\t" + age);
+            //System.out.println(empno + "\t" + ename + "\t" + age);
+            System.out.println(empno + "\t" + age + "\t" );
         }
         connection.close();
     }
 }
 ```
+2）对查询的 java 进行编译；
+
+```shell
+javac -d . Select.java
+```
+
+3）运行 Select 类的代码；
+
+```shell
+ java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Select
+```
+
+4）只查询 empno 和 age 这两个字段截图：
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0b9e6d8e24e1c26b3f4131bc51a522c7-0)
+
 
 #### 在 PostgreSQL 实例中更新数据：
-```
+1）修改 Update 代码如下：
+```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -429,17 +484,33 @@ public class Update {
         Connection connection = pgConnection.getConnection();
         String sql = "update employee set age = ? where empno = ?";
         PreparedStatement psmt = connection.prepareStatement(sql);
-        psmt.setInt(1, 37);
-        psmt.setInt(2, 10001);
+        //psmt.setInt(1, 22);
+        psmt.setInt(1, 25);
+        //psmt.setInt(2, 10003);
+        psmt.setInt(2, 10002);
         psmt.execute();
 
         connection.close();
     }
 }
 ```
+2）对查询的 java 进行编译；
+
+```shell
+javac -d . Update.java
+```
+
+3）运行 Update 类的代码；
+
+```shell
+ java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Update
+```
+
+4）更新 empno 为 10002 的 age 值：
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/768a48c689597e5f9e9061a7ba847326-0)
 
 #### 在 PostgreSQL 实例中删除数据：
-```
+```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -458,13 +529,33 @@ public class Delete {
         Connection connection = pgConnection.getConnection();
         String sql = "delete from employee where empno = ?";
         PreparedStatement psmt = connection.prepareStatement(sql);
-        psmt.setInt(1, 10006);
+        //psmt.setInt(1, 10005);
+        psmt.setInt(1, 10003);
         psmt.execute();
         connection.close();
     }
 }
 ```
+2）对删除的 java 进行编译；
 
+```shell
+javac -d . Delete.java
+```
+
+3）运行 Update 类的代码；
+
+```shell
+ java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Delete
+```
+
+4）查询确认 empno 为 10003 的雇员信息已经被删除；
+
+```shell
+ java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Select
+```
+
+5）删除 empno 值为 10003 的记录：
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/8c0e90ab58632d19c39aa2211c4ee197-0)
 
 ## 总结
 
