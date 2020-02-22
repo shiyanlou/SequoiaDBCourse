@@ -3,9 +3,8 @@ show: step
 version: 1.0
 enable_checker: true
 ---
+
 # MySQL 实例的高可用配置
-
-
 
 ## 课程介绍
 
