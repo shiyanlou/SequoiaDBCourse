@@ -1,6 +1,6 @@
 ---
 show: step
-version: 1.0
+version: 2.0
 enable_checker: true
 ---
 # 15分钟演示巨杉数据库基本操作
