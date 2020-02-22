@@ -15,7 +15,7 @@ enable_checker: true
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
-本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区三副本，其中包括：1个 SequoiaSQL-MySQL 数据库实例节点、1个 SequoiaSQL-PostgreSQL 数据库实例节点、1个 SparkSQL 实例节点、1个引擎协调节点，1个编目节点与3个数据节点。
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区三副本，其中包括：1个 SequoiaSQL-MySQL 数据库实例节点、1个 SparkSQL 实例节点、1个引擎协调节点，1个编目节点与3个数据节点。
 
 ![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
 
@@ -23,7 +23,7 @@ enable_checker: true
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
 #### 实验环境
-课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本、SequoiaDB-Spark驱动连接器版本为3.4、 SparkSQL 版本为 2.4.4。
+课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本、 SparkSQL 版本为 2.4.4。
 
 
 
