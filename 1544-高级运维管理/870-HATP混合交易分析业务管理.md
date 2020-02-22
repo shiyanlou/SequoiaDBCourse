@@ -1,16 +1,14 @@
 ---
 show: step
-version: 3.0
+version: 4.0
 enable_checker: true
 ---
-
 
 # HATP混合交易分析业务管理
 
 ## 课程介绍
 
 本课程主要介绍 SequoiaDB 巨杉数据库的 HTAP 能力。通过连接不同的分区副本，实现 OLTP 与 OLAP 业务资源隔离，进而提高整体性能。
-
 
 #### 请点击右侧选择使用的实验环境
 
