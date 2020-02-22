@@ -1,6 +1,6 @@
 ---
 show: step
-version: 1.0
+version: 2.0
 enable_checker: true
 ---
 # MySQL 实例事务管理
@@ -8,8 +8,7 @@ enable_checker: true
 
 ## 课程介绍
 
-事务主要用于处理操作量大，复杂度高的数据。比如说，在人员管理系统中，你删除一个人员，你既需要删除人员的基本资料，也要删除和该人员相关的信息，如信箱，文章等等，这样，这些数据库操作语句就构成一个事务。
-本课程主要讲解 MySQL 事务的基本操作。
+事务主要用于处理操作量大，复杂度高的数据。比如说，在人员管理系统中，你删除一个人员，你既需要删除人员的基本资料，也要删除和该人员相关的信息，如信箱，文章等等，这样，这些数据库操作语句就构成一个事务。本课程主要讲解 MySQL 事务的基本操作。
 
 #### 请点击右侧选择使用的实验环境
 
@@ -24,6 +23,7 @@ enable_checker: true
 - 持久性：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。
 
 #### 实验环境
+
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
 
@@ -33,17 +33,18 @@ enable_checker: true
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
 
-```
+```shell
 su - sdbadmin
 ```
 >Note:
 >
->用户 sdbadmin 的密码为 sdbadmin
+>用户 sdbadmin 的密码为 sdbadmin。
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本
-```
+查看 SequoiaDB 巨杉数据库引擎版本；
+
+```shell
 sequoiadb --version
 ```
 操作截图：
@@ -52,13 +53,14 @@ sequoiadb --version
 
 #### 查看节点启动列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表
+查看 SequoiaDB 巨杉数据库引擎节点列表；
 
-```
+```shell
 sdblist 
 ```
 
 操作截图:  
+
 ![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/02fcaa58ac27e91688ead137fa748d6e)
 
 
@@ -68,20 +70,24 @@ sdblist
 
 #### 检查 MySQL 实例进程
 
-查看 MySQL 数据库实例
-```
+查看 MySQL 数据库实例；
+
+```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
 
 操作截图:
+
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/92856e2e05fee65495cb876332cd34c6)
 
-查看数据库实例进程
-```
+查看数据库实例进程；
+
+```shell
 ps -elf | grep mysql
 ```
 
 操作截图:
+
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/41b259ef9f2b7f16466b3d89606998c4)
 
 
@@ -93,7 +99,7 @@ ps -elf | grep mysql
 
 #### 登录 MySQL shell 
 
-```
+```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
@@ -105,6 +111,7 @@ USE company ;
 ```
 
 #### 创建数据表并初始化数据
+
 在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎，包含主键或唯一键的表将会默认以唯一键作为分区键，进行自动分区。
 
 
@@ -113,13 +120,16 @@ USE company ;
 ```sql
 CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
 ```
+
 2）插入数据；
+
 ```sql
 INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
 INSERT INTO employee (ename, age) VALUES ("Alice", 21) ;
 ```
 
 ## 事务提交
+
 SequoiaDB 巨杉数据库的 MySQL 数据库实例支持完整的事务操作能力，本小节将验证其基本的回滚与提交能力。
 
 #### 执行事务提交操作
@@ -144,14 +154,14 @@ COMMIT ;
 
 #### 事务提交操作的结果验证
 
-查询数据，验证事务提交的数据结果，是否写入与更新成功；
-
 ```sql
+##查询数据，验证事务提交的数据结果，是否写入与更新成功；
 SELECT * FROM employee ;
 ```
 
 操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/f78e6cb02f4a2adb0a8badacfca821db)
+
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/e17c36ffb3f0e4c28b0c419dae458336-0)
 
 
 
@@ -184,14 +194,14 @@ ROLLBACK ;
 
 #### 事务回滚操作的结果验证
 
-查询数据， 验证事务回滚后的数据结果
-
 ```sql
+##查询数据， 验证事务回滚后的数据结果
 SELECT * FROM employee ;
 ```
 
 操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/a3ae2f29c1ed07dabef88e9fc9c4429a)
+
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/e17c36ffb3f0e4c28b0c419dae458336-0)
 
 > 如操作截图显示，雇员 Janey 的信息未写入到数据库；而 Ben 的年龄也没有更新。
 
