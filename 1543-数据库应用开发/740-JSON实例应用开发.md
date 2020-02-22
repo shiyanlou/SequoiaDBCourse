@@ -1,6 +1,6 @@
 ---
 show: step
-version: 1.0 
+version: 2.0 
 ---
 
 ## 课程介绍
@@ -25,7 +25,8 @@ version: 1.0
 #### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库的操作系统用户为 sdbadmin。
-```
+
+```shell
 su - sdbadmin
 ```
 >Note:
@@ -36,7 +37,7 @@ su - sdbadmin
 
 查看 SequoiaDB 巨杉数据库引擎版本
 
-```
+```shell
 sequoiadb --version
 ```
 
@@ -48,7 +49,7 @@ sequoiadb --version
 
 查看 SequoiaDB 巨杉数据库引擎节点列表
 
-```
+```shell
 sdblist 
 ```
 
@@ -58,13 +59,13 @@ sdblist
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
+>如果显示的节点数量少于上图中的数量，请稍等初始化完成并重试该步骤
 
 ## 创建域、集合空间、集合
 
 1）通过 Linux 命令行进入 SequoiaDB Shell；
 
-```
+```shell
 sdb
 ```
 
@@ -92,10 +93,6 @@ db.createCS ("company", { Domain : "company_domain" }) ;
 db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
 ```
 
-6）退出 SequoiaDB Shell；
-```
-quit ;
-```
 
 >Note:
 >
@@ -156,7 +153,7 @@ db.company.employee.remove ( { "empno" : 10006 } ) ;
 2）查询数据结果确认 empno 为10006的记录是否成功删除；
 
 ```javascript
-db.company.employee.find () ;
+db.company.employee.find ({},{"empno":""}) ;
 ```
 
 操作截图：
@@ -183,6 +180,12 @@ db.company.employee.listIndexes () ;
 
 ```javascript
 db.company.employee.find ( { "ename" : "Georgi" } ).explain() ;
+```
+
+退出 SequoiaDB Shell；
+
+```javascript
+quit ;
 ```
 
 操作截图：
