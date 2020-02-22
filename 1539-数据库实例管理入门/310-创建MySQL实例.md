@@ -7,7 +7,7 @@ enable_checker: true
 
 
 ## 课程介绍
-本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎的环境中，安装部署 SequoiaSQL-MySQL 实例，并进行简单的使用。
+本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎的环境中，安装部署 SequoiaSQL-MySQL 实例，并进行简单的使用验证安装环境。
 
 #### MySQL 实例简介
 MySQL 是一款开源的关系型数据库管理系统，也是目前最流行的关系型数据库管理系统之一，支持标准的 SQL 语言。 SequoiaDB 支持创建MySQL实例，完全兼容MySQL语法和协议，用户可以使用SQL语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他MySQL语法操作。
@@ -25,39 +25,32 @@ MySQL 是一款开源的关系型数据库管理系统，也是目前最流行�
 
 
 ##  安装 SequoiaSQL-MySQL 实例程序
-安装 SequoiaSQL-MySQL 实例程序需要 root 系统用户，root 用户密码需用通过重置的方式获取。
+安装 SequoiaSQL-MySQL 实例程序需要 root 系统用户，程序已经提前放置在 /home/shiyanlou/sequoiadb-3.4 目录。
 
-#### 获取 root 密码
-1）点击右侧工具栏的 “SSH 直连” 链接即可弹出shiyanlou的用户密码；
+1）切换至 root 用户，在 `[sudo] password for shiyanlou:` 后输入当前用户的密码
+```
+sudo su
+```
+> Note:
+> 当前用户的密码在右侧工具栏 [SSH直连]
 
-2）使用系统用户 shiyanlou 重置 root 密码；
+2）进入软件包放置目录；
 ```shell
-sudo passwd root
-```
-3）切换到 root 用户；
-```
-su 
-```
-4）解压安装包；
-```
-tar -zxvf sequoiadb-3.4-linux_x86_64.tar.gz
+cd /home/shiyanlou/sequoiadb-3.4
 ```
 
-5）进入解压目录；
-```shell
-cd sequoiadb-3.4
-```
-
-6）设置 SequoiaSQL-MySQL 实例程序权限为可执行；
+3）设置 SequoiaSQL-MySQL 实例程序权限为可执行；
 ```
 chmod +x sequoiasql-mysql-3.4-linux_x86_64-installer.run  
 ```
-6）安装 SequoiaSQL-MySQL 实例；
+4）安装 SequoiaSQL-MySQL 实例；
+
 ```
 ./sequoiasql-mysql-3.4-linux_x86_64-installer.run --mode text
 ```
-安装步骤选择说明请参考：
+安装步骤选择说明请参考（本示例安装仅使用默认选择）：
 * [SequoiaSQL-MySQL 实例安装向导说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1521595270-edition_id-0)
+
 
 ## 创建 MySQL 实例
 
@@ -73,24 +66,13 @@ su - sdbadmin
 cd /opt/sequoiasql/mysql
 ```
 
-3）查看MySQL实例情况；
-
-```
-bin/sdb_sql_ctl status
-```
-
-预期输出：
-INSTANCE   PID        SVCNAME    SQLDATA                                  SQLLOG                                  
-Total: 0; Run: 0
-没有实例
-
-4）创建数据库实例；
+3）创建数据库实例；
 
 ```
 bin/sdb_sql_ctl addinst myinst -D database/3306/
 ```
 
-5）查看实例；
+4）查看实例；
 
 ```
 bin/sdb_sql_ctl status
@@ -103,6 +85,7 @@ Total: 1; Run: 1
 
 ## 查看配置文件
 
+实例数据目录下的配置文件 auto.cnf，在[mysqld]下添加/更改对应配置项。
 
 1）配置文件位置
 ```
@@ -129,7 +112,7 @@ Note:
 
 ## 创建数据库及数据表
 
-进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
+进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 实例是否安装成功。
 
 #### 登录 MySQL shell 
 
@@ -175,23 +158,23 @@ sdb
 ```
 2）使用javascript 语法连接协调节点，获取数据库连接；
 ```
-var db=new Sdb("localhost", 11810) ;
+var db=new Sdb ("localhost", 11810) ;
 ```
 
-3）查看sequoiadb中的集合信息
+3）查看存储引擎中的集合信息
 ```
-db.list(SDB_LIST_COLLECTIONS) ;
+db.list (SDB_LIST_COLLECTIONS) ;
 ```
 
 4）查找 employee 中的数据，查看是否为 SequoiaSQL-MySQL 实例中插入的数据；
 
 ```
-db.company.employee.find() ;
+db.company.employee.find () ;
 ```
 
 4）向 employee 集合中插入数据；
 ```
-db.company.employee.insert({ ename:"Ben" , age:20 }) ;
+db.company.employee.insert ( { ename : "Ben" , age : 20 } ) ;
 ```
 
 5）退出 SequoiaDB Shell
