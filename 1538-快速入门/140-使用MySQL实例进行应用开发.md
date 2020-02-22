@@ -143,7 +143,7 @@ javac -d . *.java
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ```
 
-2）查询代码如下：
+2）写入代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -248,7 +248,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Update
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
-3）查询代码如下：
+3）更新代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -297,7 +297,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Delete
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
-3）查询代码如下：
+3）删除代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
