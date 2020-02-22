@@ -4,50 +4,55 @@ version: 1.0
 enable_checker: true 
 ---
 
-# SparkSQL 实例创建与使用
 
+# SparkSQL 实例创建与使用
 
 ## 课程介绍
 
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，进行 SparkSQL 实例的最简单安装部署和数据操作。
 
 #### SparkSQL 简介
-SparkSQL 是 Spark 产品中一个组成部分，SQL 的执行引擎使用 Spark 的 RDD 和 Dataframe 实现。目前 SparkSQL 已经可以完整运行 TPC-DS99 测试，标志着 SparkSQL 在数据分析和数据处理场景上技术进一步成熟。
-SequoiaDB 巨杉数据库为 Spark 开发了 SequoiaDB for Spark 的连接器，让 Spark 支持从 SequoiaDB 中并发获取数据，再完成相应的数据计算。
-#### 知识点：
+
+SparkSQL 是 Spark 产品中一个组成部分，SQL 的执行引擎使用 Spark 的 RDD 和 Dataframe 实现。目前 SparkSQL 已经可以完整运行 TPC-DS99 测试，标志着 SparkSQL 在数据分析和数据处理场景上技术进一步成熟。SequoiaDB 巨杉数据库为 Spark 开发了 SequoiaDB for Spark 的连接器，让 Spark 支持从 SequoiaDB 中并发获取数据，再完成相应的数据计算。
+
+#### 知识点
 
 - SequoiaDB 集合空间、集合的创建
 - SparkSQL 实例的配置
 - SparkSQL 实例中操作 SequoiaDB 数据库的数据
+
 ## 切换用户及查看数据库版本
 
 #### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
-```
+
+```shell
 su - sdbadmin
 ```
+
 >Note:
 >
->用户 sdbadmin 的密码为 sdbadmin
+>用户 sdbadmin 的密码为 `sdbadmin`。
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本
+查看 SequoiaDB 巨杉数据库引擎版本；
 
-```
+```shell
 sequoiadb --version
 ```
+
 操作截图：
 
 ![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/b4082b0d6d6bdf89d229aa713a53759d)
 
 ## 查看节点启动列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表
+查看 SequoiaDB 巨杉数据库引擎节点列表；
 
-```
-sdblist 
+```shell
+sdblist
 ```
 
 操作截图：
@@ -56,46 +61,43 @@ sdblist
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
-
+>如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤。
 
 ## 安装 SparkSQL 实例
 
 #### 解压 SparkSQL 安装包
 
-
-
-
 1）检查 SparkSQL 安装包；
 
-```
+```shell
 ls -trl /home/sdbadmin/soft/
 ```
 
 ![1542-610-1](https://doc.shiyanlou.com/courses/1542/1207281/26b2e3cb004f59c9c210afadc457ee4d)
 
-2）解压 SparkSQL 安装包
+2）解压 SparkSQL 安装包；
 
-```
+```shell
 tar -zxvf /home/sdbadmin/soft/spark-2.4.4-bin-hadoop2.7.tar.gz -C /opt
 ```
 
 #### 添加驱动包
+
 1）拷贝 SequoiaDB for Spark 的连接器到 SparkSQL 的 jars 目录下；
 
-```
+```shell
 cp /opt/sequoiadb/spark/spark-sequoiadb_2.11-3.4.jar /opt/spark-2.4.4-bin-hadoop2.7/jars/
 ```
 
 2）拷贝 MySQL 驱动到 SparkSQL 的 jars 目录下；
 
-```
+```shell
 cp /home/sdbadmin/soft/mysql-jdbc.jar /opt/spark-2.4.4-bin-hadoop2.7/jars/
 ```
 
 3）拷贝 SequoiaDB 的 JAVA 驱动到 SparkSQL 的 jars 目录下；
 
-```
+```shell
 cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar /opt/spark-2.4.4-bin-hadoop2.7/jars/
 ```
 
@@ -105,26 +107,26 @@ cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar /opt/spark-2.4.4-bin-hadoop2.7/j
 
 从模板中复制一份 spark-env.sh 脚本；
 
-```
+```shell
 cp /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh.template /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh
 ```
 
 在 spark-env.sh 中设置 WORKER 数量和 MASTER 的 IP；
 
-```
-echo "SPARK_WORKER_INSTANCES=2" >> /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh 
+```shell
+echo "SPARK_WORKER_INSTANCES=2" >> /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh
 echo "SPARK_MASTER_IP=127.0.0.1" >> /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh
 ```
 
-2）创建设置元数据数据库配置文件 hive-site.xml
+2）创建设置元数据数据库配置文件 hive-site.xml；
 
-使用 vi 创建 hive-site.xml 文件
+使用 vi 创建 hive-site.xml 文件；
 
-```
+```shell
 vi /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml
 ```
 
-按 `i` 进入插入模式，输入下面的配置信息
+按 `i` 进入插入模式，输入下面的配置信息；
 
 ```xml
 <configuration>
@@ -164,8 +166,8 @@ vi /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml
 
 1）使用 Linux 命令进入 MySQL shell；
 
-```
-/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root 
+```shell
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
 ![1542-610-2](https://doc.shiyanlou.com/courses/1542/1207281/35b933f575a8668502935c2d3c26772c)
@@ -195,6 +197,7 @@ CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
 ![1542-610-5](https://doc.shiyanlou.com/courses/1542/1207281/1b51e810ab6f8ef935395d21579b503d)
 
 5）刷新权限；
+
 ```sql
 FLUSH PRIVILEGES ;
 ```
@@ -203,17 +206,17 @@ FLUSH PRIVILEGES ;
 
 #### 启动 SparkSQL 服务
 
-1） 启动 SparkSQL
+1） 启动 SparkSQL；
 
-```
+```shell
 /opt/spark-2.4.4-bin-hadoop2.7/sbin/start-all.sh
 ```
 
 ![1542-610-7](https://doc.shiyanlou.com/courses/1542/1207281/8db1588d0b54de7d2fe3dcfbcacf9d3f)
 
-2）启动 thriftserver
+2）启动 thriftserver；
 
-```
+```shell
 /opt/spark-2.4.4-bin-hadoop2.7/sbin/start-thriftserver.sh
 ```
 
@@ -223,31 +226,31 @@ FLUSH PRIVILEGES ;
 
 #### 在 SequoiaDB 中建立集合空间和集合
 
-1）使用 Linux 命令进入 SequoiaDB Shell 命令行
+1）使用 Linux 命令进入 SequoiaDB Shell 命令行；
 
-```
+```shell
 sdb
 ```
 
-2）使用 JavaScript 语法，连接协调节点，获取数据库连接。
+2）使用 JavaScript 语法，连接协调节点，获取数据库连接；
 
 ```javascript
 var db = new Sdb ( "localhost", 11810 ) ;
 ```
 
-2）创建 company_domain 逻辑域
+2）创建 company_domain 逻辑域；
 
 ```javascript
 db.createDomain ( "company_domain", ["group1", "group2", "group3"], { AutoSplit : true } ) ;
 ```
 
-3）创建 company 集合空间
+3）创建 company 集合空间；
 
 ```javascript
-db.createCS ( "company", { Domain: "company_domain" } ) ;
+db.createCS ( "company", { Domain : "company_domain" } ) ;
 ```
 
-4）创建 employee 集合
+4）创建 employee 集合；
 
 ```javascript
 db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 } , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false } ) ;
@@ -267,7 +270,7 @@ db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 } , "ShardingTyp
 
 2）创建 employee 表；
 
-创建 employee 表，并且与 SequoiaDB 中的集合 company.employee 进行关联
+创建 employee 表，并且与 SequoiaDB 中的集合 company.employee 进行关联；
 
 ```sql
 CREATE TABLE employee (
