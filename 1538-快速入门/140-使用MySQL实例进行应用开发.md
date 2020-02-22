@@ -49,7 +49,7 @@ sequoiadb --version
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1d1b4057ef81bc03b825926d3071183a)
 
-## 查看服务节点情况
+## 查看服务状态
 
 #### 查看 SequoiaDB 巨杉数据库引擎节点列表
 
@@ -66,7 +66,7 @@ sdblist
 >
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
 
-#### 查看 MySQL 实例服务状态
+#### 查看 MySQL 实例是否已经启动
 
 ```shell
  /opt/sequoiasql/mysql/bin/sdb_sql_ctl status
