@@ -42,7 +42,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本；
+查看 SequoiaDB 巨杉数据库引擎版本。
 
 ```shell
 sequoiadb --version
@@ -53,7 +53,7 @@ sequoiadb --version
 
 #### 查看节点启动列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表；
+查看 SequoiaDB 巨杉数据库引擎节点列表。
 
 ```shell
 sdblist 
@@ -66,11 +66,11 @@ sdblist
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
+>如果显示的节点数量与预期不符，请稍等节点初始化完成并重试该步骤
 
 #### 检查 MySQL 实例进程
 
-查看 MySQL 数据库实例；
+1）查看 MySQL 数据库实例；
 
 ```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
@@ -80,7 +80,7 @@ sdblist
 
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/92856e2e05fee65495cb876332cd34c6)
 
-查看数据库实例进程；
+2）查看数据库实例进程；
 
 ```shell
 ps -elf | grep mysql
@@ -95,7 +95,7 @@ ps -elf | grep mysql
 
 ## 创建数据库及数据表
 
-进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
+进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，验证实例的创建及使用是否成功。
 
 #### 登录 MySQL shell 
 

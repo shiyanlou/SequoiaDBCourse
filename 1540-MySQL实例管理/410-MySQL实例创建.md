@@ -86,7 +86,7 @@ bin/sdb_sql_ctl addinst myinst -D database/3306/
 
 >Note:
 >
-> 指定实例名为 myinst，该实例名映射相应的数据目录和日志路径，用户可以根据自己需要指定不同的实例名，实例默认端口号为　3306 。
+> 指定实例名为 myinst，该实例名映射相应的数据目录和日志路径，用户可以根据自己需要指定不同的实例名，实例默认端口号为 3306 。
 
 3）查看实例，可以看到实例名为 myinst 的数据和日志目录信息；
 
@@ -108,7 +108,7 @@ bin/sdb_sql_ctl status
 
 ## 创建数据库及数据表
 
-进入 MySQL shell，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
+进入 MySQL shell，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，验证实例创建以及使用是否成功。
 
 #### 创建数据库
 
@@ -170,8 +170,8 @@ SHOW CREATE TABLE employee ;
 
 ## 数据表中写入数据并查询
 
+4）在分区表 employee 中插入数据：
 ```sql
-## 在分区表 employee 中插入数据：
 INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
 INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
 ```
@@ -180,9 +180,8 @@ INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
 
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/33d20f44d4f70ad15132164cdb2ca6f9-0)
 
-
+5）查询分区表 employee 中的数据；
 ```sql
-##查询分区表 employee 中的数据；
 SELECT * FROM employee ;
 ```
 
