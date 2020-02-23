@@ -1,6 +1,6 @@
 ---
 show: step
-version: 3.0
+version: 4.0
 enable_checker: true
 ---
 
@@ -14,6 +14,7 @@ enable_checker: true
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
+
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区三副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个 SequoiaSQL-PostgreSQL 数据库实例节点、1 个 SparkSQL 实例节点、1 个引擎协调节点，1 个编目节点与 3 个数据节点。
 
 ![870-1](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
@@ -115,7 +116,7 @@ SHOW VARIABLES LIKE '%sequoiadb_conn_addr%' ;
 
 7）退出 MySQL Shell ；
 
-```shell
+```sql
 \q
 ```
 
@@ -268,4 +269,3 @@ SELECT * FROM company.employee ;
 ## 总结
 
 本课程通过给数据组的副本设置实例 id 和协调节点设置数据读取的顺序，使得 MySQL 实例连接的11810协调节点，读取数据的实例 id 顺序为 1，2；SparkSQL 实例读取的数据节点实例 id 为 3，2。由于生产环境中我们部署节点一般是 1 台机器 1 个数据组为 1个副本，这样的读取顺序能够把两个不同的实例分开，实现资源隔离。
-
