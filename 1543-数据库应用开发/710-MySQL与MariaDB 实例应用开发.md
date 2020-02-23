@@ -18,7 +18,7 @@ version: 2.0
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
 #### 实验环境
-课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本，SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
+课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
 ## 切换用户及查看数据库版本
 
@@ -34,7 +34,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本。
+查看 SequoiaDB 巨杉数据库引擎版本：
 
 ```shell
 sequoiadb --version
@@ -46,7 +46,7 @@ sequoiadb --version
 
 ## 查看节点启动列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表
+查看 SequoiaDB 巨杉数据库引擎节点列表：
 
 ```shell
 sdblist 
@@ -60,14 +60,14 @@ sdblist
 >
 >如果显示的节点数量少于上图中的数量，请稍等初始化完成并重试该步骤。
 
-检查 MySQL 实例
+检查 MySQL 实例：
 ```shell
-/opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
+/opt/sequoiasql/mysql/bin/sdb_sql_ctl status
 ```
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/78c148a96ecb561d6e5f6564d970e0c5)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/582f2d310ee38910e856e13415f47855-0)
 
 ## 创建数据库及数据表
 进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
@@ -78,14 +78,14 @@ sdblist
 ```
 
 #### 创建数据库
-在MySQL实例中创建新数据库 company，并切换至 company 库：
+在MySQL实例中创建新数据库 company，并切换至 company 库；
 ```sql
-create database company ;
-use company ;
+CREATE DATABASE company ;
+USE company ;
 ```
 
 #### 创建分区表
-1）在 MySQL 实例 company 数据库中创建分区表 employee；
+1）在 MySQL 实例 company 数据库中创建分区表 employee：
 ```sql
 CREATE TABLE employee (
 	empno INT,
@@ -102,7 +102,7 @@ CREATE TABLE employee (
 2）查看 MySQL 实例分区表结构；
 
 ```sql
-show create table employee;
+SHOW CREATE TABLE employee ;
 ```
 
 操作截图：
@@ -113,7 +113,7 @@ show create table employee;
 通过 SequoiaSQL-MySQL 实例进行数据插入、查询、更新、删除操作。
 
 #### 分区表中插入数据
-在分区表 employee 中插入数据.
+在分区表 employee 中插入数据：
 
 ```sql
 INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
@@ -125,7 +125,7 @@ INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 ```
 
 #### 查询分区表中的数据
-查询分区表 employee 中 age 大于20，小于30的数据：
+查询分区表 employee 中 age 大于20，小于30的数据；
 
 ```sql
 SELECT * FROM employee WHERE age > 20 AND age < 30 ;
@@ -197,7 +197,7 @@ EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
 
 
 ## Java 语言操作 MySQL 实例中的数据
-本节内容主要用来演示 Java 语言操作 SequoiaSQL-MySQL 实例中的数据，为相关开发人员提供参考。源码已经放置在 /home/sdbadmin/source 目录下。
+本节内容主要用来演示 Java 语言操作 SequoiaSQL-MySQL 实例中的数据，为相关开发人员提供参考。源码已经放置在 /home/sdbadmin/source/mysql 目录下。
 
 1）进入源码放置目录；
 
@@ -226,7 +226,7 @@ javac -d . MySQLConnection.java
 ```
 
 #### 在 MySQL 实例中插入数据
-1）增加 empno 为 20004 、 20005 和 20006 这三条记录， 修改 Insert.java 代码如下：
+1）增加 empno 为 20004 、 20005 和 20006 这三条记录，修改 Insert.java 代码如下：
 ```java
 package com.sequoiadb.mysql;
 
@@ -235,15 +235,16 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Insert {
-    private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
+	private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
 terEncoding=utf-8&useSSL=false";
-    private static String username = "root";
-    private static String password = "";
-    public static void main(String[] args) throws SQLException {
-        insert();
-    }
+	private static String username = "root";
+	private static String password = "";
 
-    public static void insert() throws SQLException {
+	public static void main(String[] args) throws SQLException {
+		insert();
+	}
+
+	public static void insert() throws SQLException {
         MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
 
         Connection connection = mysqlConnection.getConnection();
@@ -292,28 +293,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Select {
-    private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
+	private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
 terEncoding=utf-8&useSSL=false";
-    private static String username = "root";
-    private static String password = "";
+	private static String username = "root";
+	private static String password = "";
 
-    public static void main(String[] args) throws SQLException {
-        select();
-    }
+	public static void main(String[] args) throws SQLException {
+		select();
+	}
 
-    public static void select() throws SQLException {
+	public static void select() throws SQLException {
         MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
 
         Connection connection = mysqlConnection.getConnection();
         String sql = "select * from employee";
         PreparedStatement psmt = connection.prepareStatement(sql);
         ResultSet rs = psmt.executeQuery();
-        System.out.println("---------------------------------------------------------------
--------");
+        System.out.println("-------------------------------------------");
         //System.out.println("empno \t ename \t age");
         System.out.println("empno \t ename \t ");
-        System.out.println("---------------------------------------------------------------
--------");
+        System.out.println("-------------------------------------------");
         while(rs.next()){
             Integer empno = rs.getInt("empno");
             String ename = rs.getString("ename");
@@ -324,6 +323,7 @@ terEncoding=utf-8&useSSL=false";
         connection.close();
     }
 }
+
 
 ```
 2）对 Select.java 文件进行编译；
@@ -352,29 +352,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Update {
-    private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
+	private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
 terEncoding=utf-8&useSSL=false";
-    private static String username = "root";
-    private static String password = "";
+	private static String username = "root";
+	private static String password = "";
 
-    public static void main(String[] args) throws SQLException {
-        update();
-    }
+	public static void main(String[] args) throws SQLException {
+		update();
+	}
 
-    public static void update() throws SQLException {
-        MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
+	public static void update() throws SQLException {
+		MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
 
-        Connection connection = mysqlConnection.getConnection();
-        //String sql = "update employee set age = ? where empno = ?";
-        String sql = "update employee set ename = ? where empno = ?";
-        PreparedStatement psmt = connection.prepareStatement(sql);
-        //psmt.setInt(1, 49);
-        psmt.setString(1, "Georgi_2");
-        psmt.setInt(2, 10001);
-        psmt.execute();
+		Connection connection = mysqlConnection.getConnection();
+		// String sql = "update employee set age = ? where empno = ?";
+		String sql = "update employee set ename = ? where empno = ?";
+		PreparedStatement psmt = connection.prepareStatement(sql);
+		// psmt.setInt(1, 49);
+		psmt.setString(1, "Georgi_2");
+		psmt.setInt(2, 10001);
+		psmt.execute();
 
-        connection.close();
-    }
+		connection.close();
+	}
 }
 ```
 2）对 Update.java 文件进行编译；
@@ -410,28 +410,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Delete {
-    private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
+	private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
 terEncoding=utf-8&useSSL=false";
-    private static String username = "root";
-    private static String password = "";
+	private static String username = "root";
+	private static String password = "";
 
-    public static void main(String[] args) throws SQLException {
-        delete();
-    }
+	public static void main(String[] args) throws SQLException {
+		delete();
+	}
 
-    public static void delete() throws SQLException {
-        MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
+	public static void delete() throws SQLException {
+		MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
 
-        Connection connection = mysqlConnection.getConnection();
-        String sql = "delete from employee where empno = ?";
-        PreparedStatement psmt = connection.prepareStatement(sql);
-        //psmt.setInt(1, 10006);
-        psmt.setInt(1, 10001);
-        psmt.execute();
-        connection.close();
-    }
+		Connection connection = mysqlConnection.getConnection();
+		String sql = "delete from employee where empno = ?";
+		PreparedStatement psmt = connection.prepareStatement(sql);
+		// psmt.setInt(1, 10006);
+		psmt.setInt(1, 10001);
+		psmt.execute();
+		connection.close();
+	}
 }
-
 ```
 2）对 Delete.java 文件进行编译；
 
