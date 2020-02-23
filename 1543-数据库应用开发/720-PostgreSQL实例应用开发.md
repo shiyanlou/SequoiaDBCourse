@@ -266,15 +266,16 @@ DELETE FROM employee WHERE empno = 10006 ;
 ```sql
 SELECT * FROM employee ;
 ```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/31aea8f7e0cc92d6a82283c433929d76)
+
 退出 PostgreSQL 客户端
 
 ```sql
 \q
 ```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/31aea8f7e0cc92d6a82283c433929d76)
 
 ## 索引使用
 通过 PostgreSQL 实例查看执行计划及通过过滤条件查看 SequoiaDB 执行计划。
@@ -314,7 +315,12 @@ db.company.employee.find ({ "ename": { "$et": "Georgi" } }).explain() ;
 quit ;
 ```
 
-5）在 PostgreSQL 实例查看表 employee 查询语句执行计划，看到此查询已经使用索引；
+5）登录到 PostgreSQL 实例 Shell；
+```shell
+/opt/sequoiasql/postgresql/bin/psql -p 5432 company
+```
+
+6）在 PostgreSQL 实例查看表 employee 查询语句执行计划，看到此查询已经使用索引；
 
 ```sql
 EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
@@ -359,7 +365,7 @@ javac -d . PostgreSQLConnection.java
 ```
 
 #### 在 PostgreSQL 实例中插入数据：
-1）修改 Insert.java 查询代码如下：
+1）增加 empno 为 30004 、 30005 和 30006 这三条记录，修改 Insert.java 查询代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -406,11 +412,10 @@ javac -d . Insert.java
 
 4）插入操作截图：
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3ff51f3645fc34c76dd9a628438ac402-0)
-5）插入记录后查询结果如下
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/f5331a4f0e8694a5ec0a8c9227d1c282-0)
+
 
 #### 从 PostgreSQL 实例中查询数据：
-1）修改 Select.java 查询代码如下：
+1）只查询 empno 和 age 这两个字段 ，修改 Select.java 查询代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -465,7 +470,7 @@ javac -d . Select.java
 
 
 #### 在 PostgreSQL 实例中更新数据：
-1）修改 Update 代码如下：
+1）将 empno 值为 10002 的 age 修改为 25 ，修改 Update 代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -485,9 +490,9 @@ public class Update {
         Connection connection = pgConnection.getConnection();
         String sql = "update employee set age = ? where empno = ?";
         PreparedStatement psmt = connection.prepareStatement(sql);
-        //psmt.setInt(1, 22);
+        //psmt.setInt(1, 49);
         psmt.setInt(1, 25);
-        //psmt.setInt(2, 10003);
+        //psmt.setInt(2, 10004);
         psmt.setInt(2, 10002);
         psmt.execute();
 
@@ -511,6 +516,7 @@ javac -d . Update.java
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/768a48c689597e5f9e9061a7ba847326-0)
 
 #### 在 PostgreSQL 实例中删除数据：
+1）将 empno 值为 10003 的记录删除 ,修改 Delete.java 代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;

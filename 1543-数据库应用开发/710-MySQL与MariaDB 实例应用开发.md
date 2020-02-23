@@ -336,7 +336,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 
 #### 在 MySQL 实例中更新数据
 
-1）将 empno 值为 10001 的 ename 修改为 Georgi_2 ， ， Update 代码如下：
+1）将 empno 值为 10001 的 ename 修改为 Georgi_2 ， Update 代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
