@@ -24,8 +24,8 @@ MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插�
 
 
 #### 实验环境
-课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
+课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
 
 ## 切换用户及查看数据库版本
@@ -33,18 +33,18 @@ MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插�
 #### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
-```
+```shell
 su - sdbadmin
 ```
 >Note:
 >
->用户 sdbadmin 的密码为 sdbadmin
+>用户 sdbadmin 的密码为 `sdbadmin`
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本
+查看 SequoiaDB 巨杉数据库引擎版本。
 
-```
+```shell
 sequoiadb --version
 ```
 操作截图：
@@ -57,7 +57,7 @@ sequoiadb --version
 
 #### 检查 SequoiaDB 巨杉数据库节点列表
 
-```
+```shell
 sdblist 
 ```
 
@@ -67,12 +67,12 @@ sdblist
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
+>如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤。
 
 #### 查看本机 MySQL 实例
 
 1）查看实例名；
-```
+```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
 
@@ -82,7 +82,7 @@ sdblist
 
 2）查看对应实例是否启动；
 
-```
+```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl status myinst
 ```
 
@@ -101,17 +101,17 @@ sdblist
 
 1）登录 sdbserver2 远程服务器；
 
-```
+```shell
 ssh sdbadmin@sdbserver2
 ```
 
 >Note:
 >
->用户 sdbadmin 的密码为 sdbadmin
+>用户 sdbadmin 的密码为 `sdbadmin`
 
 
 2）查看实例名；
-```
+```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
 
@@ -125,7 +125,7 @@ ssh sdbadmin@sdbserver2
 
 3）退出 sdbserver2 远程服务器；
 
-```
+```shell
 exit
 ```
 
@@ -138,11 +138,11 @@ exit
 
 1）登录 MySQL Shell，连接本机 sdbserver1 的 MySQL 实例；
 
-```
+```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-2）创建用于同步元数据的 MySQL 用户。
+2）创建用于同步元数据的 MySQL 用户；
 
 ```sql
 CREATE USER 'sdbadmin'@'%' IDENTIFIED BY 'sdbadmin' ; 
@@ -156,7 +156,8 @@ FLUSH PRIVILEGES ;
 ```
 
 >Note:
-> 此处使用的密码 'sdbadmin' 仅为示例，请根据需要自行设置安全的密码
+>
+> 此处使用的密码 `sdbadmin` 仅为示例，请根据需要自行设置安全的密码
 
 
 
@@ -193,14 +194,14 @@ SHOW GRANTS FOR sdbadmin ;
 
 #### 审计插件准备
 
-检查 MySQL 安装目录下 tools/lib 目录的审计插件
-```
+1）检查 MySQL 安装目录下 tools/lib 目录的审计插件；
+```shell
 ls /opt/sequoiasql/mysql/tools/lib/server_audit.so
 ```
 
 
-检查 MySQL 安装目录下 lib/plugin 目录的审计插件
-```
+2）检查 MySQL 安装目录下 lib/plugin 目录的审计插件；
+```shell
 ls /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
 
@@ -209,18 +210,18 @@ ls /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 
 > 如截图显示，则代表未给 MySQL 配置数据库审计日志
 
-将审计插件 server_audit.so 文件复制到 MySQL 安装目录中的 lib/plugin 目录下
-```
+3）将审计插件 server_audit.so 文件复制到 MySQL 安装目录中的 lib/plugin 目录下；
+```shell
 cp /opt/sequoiasql/mysql/tools/lib/server_audit.so /opt/sequoiasql/mysql/lib/plugin/
 ```
 
-赋予 MySQL 运行用户的可执行权限
-```
+4）赋予 MySQL 运行用户的可执行权限；
+```shell
 chmod a+x /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
 
-检查 MySQL 安装目录下 lib/plugin 目录的审计插件是否存在
-```
+5）检查 MySQL 安装目录下 lib/plugin 目录的审计插件是否存在；
+```shell
 ls -lat /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
 
@@ -230,9 +231,9 @@ ls -lat /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 
 #### 审计插件配置
 
-1）修改 MySQL 实例的配置文件
+1）修改 MySQL 实例的配置文件；
 
-```
+```shell
 echo 'plugin-load=server_audit=server_audit.so' >> /opt/sequoiasql/mysql/database/3306/auto.cnf 
 echo 'server_audit_logging=ON' >> /opt/sequoiasql/mysql/database/3306/auto.cnf 
 echo 'server_audit_file_path=/opt/sequoiasql/mysql/database/auditlog/server_audit.log' >> /opt/sequoiasql/mysql/database/3306/auto.cnf 
@@ -266,15 +267,15 @@ server_audit_output_type=file
 server_audit_query_log_limit=102400 
 ```
 
-2）创建审计日志存放的文件夹
-```
+2）创建审计日志存放的文件夹；
+```shell
 mkdir /opt/sequoiasql/mysql/database/auditlog/
 ```
 
 #### 重启 MySQL 实例并检查审计日志
 
-检查 MySQL 实例
-```
+1）检查 MySQL 实例；
+```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
 
@@ -283,8 +284,8 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 
 
 
-重启 MySQL 实例
-```
+2）重启 MySQL 实例；
+```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl restart myinst
 ```
 
@@ -292,8 +293,8 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/6f99f32ac517288da00cfafac03bc76f)
 
 
-检查 MySQL 实例进程
-```
+3）检查 MySQL 实例进程；
+```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
 
@@ -301,8 +302,8 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/7639a5c0c083603c33c7fda2fb5861bd)
 
 
-检查审计日志文件目录，确保生成了审计日志文件 server_audit.log
-```
+4）检查审计日志文件目录，确保生成了审计日志文件 server_audit.log；
+```shell
 ls -alt /opt/sequoiasql/mysql/database/auditlog/
 ```
 
@@ -321,24 +322,24 @@ ls -alt /opt/sequoiasql/mysql/database/auditlog/
 #### 元数据同步工具配置
 
 1）拷贝生成一份元数据同步工具的配置文件；
-```
+```shell
 cp /opt/sequoiasql/mysql/tools/metaSync/config.sample /opt/sequoiasql/mysql/tools/metaSync/config
 ```
 
 2）进行元数据同步工具配置文件修改；
-```
+```shell
 sed -i 's/hosts = sdb1,sdb2,sdb3/hosts = sdbserver1,sdbserver2/g' /opt/sequoiasql/mysql/tools/metaSync/config
 ```
 
 3）确认配置文件 hosts 参数是否为 sdbserver1,sdbserver2 ；
 
-```
+```shell
 cat /opt/sequoiasql/mysql/tools/metaSync/config
 ```
 
 4）拷贝一份元数据同步的日志配置文件同步工具使用 python 的 logging 模块输出日志，配置文件为 log.config。如果是全新安装，开始该文件是不存在的，需要从 log.config.sample 拷贝。配置项如下（日志目录会自动创建）：
 
-```
+```shell
 cp /opt/sequoiasql/mysql/tools/metaSync/log.config.sample /opt/sequoiasql/mysql/tools/metaSync/log.config
 ```
 
@@ -349,13 +350,13 @@ cp /opt/sequoiasql/mysql/tools/metaSync/log.config.sample /opt/sequoiasql/mysql/
 
 1）在完成所有配置后，在各实例所在主机的 sdbadmin 用户下，执行以下命令在后台启动同步工具：
 
-```
+```shell
 python /opt/sequoiasql/mysql/tools/metaSync/meta_sync.py &
 ```
 
 2）可以通过配置定时任务提供基本的同步工具监控，定期检查程序是否在运行，若进程退出了，会被自动拉起。配置命令如下（在 SequoiaSQL-MySQL 安装用户下配置）：
 
-```
+```shell
 crontab -e
 ```
 操作截图:
@@ -373,7 +374,7 @@ crontab -e
 
 5）linux 系统后台进程作业配置检查，最后一行可以显示上一步骤输入内容；
 
-```
+```shell
 crontab -l
 ```
 
@@ -386,13 +387,13 @@ crontab -l
 
 1）登录 sdbserver2 远程服务器；
 
-```
+```shell
 ssh sdbadmin@sdbserver2
 ```
 
 >Note:
 >
->用户 sdbadmin 的密码为 sdbadmin
+>用户 sdbadmin 的密码为 `sdbadmin`
 
 
 2）进入 SequoiaSQL-MySQL 实例安装目录；
@@ -421,14 +422,14 @@ sed -i 's/# sequoiadb_conn_addr=localhost:11810/sequoiadb_conn_addr=172.17.0.1:1
 
 6）重启 MySQL 实例；
 
-```
+```shell
 bin/sdb_sql_ctl restart myinst
 ```
 
 
 7）查看 MySQL 实例状态；
 
-```
+```shell
 bin/sdb_sql_ctl status myinst
 ```
 
@@ -456,7 +457,7 @@ bin/sdb_sql_ctl status myinst
 
 #### 登录 MySQL shell 
 
-```
+```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
@@ -484,7 +485,7 @@ INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
 
 3）查询数据；
 
-```
+```sql
 SELECT * FROM employee ;
 ```
 
@@ -502,7 +503,7 @@ exit
 
 1）登录 MySQL Shell，连接 172.17.0.1 的 MySQL 实例；
 
-```
+```shell
 /opt/sequoiasql/mysql/bin/mysql -h 172.17.0.2 -P 3306 -u root -p
 ```
 
