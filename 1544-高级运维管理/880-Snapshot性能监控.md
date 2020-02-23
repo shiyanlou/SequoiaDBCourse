@@ -3,7 +3,7 @@ show: step
 version: 3.0
 enable_checker: true
 ---
-# 15分钟演示巨杉数据库基本操作
+# Snapshot性能监控
 
 ## 课程介绍
 
