@@ -1,7 +1,6 @@
 ---
 show: step
-version: 10.0
-enable_checker: true
+version: 2.0 
 ---
 
 ## 课程介绍
@@ -78,7 +77,7 @@ sdblist
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/ee64c7881af3a8f329bfb50848ed56e2)
 
 ## 创建数据库
-1）在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
+1）在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库实例，为接下来验证 PostgreSQL 语法特性做准备。
 
 以 sdbadmin 用户登录，在 PostgreSQL 实例创建数据库 company；
 ```shell
@@ -132,7 +131,7 @@ CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw
 
 退出 PostgreSQL 客户端
 ```sql
-company=#\q
+\q
 ```
 
 ## 创建关联集合空间、集合
@@ -196,7 +195,7 @@ CREATE FOREIGN TABLE employee (
 
 检查 PostgreSQL 中创建的表
 ```sql
-company=#\d
+\d
 ```
 操作截图：
 
@@ -204,13 +203,14 @@ company=#\d
 
 >Note:
 >
-> - 集合空间与集合必须已经存在于 SequoiaDB，否则查询出错。
+> - 集合空间与集合必须已经存在于 SequoiaDB，否则查询出错；
 > - 如果需要对接 SequoiaDB 的 decimal 字段，则需要在 options 中指定 decimal 'on' 。
-> - pushdownsort 设置是否下压排序条件到 SequoiaDB，默认为 on，关闭为 off。
-> - pushdownlimit 设置是否下压 limit 和 offset 条件到 SequoiaDB，默认为on，关闭为off。
-> - 开启 pushdownlimit 时，必须同时开启 pushdownsort ，否则可能会造成结果非预期的问题。
-> - 默认情况下，表的字段映射到 SequoiaDB 中为小写字符，如果强制指定字段为大写字符，创建方式参考“注意事项1”。
-> - 映射 SequoiaDB 的数组类型，创建方式参考“注意事项2”。
+> - pushdownsort 设置是否下压排序条件到 SequoiaDB，默认为 on，关闭为 off；
+> - pushdownlimit 设置是否下压 limit 和 offset 条件到 SequoiaDB，默认为on，关闭为off；
+> - 开启 pushdownlimit 时，必须同时开启 pushdownsort ，否则可能会造成结果非预期的问题；
+> - 默认情况下，表的字段映射到 SequoiaDB 中为小写字符，如果强制指定字段为大写字符，需要将字段名用双引号引起来；
+> - 如果字段名或者字段类型有 PostgreSql 的关键字也是创建不成功表的，需要把关键字用双引号引起来。
+
 
 ## 实例操作数据库引擎集合的数据
 使用 PostgreSQL 实例操作关联表中的数据。
@@ -257,7 +257,7 @@ SELECT * FROM employee ;
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/d822b2d32288d17baf8fc6c99a75c514)
 
 #### 删除关联表中的数据
-1）删除 PostgreSQL 实例外表 employee 中的数据，将 empno 为10006的记录删除；
+1）删除 PostgreSQL 实例外表 employee 中的数据，将 empno 为 10006 的记录删除；
 ```sql
 DELETE FROM employee WHERE empno = 10006 ;
 ```
@@ -269,7 +269,7 @@ SELECT * FROM employee ;
 退出 PostgreSQL 客户端
 
 ```sql
-company=#\q
+\q
 ```
 
 操作截图：
@@ -322,7 +322,7 @@ EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
 
 退出 PostgreSQL 客户端
 ```sql
-company=#\q
+\q
 ```
 
 操作截图：
@@ -392,7 +392,7 @@ public class Insert {
     }
 }
 ```
-2）对插入的 java 进行编译；
+2）对 Insert.java 文件进行编译；
 
 ```shell
 javac -d . Insert.java
@@ -448,7 +448,7 @@ public class Select {
     }
 }
 ```
-2）对查询的 java 进行编译；
+2）对 Select.java 文件进行编译；
 
 ```shell
 javac -d . Select.java
@@ -495,7 +495,7 @@ public class Update {
     }
 }
 ```
-2）对查询的 java 进行编译；
+2）对 Update.java 文件进行编译；
 
 ```shell
 javac -d . Update.java
@@ -537,7 +537,7 @@ public class Delete {
     }
 }
 ```
-2）对删除的 java 进行编译；
+2）对 Delete.java 文件进行编译；
 
 ```shell
 javac -d . Delete.java
@@ -549,7 +549,7 @@ javac -d . Delete.java
  java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Delete
 ```
 
-4）查询确认 empno 为 10003 的雇员信息已经被删除；
+4）检查确认 empno 为 10003 的雇员信息已经被删除；
 
 ```shell
  java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Select
