@@ -4,6 +4,7 @@ version: 2.0
 enable_checker: true 
 ---
 
+
 # SparkSQL 实例创建与使用
 
 ## 课程介绍
