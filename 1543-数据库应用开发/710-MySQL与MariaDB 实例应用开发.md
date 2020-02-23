@@ -128,7 +128,7 @@ INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 查询分区表 employee 中 age 大于20，小于30的数据：
 
 ```sql
-select * from employee where age > 20 and age < 30 ;
+SELECT * FROM employee WHERE age > 20 AND age < 30 ;
 ```
 
 操作截图：
@@ -140,13 +140,13 @@ select * from employee where age > 20 and age < 30 ;
 1）更新分区表 employee 中的数据，将 empno 为10001的记录 age 更改为34；
 
 ```sql
-update employee set age=34 where empno=10001 ;
+UPDATE employee SET age=34 WHERE empno=10001 ;
 ```
 
 2）查询数据结果确认 empno 为10001的记录更新是否成功；
 
 ```sql
-select * from employee ;
+SELECT * FROM employee ;
 ```
 
 操作截图：
@@ -157,13 +157,13 @@ select * from employee ;
 1）删除分区表 employees 中的数据，将 empno 为10006的记录删除；
 
 ```sql
-delete from employee where empno=10006 ;
+DELETE FROM employee WHERE empno=10006 ;
 ```
 
 2）查询数据结果确认 empno 为10006的记录是否成功删除；
 
 ```sql
-select * from employee ;
+SELECT * FROM employee ;
 ```
 
 操作截图：
@@ -177,13 +177,13 @@ select * from employee ;
 1）在分区表 employee 的 ename 字段上创建索引；
 
 ```sql
-alter table employee add index idx_ename(ename) ;
+ALTER TABLE employee ADD INDEX idx_ename(ename) ;
 ```
 
 2）显示分区表 employee 查询语句执行计划；
 
 ```sql
-explain select * from employee where ename = 'Georgi' ;
+EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
 ```
 3）退出 MySQL 客户端
 
@@ -226,18 +226,19 @@ javac -d . MySQLConnection.java
 ```
 
 #### 在 MySQL 实例中插入数据
-
-1）修改 Insert.java 代码如下：
-
+1）增加 empno 为 20004 、 20005 和 20006 这三条记录， 修改 Insert.java 代码如下：
 ```java
+package com.sequoiadb.mysql;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Insert {
-    private static String url = "jdbc:mysql://localhost:3306/company?useUnicode=true&characterEncoding=utf-8&useSSL=false";
+    private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
+terEncoding=utf-8&useSSL=false";
     private static String username = "root";
-    private static String password = "admin";
+    private static String password = "";
     public static void main(String[] args) throws SQLException {
         insert();
     }
@@ -249,10 +250,12 @@ public class Insert {
         String sql = "INSERT INTO employee VALUES";
         PreparedStatement psmt = connection.prepareStatement("");
         StringBuffer sb = new StringBuffer();
-        //sb.append("(").append(20001).append(",").append("'Quincy'").append(",").append(30).append("),");
-        sb.append("(").append(20004).append(",").append("'Quincy'").append(",").append(30).append("),");
-        sb.append("(").append(20005).append(",").append("'Newton'").append(",").append(31).append("),");
-        sb.append("(").append(20006).append(",").append("'Dan'").append(",").append(32).append("),");
+        sb.append("(").append(20004).append(",").append("'Quincy'").append(",").append(30).
+append("),");
+        sb.append("(").append(20005).append(",").append("'Newton'").append(",").append(31).
+append("),");
+        sb.append("(").append(20006).append(",").append("'Dan'").append(",").append(32).app
+end("),");
 
         sb.deleteCharAt(sb.length() - 1);
         sql = sql + sb.toString();
@@ -272,7 +275,6 @@ javac -d . Insert.java
 3）运行 Insert 类的代码可以将数据插入；
 
 ```shell
-
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ```
 
@@ -280,17 +282,18 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/8bd056fb349bf57f152591728d2044c9-0)
 
 #### 从 MySQL 实例中查询数据
-
-1）修改 Select.java 查询代码如下：
-
+1）查询只返回 empno 和 ename 两个字段 ，修改 Select.java 查询代码如下：
 ```java
+package com.sequoiadb.mysql;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Select {
-    private static String url = "jdbc:mysql://localhost:3306/company?useUnicode=true&characterEncoding=utf-8&useSSL=false";
+    private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
+terEncoding=utf-8&useSSL=false";
     private static String username = "root";
     private static String password = "";
 
@@ -302,23 +305,26 @@ public class Select {
         MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
 
         Connection connection = mysqlConnection.getConnection();
-        String sql = "SELECT empno,ename  FROM employee";
+        String sql = "select * from employee";
         PreparedStatement psmt = connection.prepareStatement(sql);
         ResultSet rs = psmt.executeQuery();
-        System.out.println("----------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------
+-------");
         //System.out.println("empno \t ename \t age");
         System.out.println("empno \t ename \t ");
-        System.out.println("----------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------
+-------");
         while(rs.next()){
             Integer empno = rs.getInt("empno");
             String ename = rs.getString("ename");
-            //Integer age = rs.getInt("age");
+            //String age = rs.getString("age");
             //System.out.println(empno + "\t" + ename + "\t" + age);
             System.out.println(empno + "\t" + ename + "\t") ;
         }
         connection.close();
     }
 }
+
 ```
 2）对 Select.java 文件进行编译；
 
@@ -335,17 +341,19 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 4）查询截图：
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/b45914dd6398ff798b23b6896b2c8e3f-0)
 
-#### 在 MySQL 实例中更新数据
-
-1）修改 Update 代码如下：
+#### 在 MySQL 实例中更新数据  
+1）将 empno 值为 10001 的 ename 修改为 Georgi_2 ， Update 代码如下：
 ```java
+package com.sequoiadb.mysql;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Update {
-    private static String url = "jdbc:mysql://localhost:3306/company?useUnicode=true&characterEncoding=utf-8&useSSL=false";
+    private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
+terEncoding=utf-8&useSSL=false";
     private static String username = "root";
     private static String password = "";
 
@@ -357,7 +365,7 @@ public class Update {
         MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
 
         Connection connection = mysqlConnection.getConnection();
-        //String sql = "update employee set  = ? where empno = ?";
+        //String sql = "update employee set age = ? where empno = ?";
         String sql = "update employee set ename = ? where empno = ?";
         PreparedStatement psmt = connection.prepareStatement(sql);
         //psmt.setInt(1, 49);
@@ -368,6 +376,7 @@ public class Update {
         connection.close();
     }
 }
+```
 2）对 Update.java 文件进行编译；
 
 ```shell
@@ -391,18 +400,20 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 
 
 #### 在 MySQL 实例中删除数据
-
-1）修改 Delete.java 代码如下：
+1）将 empno 值为 10001 的记录删除 ,修改 Delete.java 代码如下：
 ```java
+package com.sequoiadb.mysql;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Delete {
-    private static String url = "jdbc:mysql://localhost:3306/company?useUnicode=true&characterEncoding=utf-8&useSSL=false";
+    private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
+terEncoding=utf-8&useSSL=false";
     private static String username = "root";
-    private static String password = "admin";
+    private static String password = "";
 
     public static void main(String[] args) throws SQLException {
         delete();
@@ -420,6 +431,7 @@ public class Delete {
         connection.close();
     }
 }
+
 ```
 2）对 Delete.java 文件进行编译；
 

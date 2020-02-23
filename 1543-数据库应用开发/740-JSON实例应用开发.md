@@ -182,15 +182,15 @@ db.company.employee.listIndexes () ;
 db.company.employee.find ( { "ename" : "Georgi" } ).explain() ;
 ```
 
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0afc05df8deddc2ac5b285768c0b372e)
+
 退出 SequoiaDB Shell；
 
 ```javascript
 quit ;
 ```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0afc05df8deddc2ac5b285768c0b372e)
 
 ## 总结
 
