@@ -25,7 +25,7 @@ MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插�
 
 #### 实验环境
 
-课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
+课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 巨杉数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
 
 ## 切换用户及查看数据库版本
