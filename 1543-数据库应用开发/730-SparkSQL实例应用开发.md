@@ -1,7 +1,6 @@
 ---
 show: step
-version: 1.0
-enable_checker: true
+version: 2.0 
 ---
 
 ## 课程介绍
@@ -66,9 +65,13 @@ sdblist
 jps
 ```
 
-操作截图：
+环境初始化过程可能会有点慢，需要耐心等待一下，操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/38da9d7707133b1d6623538ccc6b2ea8)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/60bec1c6ff23d6286e25bd7a23372086-0)
+
+>Note:
+>
+>如果显示的进程少于上图中的数量，请稍等初始化完成并重试该步骤
 
 ## 创建集合空间、集合
 
