@@ -367,12 +367,14 @@ javac -d . PostgreSQLConnection.java
 #### 在 PostgreSQL 实例中插入数据：
 1）增加 empno 为 30004 、 30005 和 30006 这三条记录，修改 Insert.java 查询代码如下：
 ```java
+package com.sequoiadb.postgresql;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Insert {
-    private static String url = "jdbc:postgresql://localhost:5432/company";
+    private static String url = "jdbc:postgresql://127.0.0.1:5432/company";
     private static String username = "sdbadmin";
     private static String password = "";
     public static void main(String[] args) throws SQLException {
@@ -380,16 +382,18 @@ public class Insert {
     }
 
     public static void insert() throws SQLException {
-        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, password);
+        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, passwor
+d);
         Connection connection = pgConnection.getConnection();
         String sql = "INSERT INTO employee VALUES";
         Statement stmt = connection.createStatement();
         StringBuffer sb = new StringBuffer();
-        //sb.append("(").append(30001).append(",").append("'Mike'").append(",").append(20).append("),");
-        sb.append("(").append(30004).append(",").append("'Mike'").append(",").append(20).append("),");
-        sb.append("(").append(30005).append(",").append("'Donna'").append(",").append(21).append("),");
-        sb.append("(").append(30006).append(",").append("'Jack'").append(",").append(22).append("),");
-
+        sb.append("(").append(30004).append(",").append("'Mike'").append(",").append(20).ap
+pend("),");
+        sb.append("(").append(30005).append(",").append("'Donna'").append(",").append(21).a
+ppend("),");
+        sb.append("(").append(30006).append(",").append("'Jack'").append(",").append(22).ap
+pend("),");
         sb.deleteCharAt(sb.length() - 1);
         sql = sql + sb.toString();
         System.out.println(sql);
@@ -398,6 +402,7 @@ public class Insert {
     }
 }
 ```
+
 2）对 Insert.java 文件进行编译；
 
 ```shell
@@ -417,13 +422,15 @@ javac -d . Insert.java
 #### 从 PostgreSQL 实例中查询数据：
 1）只查询 empno 和 age 这两个字段 ，修改 Select.java 查询代码如下：
 ```java
+package com.sequoiadb.postgresql;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Select {
-    private static String url = "jdbc:postgresql://localhost:5432/company";
+    private static String url = "jdbc:postgresql://127.0.0.1:5432/company";
     private static String username = "sdbadmin";
     private static String password = "";
 
@@ -432,19 +439,22 @@ public class Select {
     }
 
     public static void select() throws SQLException {
-        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, password);
+        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, passwor
+d);
         Connection connection = pgConnection.getConnection();
         String sql = "select * from employee";
         PreparedStatement psmt = connection.prepareStatement(sql);
         ResultSet rs = psmt.executeQuery();
-        System.out.println("----------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------
+-------");
         //System.out.println("empno \t ename \t age");
         System.out.println("empno \t  \t age");
-        System.out.println("----------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------
+-------");
         while(rs.next()){
             Integer empno = rs.getInt("empno");
             //String ename = rs.getString("ename");
-            Integer age = rs.getInt("age");
+            String age = rs.getString("age");
 
             //System.out.println(empno + "\t" + ename + "\t" + age);
             System.out.println(empno + "\t" + age + "\t" );
@@ -452,6 +462,7 @@ public class Select {
         connection.close();
     }
 }
+
 ```
 2）对 Select.java 文件进行编译；
 
@@ -472,12 +483,14 @@ javac -d . Select.java
 #### 在 PostgreSQL 实例中更新数据：
 1）将 empno 值为 10002 的 age 修改为 25 ，修改 Update 代码如下：
 ```java
+package com.sequoiadb.postgresql;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Update {
-    private static String url = "jdbc:postgresql://localhost:5432/company";
+    private static String url = "jdbc:postgresql://127.0.0.1:5432/company";
     private static String username = "sdbadmin";
     private static String password = "";
 
@@ -486,11 +499,12 @@ public class Update {
     }
 
     public static void update() throws SQLException {
-        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, password);
+        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, passwor
+d);
         Connection connection = pgConnection.getConnection();
         String sql = "update employee set age = ? where empno = ?";
         PreparedStatement psmt = connection.prepareStatement(sql);
-        //psmt.setInt(1, 49);
+        //psmt.setInt(1, 41);
         psmt.setInt(1, 25);
         //psmt.setInt(2, 10004);
         psmt.setInt(2, 10002);
@@ -518,12 +532,14 @@ javac -d . Update.java
 #### 在 PostgreSQL 实例中删除数据：
 1）将 empno 值为 10003 的记录删除 ,修改 Delete.java 代码如下：
 ```java
+package com.sequoiadb.postgresql;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Delete {
-    private static String url = "jdbc:postgresql://localhost:5432/company";
+    private static String url = "jdbc:postgresql://127.0.0.1:5432/company";
     private static String username = "sdbadmin";
     private static String password = "";
 
@@ -532,7 +548,8 @@ public class Delete {
     }
 
     public static void delete() throws SQLException {
-        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, password);
+        PostgreSQLConnection pgConnection = new PostgreSQLConnection(url, username, passwor
+d);
         Connection connection = pgConnection.getConnection();
         String sql = "delete from employee where empno = ?";
         PreparedStatement psmt = connection.prepareStatement(sql);
@@ -543,6 +560,7 @@ public class Delete {
     }
 }
 ```
+
 2）对 Delete.java 文件进行编译；
 
 ```shell
