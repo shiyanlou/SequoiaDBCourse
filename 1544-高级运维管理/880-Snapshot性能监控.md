@@ -225,3 +225,5 @@ db.snapshot (SDB_SNAP_COLLECTIONS) ;
 ## 总结
 
 SequoiaDB 巨杉数据库提供多种快照类型，获取快照我们能够得到系统当前的状态，有利于快速分析问题和对性能进行监控。
+
+
