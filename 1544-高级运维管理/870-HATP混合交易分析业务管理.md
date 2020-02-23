@@ -122,19 +122,13 @@ SHOW VARIABLES LIKE '%sequoiadb_conn_addr%' ;
 
 ## 巨杉数据库设置
 
-1）使用 Linux 命令行进去 SequoiaDB Shell；
+1）通过 SequoiaDB Shell 工具连接协调节点，获取数据库连接；
 
 ```shell
-sdb
+sdb 'var db=new Sdb("localhost", 11810)' ;
 ```
 
-2）使用javascript 语法连接协调节点，获取数据库连接；
-
-```javascript
-var db=new Sdb("localhost", 11810) ;
-```
-
-3）修改巨杉数据库复制组实例id；
+2）修改巨杉数据库复制组实例id；
 
 通过修改参数 instanceid，确定每个副本的编号。这个编号为稍后的 SparkSQL 创建表做准备。
 
@@ -144,41 +138,35 @@ var db=new Sdb("localhost", 11810) ;
 
 修改数据节点复制组实例 id；
 
-```javascript
-db.updateConf ( { instanceid : 1 } ,{ GroupName : "group1" , svcname : "11820" } ) ;
-db.updateConf ( { instanceid : 2 } ,{ GroupName : "group1" , svcname : "21820" } ) ;
-db.updateConf ( { instanceid : 3 } ,{ GroupName : "group1" , svcname : "31820" } ) ;
-db.updateConf ( { instanceid : 1 } ,{ GroupName : "group2" , svcname : "11830" } ) ;
-db.updateConf ( { instanceid : 2 } ,{ GroupName : "group2" , svcname : "21830" } ) ;
-db.updateConf ( { instanceid : 3 } ,{ GroupName : "group2" , svcname : "31830" } ) ;
-db.updateConf ( { instanceid : 1 } ,{ GroupName : "group3" , svcname : "11840" } ) ;
-db.updateConf ( { instanceid : 2 } ,{ GroupName : "group3" , svcname : "21840" } ) ;
-db.updateConf ( { instanceid : 3 } ,{ GroupName : "group3" , svcname : "31840" } ) ;
+```shell
+sdb 'db.updateConf ( { instanceid : 1 } ,{ GroupName : "group1" , svcname : "11820" } ) ; '
+sdb 'db.updateConf ( { instanceid : 2 } ,{ GroupName : "group1" , svcname : "21820" } ) ; '
+sdb 'db.updateConf ( { instanceid : 3 } ,{ GroupName : "group1" , svcname : "31820" } ) ; '
+sdb 'db.updateConf ( { instanceid : 1 } ,{ GroupName : "group2" , svcname : "11830" } ) ; '
+sdb 'db.updateConf ( { instanceid : 2 } ,{ GroupName : "group2" , svcname : "21830" } ) ; '
+sdb 'db.updateConf ( { instanceid : 3 } ,{ GroupName : "group2" , svcname : "31830" } ) ; '
+sdb 'db.updateConf ( { instanceid : 1 } ,{ GroupName : "group3" , svcname : "11840" } ) ; '
+sdb 'db.updateConf ( { instanceid : 2 } ,{ GroupName : "group3" , svcname : "21840" } ) ; '
+sdb 'db.updateConf ( { instanceid : 3 } ,{ GroupName : "group3" , svcname : "31840" } ) ; '
 ```
 
 操作截图：
 
- ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/6f2a65898efdf848ea6c518f3c2019fa-0)
+ ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/edb43f157ec1c4355f3117b8c271dcba-0)
 
-修改协调节点读取数据时的读取策略；
+修改协调节点读取数据时的读取策略：
 
-```javascript
-db.updateConf ( { preferedinstance : "1,2,3" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } ) ;
-db.updateConf ( { preferedinstance : "3,2,1" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } ) ;
-db.updateConf ( { preferedinstance : "2,1,3" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } ) ;
+```shell
+sdb 'db.updateConf ( { preferedinstance : "1,2,3" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } );'
+sdb 'db.updateConf ( { preferedinstance : "3,2,1" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } );'
+sdb 'db.updateConf ( { preferedinstance : "2,1,3" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } );'
 ```
 
 SequoiaDB 数据库共有 3 个分区，分别是 group1，group2，group3。每个分区有三个副本，一个主节点副本，两个从节点副本。通过上面的命令把三个副本分别标示为 1，2，3。主节点的副本编号为 1，从节点的副本编为 2 和 3。
 
 操作截图：
 
- ![870-5](https://doc.shiyanlou.com/courses/1544/1207281/96e8a65c9b780b9a9b57ccca06d9a7b5-0)
-
-退出 SequoiaDB Shell ；
-
-```javascript
-quit ;
-```
+ ![870-5](https://doc.shiyanlou.com/courses/1544/1207281/ca5bcbc39cf421a7c8fea5006a1f5765-0)
 
 3）重启SequoiaDB数据库 
 
@@ -197,8 +185,8 @@ sdbstart -t all
 
 4）查看参数修改状态
 
-```javascript
-db.snapshot ( SDB_SNAP_CONFIGS , { } , { NodeName : "" , instanceid : "" } ) ;
+```shell
+sdb 'db.snapshot ( SDB_SNAP_CONFIGS , { } , { NodeName : "" , instanceid : "" } ) ;'
 ```
 
 此时，所有数据节点的 instanceid 均已修改完成。
