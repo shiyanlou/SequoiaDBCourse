@@ -27,7 +27,6 @@ enable_checker: true
 ## 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin
-
 ```shell
 su - sdbadmin
 ```
@@ -39,8 +38,7 @@ su - sdbadmin
 #### 查看巨杉数据库版本
 
 查看 SequoiaDB 巨杉数据库引擎版本
-
-```
+```shell
 sequoiadb --version
 ```
 
@@ -51,8 +49,7 @@ sequoiadb --version
 ## 查看服务状态
 
 #### 查看 SequoiaDB 巨杉数据库引擎节点列表
-
-```
+```shell
 sdblist 
 ```
 
@@ -66,7 +63,6 @@ sdblist
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
 
 #### 查看 MySQL 实例是否已经启动
-
 ```shell
  /opt/sequoiasql/mysql/bin/sdb_sql_ctl status
 ```
@@ -152,7 +148,6 @@ javac -d . *.java
 本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并写入数据；
 
 1）运行 Insert 类的代码；
-
 ```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ```
@@ -201,7 +196,6 @@ public class Insert {
 本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并查询数据
 
 1）运行 Select 类的代码；
-
 ```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
@@ -251,13 +245,11 @@ public class Select {
 本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并更新数据；
 
 1）运行 Update 类代码；
-
 ```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Update
 ```
 
 2）查询确认10001雇员的年龄已经被更改为 49；
-
 ```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
@@ -300,13 +292,11 @@ public class Update {
 本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并删除数据；
 
 1）运行 Delete 类的代码；
-
 ```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Delete
 ```
 
 2）查询确认 empno 为 10006 的雇员信息已经被删除；
-
 ```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
