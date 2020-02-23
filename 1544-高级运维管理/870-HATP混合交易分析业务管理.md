@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.0
+version: 3.0
 enable_checker: true
 ---
 
@@ -32,19 +32,19 @@ enable_checker: true
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
 
 ```shell
-su - sdbadmin ;
+su - sdbadmin
 ```
 
 >Note:
 >
->用户 sdbadmin 的密码为 `sdbadmin`。
+>用户 sdbadmin 的密码为 `sdbadmin`
 
 #### 查看巨杉数据库版本
 
 查看 SequoiaDB 巨杉数据库引擎版本。
 
 ```shell
-sequoiadb --version ;
+sequoiadb --version
 ```
 
 操作截图：
@@ -56,7 +56,7 @@ sequoiadb --version ;
 查看 SequoiaDB 巨杉数据库引擎节点列表。
 
 ```shell
-sdblist  -t all -l -m local ;
+sdblist  -t all -l -m local
 ```
 
 操作截图：
@@ -71,56 +71,60 @@ sdblist  -t all -l -m local ;
 
 在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎。
 
-1）使用 MySQL shell 连接 SequoiaSQL-MySQL 实例；
+1）使用 MySQL Shell 连接 SequoiaSQL-MySQL 实例；
 
 ```shell
-/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root ;
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
 2）创建数据库实例，并切换到该数据库；
 
 ```sql
-create database company ;
-use company;
+CREATE DATABASE company ;
+USE company ;
 ```
 
 3）创建包含自增主键字段的 employee 表；
 
 ```sql
-create table employee (empno int auto_increment primary key, ename varchar(128), age int) ;
+CREATE TABLE employee (
+    empno INT AUTO_INCREMENT PRIMARY KEY,
+    ename VARCHAR(128),
+    age INT
+) ;
 ```
 
 4）进行基本的数据写入操作；
 
 ```sql
-insert into employee (ename, age) values ("Jacky", 36) ;
-insert into employee (ename, age) values ("Alice", 18) ;
+INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
+INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
 ```
 
 5）查看数据情况；
 
 ```sql
-select * from employee ;
+SELECT * FROM employee ;
 ```
 
 6）查看 MySQL 实例读写数据连接的协调节点；
 
 ```sql
-show variables like '%sequoiadb_conn_addr%' ;
+SHOW VARIABLES LIKE '%sequoiadb_conn_addr%' ;
 ```
 
-7）退出 MySQL shell ；
+7）退出 MySQL Shell ；
 
 ```shell
-quit ;
+\q
 ```
 
 ## 巨杉数据库设置
 
-1）使用 Linux 命令行进去 SequoiaDB shell；
+1）使用 Linux 命令行进去 SequoiaDB Shell；
 
 ```shell
-sdb ;
+sdb
 ```
 
 2）使用javascript 语法连接协调节点，获取数据库连接；
@@ -169,9 +173,9 @@ SequoiaDB 数据库共有 3 个分区，分别是 group1，group2，group3。每
 
  ![870-5](https://doc.shiyanlou.com/courses/1544/1207281/96e8a65c9b780b9a9b57ccca06d9a7b5-0)
 
-退出 SequoiaDB shell ；
+退出 SequoiaDB Shell ；
 
-```shell
+```javascript
 quit ;
 ```
 
@@ -180,8 +184,8 @@ quit ;
 instanceid 参数为重启后生效，修改完参数后，重启数据库。
 
 ```shell
-sdbstop -t all ;
-sdbstart -t all ;
+sdbstop -t all
+sdbstart -t all
 ```
 
 操作截图：
@@ -193,7 +197,7 @@ sdbstart -t all ;
 4）查看参数修改状态
 
 ```javascript
-db.snapshot ( SDB_SNAP_CONFIGS , { } , { NodeName : "" , instanceid : "" } )
+db.snapshot ( SDB_SNAP_CONFIGS , { } , { NodeName : "" , instanceid : "" } ) ;
 ```
 
 此时，所有数据节点的 instanceid 均已修改完成。
@@ -211,23 +215,23 @@ SparkSQL 设置完成后，用于处理 OLAP 类的业务。主要负责处理�
 1）登录 Beeline 客户端，连接 SparkSQL 实例；
 
 ```shell
-/opt/spark/bin/beeline -u 'jdbc:hive2://localhost:10000' ;
+/opt/spark/bin/beeline -u 'jdbc:hive2://localhost:10000'
 ```
 
 2）创建 company 数据库；
 
 ```sql
-create database company ;
+CREATE DATABASE company ;
 ```
 
 2）在SparkSQL中创建表的结构
 
 ```sql
-create table company.employee(
+CREATE TABLE company.employee(
     empno int,
     ename string,
     age int
-) using com.sequoiadb.spark options ( 
+) USING com.sequoiadb.spark OPTIONS ( 
     host 'localhost:11810', 
     collectionspace 'company', 
     collection 'employee',
@@ -254,7 +258,7 @@ create table company.employee(
 此时 SparkSQL 从副本 3 读取数据。
 
 ```sql
-select * from company.employee ;
+SELECT * FROM company.employee ;
 ```
 
 操作截图：
