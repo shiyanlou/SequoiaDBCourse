@@ -17,7 +17,7 @@ enable_checker: true
 
 ![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
 
-详细了解 SequoiaDB 巨杉数据库系统架构请点击以下链接：
+如若详细了解 SequoiaDB 巨杉数据库系统架构请点击以下链接：
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
 #### 实验环境
@@ -36,7 +36,7 @@ su - sdbadmin
 ```
 >Note:
 >
->用户 sdbadmin 的密码为 sdbadmin。
+>用户 sdbadmin 的密码为 `sdbadmin`。
 
 #### 查看巨杉数据库版本
 
