@@ -4,6 +4,7 @@ version: 2.0
 enable_checker: true 
 ---
 
+
 # SparkSQL 实例创建与使用
 
 ## 课程介绍
@@ -337,7 +338,6 @@ SELECT * FROM employee ;
 通过本课程，我们学习了如何在安装有 SequoiaDB 巨杉数据库及 MySQL 实例的环境中安装 Spark，并且学习了如何在 SparkSQL 中操作 SequoiaDB 巨杉数据库的数据。
 
 今天我们学习到的知识点为：
-
 
 + SequoiaDB 集合空间、集合的创建
 + SparkSQL 实例的配置
