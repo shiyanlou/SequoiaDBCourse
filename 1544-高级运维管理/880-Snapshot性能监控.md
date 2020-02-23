@@ -1,17 +1,19 @@
 ---
 show: step
-version: 1.0
+version: 3.0
 enable_checker: true
 ---
-# Snapshot性能监控
+# 15分钟演示巨杉数据库基本操作
 
 ## 课程介绍
+
 在 SequoiaDB 巨杉数据库中，快照是一种得到系统当前状态的命令。
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，学习查看快照。
 
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
+
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个引擎协调节点，1 个编目节点与3个数据节点。
 
 ![880-1](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
@@ -31,7 +33,7 @@ enable_checker: true
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
 
 ```shell
-su - sdbadmin ;
+su - sdbadmin
 ```
 
 >Note:
@@ -40,11 +42,12 @@ su - sdbadmin ;
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本
+查看 SequoiaDB 巨杉数据库引擎版本。
 
 ```shell
-sequoiadb --version ;
+sequoiadb --version
 ```
+
 操作截图：
 
 ![880-2](https://doc.shiyanlou.com/courses/1469/1207281/b4082b0d6d6bdf89d229aa713a53759d)
@@ -54,7 +57,7 @@ sequoiadb --version ;
 查看 SequoiaDB 巨杉数据库引擎节点列表
 
 ```shell
-sdblist ;
+sdblist
 ```
 
 操作截图：
@@ -67,19 +70,19 @@ sdblist ;
 
 ## 创建数据库及数据表
 
-进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
+进入 MySQL Shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
 
-#### 登录 MySQL shell 
+#### 登录 MySQL Shell 
 
 ```shell
-/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root ;
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
 #### 创建数据库实例
 
 ```sql
-create database company ;
-use company ;
+CREATE DATABASE company ;
+USE company ;
 ```
 
 #### 创建数据表
@@ -89,26 +92,30 @@ use company ;
 1）创建包含自增主键字段的 employee 表；
 
 ```sql
-create table employee (empno int auto_increment primary key, ename varchar(128), age int) ;
+CREATE TABLE employee (
+    empno INT AUTO_INCREMENT PRIMARY KEY,
+    ename VARCHAR(128),
+    age INT
+) ;
 ```
 
 2）数据写入操作；
 
 ```sql
-insert into employee (ename, age) values ("Jacky", 36) ;
-insert into employee (ename, age) values ("Alice", 18) ;
+INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
+INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
 ```
 
 3）查看数据情况；
 
 ```sql
-select * from employee ;
+SELECT * FROM employee ;
 ```
 
-4）退出 MySQL shell ；
+4）退出 MySQL Shell ；
 
 ```shell
-quit ;
+\q
 ```
 
 ## SNAPSHOT 性能监控
@@ -118,24 +125,25 @@ quit ;
 * [SequoiaDB 快照列表说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1479173710-edition_id-0)
 
 快照列表：
+
 | 快照标示 | 快照类型   |
-| ----- | --------- | 
-| SDB_SNAP_CONTEXTS             | 上下文快照          | 
-| SDB_SNAP_CONTEXTS_CURRENT     | 当前会话上下文快照  | 
-| SDB_SNAP_SESSIONS             | 会话快照            | 
-| SDB_SNAP_SESSIONS_CURRENT     | 当前会话快照        | 
-| SDB_SNAP_COLLECTIONS          | 集合快照            | 
-| SDB_SNAP_COLLECTIONSPACES     | 集合空间快照        | 
-| SDB_SNAP_DATABASE             | 数据库快照          | 
-| SDB_SNAP_SYSTEM               | 系统快照            | 
-| SDB_SNAP_CATALOG              | 编目信息快照        | 
-| SDB_SNAP_TRANSACTIONS         | 事务快照            | 
-| SDB_SNAP_TRANSACTIONS_CURRENT | 当前事务快照        | 
-| SDB_SNAP_ACCESSPLANS          | 访问计划缓存快照    | 
-| SDB_SNAP_HEALTH               | 节点健康检测快照    | 
-| SDB_SNAP_CONFIGS              | 配置快照            | 
-| SDB_SNAP_SVCTASKS             | 服务任务快照        | 
-| SDB_SNAP_SEQUENCES            | 序列快照            | 
+| ----- | --------- |
+| SDB_SNAP_CONTEXTS             | 上下文快照          |
+| SDB_SNAP_CONTEXTS_CURRENT     | 当前会话上下文快照  |
+| SDB_SNAP_SESSIONS             | 会话快照            |
+| SDB_SNAP_SESSIONS_CURRENT     | 当前会话快照        |
+| SDB_SNAP_COLLECTIONS          | 集合快照            |
+| SDB_SNAP_COLLECTIONSPACES     | 集合空间快照        |
+| SDB_SNAP_DATABASE             | 数据库快照          |
+| SDB_SNAP_SYSTEM               | 系统快照            |
+| SDB_SNAP_CATALOG              | 编目信息快照        |
+| SDB_SNAP_TRANSACTIONS         | 事务快照            |
+| SDB_SNAP_TRANSACTIONS_CURRENT | 当前事务快照        |
+| SDB_SNAP_ACCESSPLANS          | 访问计划缓存快照    |
+| SDB_SNAP_HEALTH               | 节点健康检测快照    |
+| SDB_SNAP_CONFIGS              | 配置快照            |
+| SDB_SNAP_SVCTASKS             | 服务任务快照        |
+| SDB_SNAP_SEQUENCES            | 序列快照            |
 
 1）执行shell查询脚本
 
@@ -158,7 +166,7 @@ done
 nohup sh select.sh &
 ```
 
-2）在 Linux 命令行中进入 SequoiaDB shell 交互式界面；
+2）在 Linux 命令行中进入 SequoiaDB Shell 交互式界面；
 
 ```shell
 sdb ;
