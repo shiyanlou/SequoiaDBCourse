@@ -3,8 +3,9 @@ show: step
 version: 1.0
 enable_checker: true
 ---
-
 # MySQL 实例的高可用配置
+
+
 
 ## 课程介绍
 
@@ -38,7 +39,7 @@ su - sdbadmin
 ```
 >Note:
 >
->用户 sdbadmin 的密码为 sdbadmin。
+>用户 sdbadmin 的密码为 `sdbadmin`
 
 #### 查看巨杉数据库版本
 
@@ -79,6 +80,8 @@ sdblist
 ```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
+
+> 设置完成 127.0.0.1 的 MySQL 实例，需要对 172.17.0.2 的 MySQL 实例也进行设置。
 
 2）创建用于同步元数据的 MySQL 用户；
 
