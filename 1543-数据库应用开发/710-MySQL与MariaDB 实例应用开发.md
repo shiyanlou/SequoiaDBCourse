@@ -1,12 +1,9 @@
 ---
 show: step
-version: 6.0
-enable_checker: true
+version: 2.0 
 ---
 
-
 ## 课程介绍
-
 
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他 MySQL 语法操作。
 
@@ -188,10 +185,10 @@ alter table employee add index idx_ename(ename) ;
 ```sql
 explain select * from employee where ename = 'Georgi' ;
 ```
-3）退出客户端
+3）退出 MySQL 客户端
 
 ```sql
-mysql>\q
+\q
 ```
 
 操作截图：
@@ -266,7 +263,7 @@ public class Insert {
     }
 }
 ```
-2）对插入的 java 进行编译；
+2）对 Insert.java 文件进行编译；
 
 ```shell
 javac -d . Insert.java
@@ -323,7 +320,7 @@ public class Select {
     }
 }
 ```
-2）对查询的 java 文件进行编译；
+2）对 Select.java 文件进行编译；
 
 ```shell
 javac -d . Select.java
@@ -371,7 +368,7 @@ public class Update {
         connection.close();
     }
 }
-2）对更新的 java 文件进行编译；
+2）对 Update.java 文件进行编译；
 
 ```shell
 javac -d . Update.java
@@ -424,7 +421,7 @@ public class Delete {
     }
 }
 ```
-2）对删除的 java 文件进行编译；
+2）对 Delete.java 文件进行编译；
 
 ```shell
 javac -d . Delete.java
@@ -436,7 +433,7 @@ javac -d . Delete.java
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Delete
 ```
 
-4）查询确认 empno 为 10001 的雇员信息已经被删除；
+4）检查确认 empno 为 10001 的雇员信息已经被删除；
 
 ```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
