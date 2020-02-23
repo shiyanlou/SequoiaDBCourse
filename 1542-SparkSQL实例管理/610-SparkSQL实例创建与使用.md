@@ -1,6 +1,6 @@
 ---
 show: step
-version: 1.0 
+version: 2.0 
 enable_checker: true 
 ---
 
@@ -15,11 +15,13 @@ enable_checker: true
 
 SparkSQL 是 Spark 产品中一个组成部分，SQL 的执行引擎使用 Spark 的 RDD 和 Dataframe 实现。目前 SparkSQL 已经可以完整运行 TPC-DS99 测试，标志着 SparkSQL 在数据分析和数据处理场景上技术进一步成熟。SequoiaDB 巨杉数据库为 Spark 开发了 SequoiaDB for Spark 的连接器，让 Spark 支持从 SequoiaDB 中并发获取数据，再完成相应的数据计算。
 
+#### 请点击右侧选择使用的实验环境
+
 #### 知识点
 
 - SequoiaDB 集合空间、集合的创建
 - SparkSQL 实例的配置
-- SparkSQL 实例中操作 SequoiaDB 数据库的数据
+- SparkSQL 实例中操作 SequoiaDB 巨杉数据库的数据
 
 ## 切换用户及查看数据库版本
 
@@ -63,19 +65,21 @@ sdblist
 >
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤。
 
-## 安装 SparkSQL 实例
+## 安装 Spark 实例
 
-#### 解压 SparkSQL 安装包
+#### 解压 Spark 安装包
 
-1）检查 SparkSQL 安装包；
+1）检查 Spark 安装包；
 
 ```shell
 ls -trl /home/sdbadmin/soft/
 ```
 
-![1542-610-1](https://doc.shiyanlou.com/courses/1542/1207281/26b2e3cb004f59c9c210afadc457ee4d)
+操作截图：
 
-2）解压 SparkSQL 安装包；
+![1542-610-1](https://doc.shiyanlou.com/courses/1542/1207281/bb4c027c1c181b51b6b426634b031b90-0)
+
+2）解压 Spark 安装包；
 
 ```shell
 tar -zxvf /home/sdbadmin/soft/spark-2.4.4-bin-hadoop2.7.tar.gz -C /opt
@@ -83,25 +87,25 @@ tar -zxvf /home/sdbadmin/soft/spark-2.4.4-bin-hadoop2.7.tar.gz -C /opt
 
 #### 添加驱动包
 
-1）拷贝 SequoiaDB for Spark 的连接器到 SparkSQL 的 jars 目录下；
+1）拷贝 SequoiaDB for Spark 的连接器到 Spark 的 jars 目录下；
 
 ```shell
 cp /opt/sequoiadb/spark/spark-sequoiadb_2.11-3.4.jar /opt/spark-2.4.4-bin-hadoop2.7/jars/
 ```
 
-2）拷贝 MySQL 驱动到 SparkSQL 的 jars 目录下；
+2）拷贝 MySQL 驱动到 Spark 的 jars 目录下；
 
 ```shell
 cp /home/sdbadmin/soft/mysql-jdbc.jar /opt/spark-2.4.4-bin-hadoop2.7/jars/
 ```
 
-3）拷贝 SequoiaDB 的 JAVA 驱动到 SparkSQL 的 jars 目录下；
+3）拷贝 SequoiaDB 的 JAVA 驱动到 Spark 的 jars 目录下；
 
 ```shell
 cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar /opt/spark-2.4.4-bin-hadoop2.7/jars/
 ```
 
-#### 配置 SparkSQL
+#### 配置 Spark
 
 1）设置 spark-env.sh；
 
@@ -136,7 +140,7 @@ vi /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml
    </property>
    <property>
       <name>javax.jdo.option.ConnectionURL</name>
-      <value>jdbc:mysql://sdbserver1:3306/metastore</value>
+      <value>jdbc:mysql://localhost:3306/metastore</value>
       <description>JDBC connect string for a JDBC metastore</description>
    </property>
    <property>
@@ -162,7 +166,7 @@ vi /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml
 
 文件保存后，退出编辑模式。
 
-#### 配置 SparkSQL 元数据库
+#### 配置 Spark 元数据库
 
 1）使用 Linux 命令进入 MySQL shell；
 
@@ -170,13 +174,17 @@ vi /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-![1542-610-2](https://doc.shiyanlou.com/courses/1542/1207281/35b933f575a8668502935c2d3c26772c)
+操作截图：
+
+![1542-610-2](https://doc.shiyanlou.com/courses/1542/1207281/21483f62f6ee35c9e739683ec5bb97d4-0)
 
 2）创建 metauser 用户；
 
 ```sql
 CREATE USER 'metauser'@'%' IDENTIFIED BY 'metauser' ;
 ```
+
+操作截图：
 
 ![1542-610-3](https://doc.shiyanlou.com/courses/1542/1207281/4bf8426e52c44bb09919c1f778b56f4d)
 
@@ -186,13 +194,17 @@ CREATE USER 'metauser'@'%' IDENTIFIED BY 'metauser' ;
 GRANT ALL ON *.* TO 'metauser'@'%' ;
 ```
 
+操作截图：
+
 ![1542-610-4](https://doc.shiyanlou.com/courses/1542/1207281/3bd44330222ef26134db41719d3e1517)
 
-4）创建 SparkSQL 元数据库；
+4）创建 Spark 元数据库；
 
 ```sql
 CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
 ```
+
+操作截图：
 
 ![1542-610-5](https://doc.shiyanlou.com/courses/1542/1207281/1b51e810ab6f8ef935395d21579b503d)
 
@@ -202,15 +214,19 @@ CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
 FLUSH PRIVILEGES ;
 ```
 
+操作截图：
+
 ![1542-610-6](https://doc.shiyanlou.com/courses/1542/1207281/c4e6789a504b6158f5e3b86a44809115)
 
-#### 启动 SparkSQL 服务
+#### 启动 Spark 服务
 
-1） 启动 SparkSQL；
+1） 启动 Spark；
 
 ```shell
 /opt/spark-2.4.4-bin-hadoop2.7/sbin/start-all.sh
 ```
+
+操作截图：
 
 ![1542-610-7](https://doc.shiyanlou.com/courses/1542/1207281/8db1588d0b54de7d2fe3dcfbcacf9d3f)
 
@@ -220,11 +236,13 @@ FLUSH PRIVILEGES ;
 /opt/spark-2.4.4-bin-hadoop2.7/sbin/start-thriftserver.sh
 ```
 
+操作截图：
+
 ![1542-610-8](https://doc.shiyanlou.com/courses/1542/1207281/b4bc251d26d926395cb7a0d05d8d4f98)
 
-## 连接测试
+## SparkSQL 与 SequoiaDB 的集合关联
 
-#### 在 SequoiaDB 中建立集合空间和集合
+#### 在 SequoiaDB 巨杉数据库引擎中建立集合空间和集合
 
 1）使用 Linux 命令进入 SequoiaDB Shell 命令行；
 
@@ -256,6 +274,8 @@ db.createCS ( "company", { Domain : "company_domain" } ) ;
 db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 } , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false } ) ;
 ```
 
+操作截图：
+
 ![1542-610-9](https://doc.shiyanlou.com/courses/1542/1207281/574ce264d392979ae4ef35c939e1e598)
 
 #### 在 SparkSQL 中关联 SequoiaDB 的集合空间、集合
@@ -264,7 +284,7 @@ db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 } , "ShardingTyp
 
 1）登录到 SparkSQL 实例 Beeline Shell；
 
-```
+```shell
 /opt/spark-2.4.4-bin-hadoop2.7/bin/beeline -u 'jdbc:hive2://localhost:10000'
 ```
 
@@ -284,9 +304,13 @@ CREATE TABLE employee (
 ) ;
 ```
 
+操作截图：
+
 ![1542-610-10](https://doc.shiyanlou.com/courses/1542/1207281/7513456f4f9c0730b34e5ebf1dcce0a4)
 
-#### 在 SparkSQL 中进行数据操作
+## 在 SparkSQL 中进行数据操作
+
+在 SparkSQL 中对 SequoiaDB 巨杉数据库的数据进行插入、查询操作。
 
 1）插入数据；
 
@@ -305,14 +329,16 @@ INSERT INTO employee VALUES (10004, 'Chirstian', 40) ;
 SELECT * FROM employee ;
 ```
 
+操作截图：
+
 ![1542-610-12](https://doc.shiyanlou.com/courses/1542/1207281/2a5fa712de8bc2dcb23f453a8b56023b)
 
 ## 总结
 
-通过本课程，我们学习了如何在安装有 SequoiaDB 数据库及 MySQL 实例的环境中安装 SparkSQL，并且学习了如何在 SparkSQL 中操作 SequoiaDB 数据库的数据。
+通过本课程，我们学习了如何在安装有 SequoiaDB 巨杉数据库及 MySQL 实例的环境中安装 Spark，并且学习了如何在 SparkSQL 中操作 SequoiaDB 巨杉数据库的数据。
 
 今天我们学习到的知识点为：
 
 + SequoiaDB 集合空间、集合的创建
 + SparkSQL 实例的配置
-+ SparkSQL 实例中操作 SequoiaDB 数据库的数据
++ SparkSQL 实例中操作 SequoiaDB 巨杉数据库的数据
