@@ -38,7 +38,7 @@ su - sdbadmin
 ```
 >Note:
 >
->用户 sdbadmin 的密码为 sdbadmin。
+>用户 sdbadmin 的密码为 `sdbadmin`。
 
 #### 查看巨杉数据库版本
 
