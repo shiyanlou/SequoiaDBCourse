@@ -1,69 +1,69 @@
 ---
 show: step
-version: 6.0
+version: 1.0
 enable_checker: true
 ---
-
-# 15分钟演示巨杉数据库基本操作
+# Snapshot性能监控
 
 ## 课程介绍
-
 在 SequoiaDB 巨杉数据库中，快照是一种得到系统当前状态的命令。
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，学习查看快照。
 
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
-本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SequoiaSQL-MySQL 数据库实例节点、1个引擎协调节点，1个编目节点与3个数据节点。
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个引擎协调节点，1 个编目节点与3个数据节点。
 
-![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
+![880-1](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
 
-详细了解 SequoiaDB 巨杉数据库系统架构：
+关于 SequoiaDB 巨杉数据库系统架构的详细信息，请参考如下链接：
+
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
 #### 实验环境
-课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
+课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
 ## 切换用户及查看数据库版本
 
 #### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
+
+```shell
+su - sdbadmin ;
 ```
-su - sdbadmin
-```
+
 >Note:
 >
->用户 sdbadmin 的密码为 sdbadmin
+>用户 sdbadmin 的密码为 `sdbadmin`
 
 #### 查看巨杉数据库版本
 
 查看 SequoiaDB 巨杉数据库引擎版本
 
-```
-sequoiadb --version
+```shell
+sequoiadb --version ;
 ```
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/b4082b0d6d6bdf89d229aa713a53759d)
+![880-2](https://doc.shiyanlou.com/courses/1469/1207281/b4082b0d6d6bdf89d229aa713a53759d)
 
 ## 查看节点启动列表
 
 查看 SequoiaDB 巨杉数据库引擎节点列表
 
-```
-sdblist 
+```shell
+sdblist ;
 ```
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/02fcaa58ac27e91688ead137fa748d6e)
+![880-3](https://doc.shiyanlou.com/courses/1469/1207281/02fcaa58ac27e91688ead137fa748d6e)
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
-
+>如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤。
 
 ## 创建数据库及数据表
 
@@ -71,37 +71,50 @@ sdblist
 
 #### 登录 MySQL shell 
 
-```
-/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
+```shell
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root ;
 ```
 
 #### 创建数据库实例
 
 ```sql
-CREATE DATABASE company ;
-USE company ;
+create database company ;
+use company ;
 ```
 
 #### 创建数据表
-在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎，包含主键或唯一键的表将会默认以唯一键作为分区键，进行自动分区。
 
+在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎，包含主键或唯一键的表将会默认以唯一键作为分区键，进行自动分区。
 
 1）创建包含自增主键字段的 employee 表；
 
 ```sql
-CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
+create table employee (empno int auto_increment primary key, ename varchar(128), age int) ;
 ```
 
 2）数据写入操作；
 
 ```sql
-INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
-INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
+insert into employee (ename, age) values ("Jacky", 36) ;
+insert into employee (ename, age) values ("Alice", 18) ;
+```
+
+3）查看数据情况；
+
+```sql
+select * from employee ;
+```
+
+4）退出 MySQL shell ；
+
+```shell
+quit ;
 ```
 
 ## SNAPSHOT 性能监控
 
-本章节列了常用的snapshot，具体性能快照请参考如下链接：
+本章节列了常用的 snapshot，具体性能快照请参考如下链接：
+
 * [SequoiaDB 快照列表说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1479173710-edition_id-0)
 
 快照列表：
@@ -124,26 +137,11 @@ INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
 | SDB_SNAP_SVCTASKS             | 服务任务快照        | 
 | SDB_SNAP_SEQUENCES            | 序列快照            | 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 1）执行shell查询脚本
 
 select.sh 用于模拟前端MySQL实例发起的查询。
 
-```
+```shell
 #!/bin/bash
 i=1
 while [ $i -le 600 ]
@@ -154,16 +152,16 @@ sleep 1s
 done
 ```
 
-使用nohup命令使shell脚本后台运行
+使用 nohup 命令使 shell 脚本后台运行
 
-```
+```shell
 nohup sh select.sh &
 ```
 
-2）在 Linux 命令行中进入 SequoiaDB Shell 交互式界面；
+2）在 Linux 命令行中进入 SequoiaDB shell 交互式界面；
 
-```
-sdb
+```shell
+sdb ;
 ```
 
 3）使用 JavaScript 连接协调节点，并获取数据库连接；
@@ -172,15 +170,13 @@ sdb
 var db = new Sdb ("localhost",11810) ;
 ```
 
-
 4）查看SDB数据库中的会话；
 
 ```javascript
 db.snapshot (SDB_SNAP_SESSIONS,{ Source : { $regex:'MySQL.*' } } ) ;
 ```
 
->{Source:{$regex:'MySQL.*'}使用正则匹配的方式过滤Source列中以MySQL为开头的会话信息。  
-
+>{ Source:{$regex:'MySQL.*'} 使用正则匹配的方式过滤 Source 列中以MySQL为开头的会话信息。  
 
 4）查看数据库状态；
 
@@ -192,37 +188,32 @@ db.snapshot (SDB_SNAP_DATABASE) ;
 
 操作截图：
 
- ![880-1](https://doc.shiyanlou.com/courses/1544/1207281/5c38a23657aa02b6fd6f92b8ddc4c590)
+ ![880-4](https://doc.shiyanlou.com/courses/1544/1207281/5c38a23657aa02b6fd6f92b8ddc4c590)
 
 5）查看集合空间快照；
 
-```
+```javascript
 db.snapshot (SDB_SNAP_COLLECTIONSPACES, { Name : 'company' } ) ;
 ```
 
 Name参数指定了需要查看的集合空间名，如果想查看所有集合空间，可以使用如下命令
 
-```
+```javascript
 db.snapshot (SDB_SNAP_COLLECTIONSPACES) ;
 ```
 
 6）查看集合；
 
-```
+```javascript
 db.snapshot (SDB_SNAP_COLLECTIONS, { Name : 'company.employee' } ) ;
 ```
 
-Name参数指定了需要查看的集合，如果想查看所有集合，可以使用如下命令
+Name 参数指定了需要查看的集合，如果想查看所有集合，可以使用如下命令
 
-```
+```javascript
 db.snapshot (SDB_SNAP_COLLECTIONS) ;
 ```
-
 
 ## 总结
 
 SequoiaDB 巨杉数据库提供多种快照类型，获取快照我们能够得到系统当前的状态，有利于快速分析问题和对性能进行监控。
-
-
-
-
