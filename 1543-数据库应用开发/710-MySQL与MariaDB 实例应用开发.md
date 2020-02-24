@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.1
+version: 2.3
 ---
 
 ## 课程介绍
