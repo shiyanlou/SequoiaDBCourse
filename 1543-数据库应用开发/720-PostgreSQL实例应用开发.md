@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.0 
+version: 3.0 
 ---
 
 ## 课程介绍
@@ -35,7 +35,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本
+查看 SequoiaDB 巨杉数据库引擎版本：
 
 ```shell
 sequoiadb --version
@@ -49,7 +49,7 @@ sequoiadb --version
 
 #### 查看节点启动列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表
+查看 SequoiaDB 巨杉数据库引擎节点列表：
 
 ```shell
 sdblist 
@@ -66,7 +66,7 @@ sdblist
 
 #### 检查实例状态
 
-查看 PostgreSQL 实例状态。
+查看 PostgreSQL 实例状态：
 
 ```shell
 /opt/sequoiasql/postgresql/bin/sdb_sql_ctl status
@@ -77,7 +77,7 @@ sdblist
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/ee64c7881af3a8f329bfb50848ed56e2)
 
 ## 创建数据库
-1）在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库实例，为接下来验证 PostgreSQL 语法特性做准备。
+1）在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库实例，为接下来验证 PostgreSQL 语法特性做准备；
 
 以 sdbadmin 用户登录，在 PostgreSQL 实例创建数据库 company；
 ```shell
@@ -111,40 +111,36 @@ CREATE EXTENSION sdb_fdw ;
 
 #### 配置与 SequoiaDB 连接参数
 在 PostgreSQL 实例中配置 SequoiaDB 连接参数：
-
+1）创建 sdb_server 这个连接器
 ```sql
-CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw 
-    OPTIONS (address '127.0.0.1', service '11810', user '', password '', preferedinstance 'A', transaction 'on' ) ;
+CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw OPTIONS (address '127.0.0.1', service '11810', user '', password '', preferedinstance 'A', transaction 'on' ) ;
 ```
 
 >Note:
 >
-> - 如果没有配置数据库密码验证，可以忽略user与password字段。 
-> - 如果需要提供多个协调节点地址，options 中的 address 字段可以按格式 'ip1:port1,ip2:port2,ip3:port3'填写。此时，service 字段可填写任意一个非空字符串。
-> - preferedinstance 设置 SequoiaDB 的连接属性。多个属性以逗号分隔，如：preferedinstance '1,2,A'。详细配置请参考 preferedinstance 取值
-> - preferedinstancemode 设置 preferedinstance 的选择模式
-> - sessiontimeout 设置会话超时时间 如：sessiontimeout '100' 
-> - transaction 设置 SequoiaDB 是否开启事务，默认为off。开启为on 
-> - cipher 设置是否使用加密文件输入密码，默认为off。开启为on 
-> - token 设置加密口令 
-> - cipherfile 设置加密文件，默认为 ./passwd 
+> - 如果没有配置数据库密码验证，可以忽略user与password字段；
+> - 如果需要提供多个协调节点地址，options 中的 address 字段可以按格式 'ip1:port1,ip2:port2,ip3:port3'填写。此时，service 字段可填写任意一个非空字符串；
+> - preferedinstance 设置 SequoiaDB 的连接属性。多个属性以逗号分隔，如：preferedinstance '1,2,A'；
+> - transaction 设置 SequoiaDB 是否开启事务，默认为off。开启为on ；
+> - 其他详细参数请参考 [PostgreSQL-连接说明](http://doc.sequoiadb.com/cn/SequoiaDB-cat_id-1432190715-edition_id-304) 
 
-退出 PostgreSQL 客户端
+2）退出 PostgreSQL 客户端
 ```sql
 \q
 ```
 
 ## 创建关联集合空间、集合
-在 PostgreSQL 实例中关联 SequoiaDB 数据库引擎中的集合空间、集合。
+首先在 SequoiaDB 巨杉数据库引擎中创建集合空间 company 和集合 employee，然后在 PostgreSQL 实例中关联 SequoiaDB 数据库引擎中创建的集合空间和集合。
 
 #### SequoiaDB 数据库引擎中创建集合
-进入 SequoiaDB Shell，在 SequoiaDB 巨杉数据库引擎中创建集合空间 company，集合 employee。
 
 1）通过 Linux 命令行进入 SequoiaDB Shell；
+
 ```shell
 sdb
 ```
 2）通过 JavaScript 语言连接协调节点，获取数据库连接；
+
 ```javascript
 var db = new Sdb ("localhost",11810) ;
 ```
@@ -175,13 +171,13 @@ quit ;
 
 #### 实例与数据引擎中集合关联
 
-登录到 PostgreSQL 实例 Shell；
+1）登录到 PostgreSQL 实例 Shell；
 
 ```shell
 /opt/sequoiasql/postgresql/bin/psql -p 5432 company
 ```
 
-将 PostgreSQL 实例中的外表并与 SequoiaDB 中的集合空间、集合关联。
+2）创建 PostgreSQL 实例中的外表并与 SequoiaDB 中的集合空间和集合关联；
 
 ```sql
 CREATE FOREIGN TABLE employee (
@@ -189,11 +185,10 @@ CREATE FOREIGN TABLE employee (
      ename VARCHAR(128),
      age INT
   ) 
-  SERVER sdb_server
-  OPTIONS ( collectionspace 'company', collection 'employee', decimal 'on' ) ;
+  SERVER sdb_server OPTIONS ( collectionspace 'company', collection 'employee', decimal 'on' ) ;
 ```
 
-检查 PostgreSQL 中创建的表
+3）检查 PostgreSQL 中创建的表；
 ```sql
 \d
 ```
@@ -205,18 +200,17 @@ CREATE FOREIGN TABLE employee (
 >
 > - 集合空间与集合必须已经存在于 SequoiaDB，否则查询出错；
 > - 如果需要对接 SequoiaDB 的 decimal 字段，则需要在 options 中指定 decimal 'on' 。
-> - pushdownsort 设置是否下压排序条件到 SequoiaDB，默认为 on，关闭为 off；
-> - pushdownlimit 设置是否下压 limit 和 offset 条件到 SequoiaDB，默认为on，关闭为off；
-> - 开启 pushdownlimit 时，必须同时开启 pushdownsort ，否则可能会造成结果非预期的问题；
 > - 默认情况下，表的字段映射到 SequoiaDB 中为小写字符，如果强制指定字段为大写字符，需要将字段名用双引号引起来；
 > - 如果字段名或者字段类型有 PostgreSql 的关键字也是创建不成功表的，需要把关键字用双引号引起来。
+> - 其他详细参数请参考 [PostgreSQL-连接说明](http://doc.sequoiadb.com/cn/SequoiaDB-cat_id-1432190715-edition_id-304) 
+
 
 
 ## 实例操作数据库引擎集合的数据
 使用 PostgreSQL 实例操作关联表中的数据。
 
 #### 通过关联表插入数据
-在 PostgreSQL 实例中向外表 employee 中插入数据；
+在 PostgreSQL 实例中向外表 employee 中插入数据:
 
 ```sql
 INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
@@ -228,7 +222,7 @@ INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 ```
 
 #### 查询 employee 表中的数据
-查询 PostgreSQL 实例外表 employee 中 age 大于20，小于30的数据。
+查询 PostgreSQL 实例外表 employee 中 age 大于20，小于30的数据：
 ```sql
 SELECT * FROM employee WHERE age > 20 AND age < 30 ;
 ```
@@ -271,7 +265,7 @@ SELECT * FROM employee ;
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/31aea8f7e0cc92d6a82283c433929d76)
 
-退出 PostgreSQL 客户端
+3）退出 PostgreSQL 客户端
 
 ```sql
 \q
@@ -338,7 +332,7 @@ EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
 
 
 ## Java 语言操作 PostgreSQL 实例中的数据
-本节内容主要用来演示 Java 语言操作 SequoiaSQL-PostgreSQL 实例中的数据，为相关开发人员提供参考。源码已经放置在 /home/sdbadmin/source 目录下。
+本节内容主要用来演示 Java 语言操作 SequoiaSQL-PostgreSQL 实例中的数据，为相关开发人员提供参考。源码已经放置在 /home/sdbadmin/source/postgresql 目录下。
 
 1）进入源码放置目录；
 ```shell
@@ -365,7 +359,7 @@ javac -d . PostgreSQLConnection.java
 ```
 
 #### 在 PostgreSQL 实例中插入数据：
-1）增加 empno 为 30004 、 30005 和 30006 这三条记录，修改 Insert.java 查询代码如下：
+1）增加 empno 为 30004 、 30005 和 30006 这三条记录， Insert.java 文件的插入代码如下：
 ```java
 package com.sequoiadb.postgresql;
 
@@ -409,18 +403,18 @@ pend("),");
 javac -d . Insert.java
 ```
 
-3）运行 Select 类的代码；
+3）运行 Insert 类的代码；
 
 ```shell
  java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Insert
 ```
 
-4）插入操作截图：
+4）操作截图：
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3ff51f3645fc34c76dd9a628438ac402-0)
 
 
 #### 从 PostgreSQL 实例中查询数据：
-1）只查询 empno 和 age 这两个字段 ，修改 Select.java 查询代码如下：
+1）只查询 empno 和 age 这两个字段 ，Select.java 文件的查询代码如下；
 ```java
 package com.sequoiadb.postgresql;
 
@@ -476,12 +470,12 @@ javac -d . Select.java
  java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Select
 ```
 
-4）只查询 empno 和 age 这两个字段截图：
+4）操作截图：
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0b9e6d8e24e1c26b3f4131bc51a522c7-0)
 
 
 #### 在 PostgreSQL 实例中更新数据：
-1）将 empno 值为 10002 的 age 修改为 25 ，修改 Update 代码如下：
+1）将 empno 值为 10002 的 age 修改为 25 ，Update.java 文件的插入代码如下：
 ```java
 package com.sequoiadb.postgresql;
 
@@ -525,12 +519,17 @@ javac -d . Update.java
 ```shell
  java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Update
 ```
+4）更新后查看 empno 为 10002 的 age 值是否更新为 25；
 
-4）更新 empno 为 10002 的 age 值：
+```shell
+ java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Select
+```
+
+5）操作截图 ：
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/768a48c689597e5f9e9061a7ba847326-0)
 
-#### 在 PostgreSQL 实例中删除数据：
-1）将 empno 值为 10003 的记录删除 ,修改 Delete.java 代码如下：
+#### 在 PostgreSQL 实例中删除数据
+1）将 empno 值为 10003 的记录删除 , Delete.java 文件的插入代码如下；
 ```java
 package com.sequoiadb.postgresql;
 
@@ -579,7 +578,7 @@ javac -d . Delete.java
  java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Select
 ```
 
-5）删除 empno 值为 10003 的记录：
+5）操作截图；
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/8c0e90ab58632d19c39aa2211c4ee197-0)
 
 ## 总结

@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.0 
+version: 3.0 
 ---
 
 ## 课程介绍
@@ -34,7 +34,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本
+查看 SequoiaDB 巨杉数据库引擎版本：
 
 ```shell
 sequoiadb --version
@@ -46,34 +46,33 @@ sequoiadb --version
 
 ## 查看节点启动列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表
+1）查看 SequoiaDB 巨杉数据库引擎节点列表：
 
 ```shell
 sdblist 
 ```
 
 操作截图：
-
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3ebdc835c21b5685d858918d25a9f372)
 
 >Note:
 >
 >如果显示的节点数量少于上图中的数量，请稍等初始化完成并重试该步骤。
 
-检查 SparkSQL 实例
+2）检查 SparkSQL 实例：
 ```shell
 jps
 ```
 
-环境初始化过程可能会有点慢，需要耐心等待一下，操作截图：
+操作截图：
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/60bec1c6ff23d6286e25bd7a23372086-0)
 
 >Note:
 >
->如果显示的进程少于上图中的数量，请稍等初始化完成并重试该步骤
+>如果显示的进程少于上图中的数量，请稍等初始化完成并重试该步骤，环境初始化过程可能会有点慢，需要耐心等待一下。
 
-## 创建集合空间、集合
+## 创建集合空间和集合
 
 进入 SequoiaDB Shell，在 SequoiaDB 中创建集合空间 company，集合 employee，存储 SparkSQL 操作的数据。
 
@@ -122,14 +121,13 @@ quit ;
 2）在 SparkSQL 实例中创建数据库 company，并切换至company库；
 
 ```sql
-create database company ;
-use company ;
+CREATE DATABASE company ;
+USE company ;
 ```
-
 
 #### 关联实例与数据库引擎中的集合
 
-在 SparkSQL 实例中创建表并与 SequoiaDB 数据库存储引擎中的集合空间、集合关联；
+在 SparkSQL 实例中创建表并与 SequoiaDB 数据库存储引擎中的集合空间和集合关联；
 
 ```sql
 CREATE TABLE employee (
@@ -159,10 +157,10 @@ INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 
 #### 查询关联表插入数据
 
-使用 SparkSQL 实例查询员工年龄为20至24之间的记录。
+使用 SparkSQL 实例查询员工年龄为20至24之间的记录：
 
 ```sql
-SELECT * FROM employee  WHERE age BETWEEN  20 AND 24;
+SELECT * FROM employee  WHERE age BETWEEN  20 AND 24 ;
 ```
 
 操作截图：
@@ -171,7 +169,7 @@ SELECT * FROM employee  WHERE age BETWEEN  20 AND 24;
 
 
 #### 通过已有表创建表
-1）通过已有表 employee 创建表 employee_bak，并将表中的数据存放到指定域、集合空间中；
+1）通过已有表 employee 创建表 employee_bak，并将表中的数据存放到指定域和集合空间中；
 ```sql
 CREATE TABLE employee_bak USING com.sequoiadb.spark OPTIONS (
 host 'localhost:11810',
@@ -182,8 +180,7 @@ autosplit true,
 shardingkey '{_id:1}',
 shardingtype 'hash',
 compressiontype 'lzw'
-)
-AS SELECT * FROM employee ;
+)  AS SELECT * FROM employee ;
 ```
 
 2）查看 employee_bak 表中的数据；
@@ -192,13 +189,11 @@ SELECT * FROM employee_bak ;
 ```
 
 操作截图：
-
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9b2f6201953abb8679f52b5d3e02ffc1)
 
-退出 SparkSQL 的客户端
-
+3）退出 SparkSQL 的客户端
 ```sql 
-0: jdbc:hive2://localhost:10000> !q
+!q
 ```
 
 ## 总结

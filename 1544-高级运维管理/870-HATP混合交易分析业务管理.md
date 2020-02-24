@@ -1,6 +1,6 @@
 ---
 show: step
-version: 3.0
+version: 4.0
 enable_checker: true
 ---
 
@@ -14,6 +14,7 @@ enable_checker: true
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
+
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区三副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个 SequoiaSQL-PostgreSQL 数据库实例节点、1 个 SparkSQL 实例节点、1 个引擎协调节点，1 个编目节点与 3 个数据节点。
 
 ![870-1](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
@@ -65,13 +66,13 @@ sdblist  -t all -l -m local
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤。
+>如果显示的节点数量与预期不符，请稍等节点初始化完成并重试该步骤。
 
 ## 在 MySQL 实例创建表
 
 在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎。
 
-1）使用 MySQL Shell 连接 SequoiaSQL-MySQL 实例；
+1）登录 MySQL Shell；
 
 ```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
@@ -94,7 +95,7 @@ CREATE TABLE employee (
 ) ;
 ```
 
-4）进行基本的数据写入操作；
+4）向表中插入数据；
 
 ```sql
 INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
@@ -115,7 +116,7 @@ SHOW VARIABLES LIKE '%sequoiadb_conn_addr%' ;
 
 7）退出 MySQL Shell ；
 
-```shell
+```sql
 \q
 ```
 
@@ -127,7 +128,7 @@ SHOW VARIABLES LIKE '%sequoiadb_conn_addr%' ;
 sdb
 ```
 
-2）使用javascript 语法连接协调节点，获取数据库连接；
+2）使用 javascript 语法连接协调节点，获取数据库连接；
 
 ```javascript
 var db=new Sdb("localhost", 11810) ;
@@ -141,37 +142,51 @@ var db=new Sdb("localhost", 11810) ;
 
 * [ SequoiaDB 数据库配置 ](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190643-edition_id-0)
 
-修改数据节点复制组实例 id；
+修改 11820，11830，11840 数据节点复制组实例 id 为 1：
 
 ```javascript
-db.updateConf ( { instanceid : 1 } ,{ GroupName : "group1" , svcname : "11820" } ) ;
-db.updateConf ( { instanceid : 2 } ,{ GroupName : "group1" , svcname : "21820" } ) ;
-db.updateConf ( { instanceid : 3 } ,{ GroupName : "group1" , svcname : "31820" } ) ;
-db.updateConf ( { instanceid : 1 } ,{ GroupName : "group2" , svcname : "11830" } ) ;
-db.updateConf ( { instanceid : 2 } ,{ GroupName : "group2" , svcname : "21830" } ) ;
-db.updateConf ( { instanceid : 3 } ,{ GroupName : "group2" , svcname : "31830" } ) ;
-db.updateConf ( { instanceid : 1 } ,{ GroupName : "group3" , svcname : "11840" } ) ;
-db.updateConf ( { instanceid : 2 } ,{ GroupName : "group3" , svcname : "21840" } ) ;
-db.updateConf ( { instanceid : 3 } ,{ GroupName : "group3" , svcname : "31840" } ) ;
+db.updateConf ( { instanceid : 1 } ,{svcname : {"$in":["11820", "11830", "11840"]}} ) ;
+```
+
+修改 21820，21830，21840 数据节点复制组实例 id 为 2：
+
+```javascript
+db.updateConf ( { instanceid : 2 } ,{svcname : {"$in":["21820", "21830", "21840"]}} ) ;
+```
+
+修改 31820，31830，31840 数据节点复制组实例 id 为 3：
+
+```javascript
+db.updateConf ( { instanceid : 3 } ,{svcname : {"$in":["31820", "31830", "31840"]}} ) ;
 ```
 
 操作截图：
 
- ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/6f2a65898efdf848ea6c518f3c2019fa-0)
+ ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/809405c09a7269405ed082e582479d73-0)
 
-修改协调节点读取数据时的读取策略；
+修改 11810 协调节点读取数据时的读取策略：
 
 ```javascript
 db.updateConf ( { preferedinstance : "1,2,3" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } ) ;
-db.updateConf ( { preferedinstance : "3,2,1" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } ) ;
-db.updateConf ( { preferedinstance : "2,1,3" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } ) ;
+```
+
+修改 21810 协调节点读取数据时的读取策略：
+
+```javascript
+db.updateConf ( { preferedinstance : "2,1,3" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "21810" } ) ;
+```
+
+修改 31810 协调节点读取数据时的读取策略；
+
+```javascript
+db.updateConf ( { preferedinstance : "3,2,1" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "31810" } ) ;
 ```
 
 SequoiaDB 数据库共有 3 个分区，分别是 group1，group2，group3。每个分区有三个副本，一个主节点副本，两个从节点副本。通过上面的命令把三个副本分别标示为 1，2，3。主节点的副本编号为 1，从节点的副本编为 2 和 3。
 
 操作截图：
 
- ![870-5](https://doc.shiyanlou.com/courses/1544/1207281/96e8a65c9b780b9a9b57ccca06d9a7b5-0)
+ ![870-5](https://doc.shiyanlou.com/courses/1544/1207281/b7104906de30188804edf405dca5ee75-0)
 
 退出 SequoiaDB Shell ；
 
@@ -194,17 +209,43 @@ sdbstart -t all
 
  ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/ce86694217fb24781a5759c3cdbf20b7)
 
-4）查看参数修改状态
+4）查看数据节点参数修改状态；
+
+进入 SequoiaDB Shell：
+
+```shell
+sdb
+```
+
+使用 javascript 语法连接协调节点，获取数据库连接：
 
 ```javascript
-db.snapshot ( SDB_SNAP_CONFIGS , { } , { NodeName : "" , instanceid : "" } ) ;
+var db=new Sdb("localhost", 11810) ;
+```
+
+查看数据节点参数修改状态：
+
+```javascript
+db.snapshot ( SDB_SNAP_CONFIGS , {Role : "data" } , { NodeName : "" , instanceid : ""} ) ;
 ```
 
 此时，所有数据节点的 instanceid 均已修改完成。
 
 操作截图：
 
- ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/0d3797c51a7c3bbfbafa23f3c02c4295-0)
+ ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/5f77d97e4518664dd9e36694b69f1a82-0)
+
+5）查看协调节点参数修改状态；
+
+```javascript
+db.snapshot ( SDB_SNAP_CONFIGS , {Role : "coord" } , { NodeName : "" , preferedinstance : ""} ) ;
+```
+
+操作截图：
+
+ ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/b132ec3cc727b718dc7b93c27871a99d-0)
+
+ 此时，所有数据节点的 preferedinstance 均已修改完成。
 
 ## SparkSQL设置
 
@@ -268,4 +309,3 @@ SELECT * FROM company.employee ;
 ## 总结
 
 本课程通过给数据组的副本设置实例 id 和协调节点设置数据读取的顺序，使得 MySQL 实例连接的11810协调节点，读取数据的实例 id 顺序为 1，2；SparkSQL 实例读取的数据节点实例 id 为 3，2。由于生产环境中我们部署节点一般是 1 台机器 1 个数据组为 1个副本，这样的读取顺序能够把两个不同的实例分开，实现资源隔离。
-

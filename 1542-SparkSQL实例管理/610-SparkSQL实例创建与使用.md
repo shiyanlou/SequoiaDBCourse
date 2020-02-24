@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.0 
+version: 3.0 
 enable_checker: true 
 ---
 
@@ -35,7 +35,7 @@ su - sdbadmin
 
 >Note:
 >
->用户 sdbadmin 的密码为 `sdbadmin`。
+>用户 sdbadmin 的密码为 `sdbadmin` 。
 
 #### 查看巨杉数据库版本
 
@@ -115,14 +115,14 @@ cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar /opt/spark-2.4.4-bin-hadoop2.7/j
 cp /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh.template /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh
 ```
 
-在 spark-env.sh 中设置 WORKER 数量和 MASTER 的 IP；
+在 spark-env.sh 中设置 WORKER 的数量和 MASTER 的 IP；
 
 ```shell
 echo "SPARK_WORKER_INSTANCES=2" >> /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh
 echo "SPARK_MASTER_IP=127.0.0.1" >> /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh
 ```
 
-2）创建设置元数据数据库配置文件 hive-site.xml；
+2）创建设置元数据信息的数据库配置文件 hive-site.xml；
 
 使用 vi 创建 hive-site.xml 文件；
 
@@ -315,10 +315,10 @@ CREATE TABLE employee (
 1）插入数据；
 
 ```sql
-INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
-INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
-INSERT INTO employee VALUES (10003, 'Parto', 33) ;
-INSERT INTO employee VALUES (10004, 'Chirstian', 40) ;
+INSERT INTO employee VALUES ( 10001, 'Georgi', 48 ) ;
+INSERT INTO employee VALUES ( 10002, 'Bezalel', 21 ) ;
+INSERT INTO employee VALUES ( 10003, 'Parto', 33 ) ;
+INSERT INTO employee VALUES ( 10004, 'Chirstian', 40 ) ;
 ```
 
 ![1542-610-11](https://doc.shiyanlou.com/courses/1542/1207281/5a29365c408c0525cbec5dc7e7441426)

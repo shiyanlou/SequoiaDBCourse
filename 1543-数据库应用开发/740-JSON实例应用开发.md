@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.0 
+version: 3.0 
 ---
 
 ## 课程介绍
@@ -35,7 +35,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本
+查看 SequoiaDB 巨杉数据库引擎版本：
 
 ```shell
 sequoiadb --version
@@ -61,7 +61,7 @@ sdblist
 >
 >如果显示的节点数量少于上图中的数量，请稍等初始化完成并重试该步骤。
 
-## 创建域、集合空间、集合
+## 创建域、集合空间和集合
 
 1）通过 Linux 命令行进入 SequoiaDB Shell；
 
@@ -106,7 +106,7 @@ db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" 
 通过 SequoiaDB Shell 操作集合中数据。
 
 #### 集合中插入数据
-在 JSON 实例集合 company 中插入数据 ：
+在 JSON 实例集合 company 中插入数据：
 ```javascript
 db.company.employee.insert ({ "empno" : 10001 , "ename" : "Georgi" , "age" : 48 }) ;
 db.company.employee.insert ({ "empno" : 10002 , "ename" : "Bezalel" , "age" : 21 }) ;
@@ -183,10 +183,9 @@ db.company.employee.find ( { "ename" : "Georgi" } ).explain() ;
 ```
 
 操作截图：
-
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0afc05df8deddc2ac5b285768c0b372e)
 
-退出 SequoiaDB Shell；
+4）退出 SequoiaDB Shell；
 
 ```javascript
 quit ;
