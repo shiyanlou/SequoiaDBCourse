@@ -4,14 +4,14 @@ version: 4.0
 enable_checker: true
 ---
 
+# SNAPSHOT 性能监控
+
 ## 课程介绍
 
 在 SequoiaDB 巨杉数据库中，快照是一种得到系统当前状态的命令。
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，学习查看快照。
 
-#### 请点击右侧选择使用的实验环境
-
-#### 部署架构：
+### 部署架构
 
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个引擎协调节点，1 个编目节点与3个数据节点。
 
@@ -21,13 +21,13 @@ enable_checker: true
 
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
-#### 实验环境
+### 实验环境
 
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
 ## 切换用户及查看数据库版本
 
-#### 切换到 sdbadmin 用户
+### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
 
@@ -39,7 +39,7 @@ su - sdbadmin
 >
 >用户 sdbadmin 的密码为 `sdbadmin`
 
-#### 查看巨杉数据库版本
+### 查看巨杉数据库版本
 
 查看 SequoiaDB 巨杉数据库引擎版本。
 
@@ -65,26 +65,26 @@ sdblist
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤。
+>如果显示的节点数量与预期不符，请稍等节点初始化完成后再重试该步骤。
 
 ## 创建数据库及数据表
 
 进入 MySQL Shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
 
-#### 登录 MySQL Shell 
+### 登录 MySQL Shell 
 
 ```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-#### 创建数据库实例
+### 创建数据库实例
 
 ```sql
 CREATE DATABASE company ;
 USE company ;
 ```
 
-#### 创建数据表
+### 创建数据表
 
 在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎，包含主键或唯一键的表将会默认以唯一键作为分区键，进行自动分区。
 
@@ -117,9 +117,9 @@ SELECT * FROM employee ;
 \q
 ```
 
-## SNAPSHOT 性能监控
+## SNAPSHOT 监控
 
-本章节列了常用的 snapshot，具体性能快照请参考如下链接：
+本章节列了常用的快照类型，具体性能快照请参考如下链接：
 
 * [SequoiaDB 快照列表说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1479173710-edition_id-0)
 
@@ -144,9 +144,9 @@ SELECT * FROM employee ;
 | SDB_SNAP_SVCTASKS             | 服务任务快照        |
 | SDB_SNAP_SEQUENCES            | 序列快照            |
 
-1）执行shell查询脚本
+1）模拟 MySQL 查询
 
-select.sh 用于模拟前端MySQL实例发起的查询。
+编写 shell 查询脚本，脚本名为 select.sh，用于模拟前端 MySQL 实例发起的查询，脚本内容如下：
 
 ```shell
 #!/bin/bash
@@ -159,63 +159,63 @@ sleep 1s
 done
 ```
 
-使用 nohup 命令使 shell 脚本后台运行
+2）使用 nohup 命令使 select.sh 脚本后台运行；
 
 ```shell
 nohup sh select.sh &
 ```
 
-2）在 Linux 命令行中进入 SequoiaDB Shell 交互式界面；
+3）在 Linux 命令行中进入 SequoiaDB Shell 交互式界面；
 
 ```shell
 sdb ;
 ```
 
-3）使用 JavaScript 连接协调节点，并获取数据库连接；
+4）使用 JavaScript 连接协调节点，并获取数据库连接；
 
 ```javascript
 var db = new Sdb ("localhost",11810) ;
 ```
 
-4）查看SDB数据库中的会话；
+5）查看SDB数据库中的会话；
 
 ```javascript
 db.snapshot (SDB_SNAP_SESSIONS,{ Source : { $regex:'MySQL.*' } } ) ;
 ```
 
->{ Source:{$regex:'MySQL.*'} 使用正则匹配的方式过滤 Source 列中以MySQL为开头的会话信息。  
+>{ Source:{$regex:'MySQL.*'} 使用正则匹配的方式过滤 Source 列中以 MySQL 为开头的会话信息。  
 
-4）查看数据库状态；
+6）查看数据库状态；
 
 ```javascript
 db.snapshot (SDB_SNAP_DATABASE) ;
 ```
 
-如果数据库状态异常，ErrNodes列会列出异常信息。
+如果数据库状态异常，ErrNodes 列会列出异常信息。
 
 操作截图：
 
  ![880-4](https://doc.shiyanlou.com/courses/1544/1207281/5c38a23657aa02b6fd6f92b8ddc4c590)
 
-5）查看集合空间快照；
+7）查看集合空间快照；
 
 ```javascript
 db.snapshot (SDB_SNAP_COLLECTIONSPACES, { Name : 'company' } ) ;
 ```
 
-Name参数指定了需要查看的集合空间名，如果想查看所有集合空间，可以使用如下命令
+Name 参数指定了需要查看的集合空间名，如果想查看所有集合空间，可以使用如下命令：
 
 ```javascript
 db.snapshot (SDB_SNAP_COLLECTIONSPACES) ;
 ```
 
-6）查看集合；
+8）查看集合；
 
 ```javascript
 db.snapshot (SDB_SNAP_COLLECTIONS, { Name : 'company.employee' } ) ;
 ```
 
-Name 参数指定了需要查看的集合，如果想查看所有集合，可以使用如下命令
+Name 参数指定了需要查看的集合，如果想查看所有集合，可以使用如下命令:
 
 ```javascript
 db.snapshot (SDB_SNAP_COLLECTIONS) ;
