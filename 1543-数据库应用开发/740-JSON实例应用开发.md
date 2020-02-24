@@ -12,7 +12,7 @@ version: 2.1
 #### 部署架构：
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括1个引擎协调节点，1个编目节点与3个数据节点。
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/dd11cb78ba9732f36f58883df952282a)
+![图片描述](https://doc.shiyanlou.com/courses/1480/1207281/96cb907f16094f2f959938fe26df8546-0)
 
 详细了解 SequoiaDB 巨杉数据库系统架构：
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
