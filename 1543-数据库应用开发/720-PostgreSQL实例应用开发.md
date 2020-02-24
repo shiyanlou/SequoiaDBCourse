@@ -586,3 +586,4 @@ javac -d . Delete.java
 通过本课程，我们验证了 SequoiaDB 巨杉数据库所支持的 PostgreSQL 语法，并展示了使用 JAVA 语言对 SequoiaSQL-PostgreSQL 实例中的表进行 CRUD 操作。可以看出：
 - SequoiaSQL-PostgreSQL 实例兼容标准的 PostgreSQL 语法；
 - Java语言操作 SequoiaSQL-PostgreSQL 实例中的数据与操作原生 PostgreSQL 中的数据无任何差异，可做到无缝切换；
+                                                                                        
