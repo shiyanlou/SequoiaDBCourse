@@ -63,7 +63,7 @@ sdblist
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/02fcaa58ac27e91688ead137fa748d6e)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/73fc0e5e1674703f570a9d7878bdfc4c-0)
 
 >Note:
 >
@@ -206,7 +206,7 @@ ls /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
 
 操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/601ca75e4c4bb64478cc9c27fd359619)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/250edbc6970ed1d7e6605f4f20150d1b-0)
 
 > 如截图显示，则代表未给 MySQL 配置数据库审计日志
 
@@ -504,7 +504,7 @@ exit
 1）登录 MySQL Shell，连接 172.17.0.1 的 MySQL 实例；
 
 ```shell
-/opt/sequoiasql/mysql/bin/mysql -h 172.17.0.2 -P 3306 -u root -p
+/opt/sequoiasql/mysql/bin/mysql -h 172.17.0.2 -P 3306 -u sdbadmin -p
 ```
 
 2）查看数据库，可以看到 company 数据库已经同步创建；
