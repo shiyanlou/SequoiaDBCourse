@@ -11,7 +11,7 @@ enable_checker: true
 在 SequoiaDB 巨杉数据库中，快照是一种得到系统当前状态的命令。
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，学习查看快照。
 
-### 部署架构
+#### 部署架构
 
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个引擎协调节点，1 个编目节点与3个数据节点。
 
@@ -21,13 +21,13 @@ enable_checker: true
 
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
-### 实验环境
+#### 实验环境
 
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
 
 ## 切换用户及查看数据库版本
 
-### 切换到 sdbadmin 用户
+#### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
 
@@ -39,7 +39,7 @@ su - sdbadmin
 >
 >用户 sdbadmin 的密码为 `sdbadmin`
 
-### 查看巨杉数据库版本
+#### 查看巨杉数据库版本
 
 查看 SequoiaDB 巨杉数据库引擎版本。
 
@@ -71,20 +71,20 @@ sdblist
 
 进入 MySQL Shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
 
-### 登录 MySQL Shell 
+#### 登录 MySQL Shell 
 
 ```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-### 创建数据库实例
+#### 创建数据库实例
 
 ```sql
 CREATE DATABASE company ;
 USE company ;
 ```
 
-### 创建数据表
+#### 创建数据表
 
 在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎，包含主键或唯一键的表将会默认以唯一键作为分区键，进行自动分区。
 

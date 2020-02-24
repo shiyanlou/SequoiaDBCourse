@@ -11,7 +11,7 @@ enable_checker: true
 
 本课程主要介绍 SequoiaDB 巨杉数据库的 HTAP 能力。通过连接不同的分区副本，实现 OLTP 与 OLAP 业务资源隔离，进而提高整体性能。
 
-### 部署架构
+#### 部署架构
 
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区三副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个 SequoiaSQL-PostgreSQL 数据库实例节点、1 个 SparkSQL 实例节点、1 个引擎协调节点，1 个编目节点与 3 个数据节点。
 
@@ -21,13 +21,13 @@ enable_checker: true
 
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
-### 实验环境
+#### 实验环境
 
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本、SequoiaDB-Spark驱动连接器版本为3.4、 SparkSQL 版本为 2.4.4。
 
 ## 切换用户及查看数据库版本
 
-### 切换到 sdbadmin 用户
+#### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
 
@@ -39,7 +39,7 @@ su - sdbadmin
 >
 >用户 sdbadmin 的密码为 `sdbadmin`
 
-### 查看巨杉数据库版本
+#### 查看巨杉数据库版本
 
 查看 SequoiaDB 巨杉数据库引擎版本。
 
@@ -127,7 +127,7 @@ SHOW VARIABLES LIKE '%sequoiadb_conn_addr%' ;
 
 * [ SequoiaDB 数据库配置 ](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190643-edition_id-0)
 
-### 修改数据节点配置
+#### 修改数据节点配置
 
 1）使用 Linux 命令行进去 SequoiaDB Shell；
 
@@ -163,7 +163,7 @@ db.updateConf ( { instanceid : 3 } ,{svcname : {"$in":["31820", "31830", "31840"
 
  ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/809405c09a7269405ed082e582479d73-0)
 
-### 修改协调节点配置
+#### 修改协调节点配置
 
 1）修改 11810 协调节点读取数据时的读取策略；
 
@@ -189,13 +189,13 @@ SequoiaDB 数据库共有 3 个分区，分别是 group1，group2，group3。每
 
  ![870-5](https://doc.shiyanlou.com/courses/1544/1207281/b7104906de30188804edf405dca5ee75-0)
 
-4）退出 SequoiaDB Shell ；
+4）退出 SequoiaDB Shell；
 
 ```javascript
 quit ;
 ```
 
-### 重启 SequoiaDB 数据库
+## 重启 SequoiaDB 数据库
 
 instanceid 参数为重启后生效，修改完参数后，重启数据库。
 
@@ -210,21 +210,21 @@ sdbstart -t all
 
  ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/ce86694217fb24781a5759c3cdbf20b7)
 
-4）查看数据节点参数修改状态；
+## 查看节点参数修改状态
 
-进入 SequoiaDB Shell：
+1）进入 SequoiaDB Shell；
 
 ```shell
 sdb
 ```
 
-使用 javascript 语法连接协调节点，获取数据库连接：
+2）使用 javascript 语法连接协调节点，获取数据库连接；
 
 ```javascript
 var db=new Sdb("localhost", 11810) ;
 ```
 
-查看数据节点参数修改状态：
+3）查看数据节点参数修改状态；
 
 ```javascript
 db.snapshot ( SDB_SNAP_CONFIGS , {Role : "data" } , { NodeName : "" , instanceid : ""} ) ;
@@ -236,7 +236,7 @@ db.snapshot ( SDB_SNAP_CONFIGS , {Role : "data" } , { NodeName : "" , instanceid
 
  ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/5f77d97e4518664dd9e36694b69f1a82-0)
 
-5）查看协调节点参数修改状态；
+4）查看协调节点参数修改状态；
 
 ```javascript
 db.snapshot ( SDB_SNAP_CONFIGS , {Role : "coord" } , { NodeName : "" , preferedinstance : ""} ) ;
