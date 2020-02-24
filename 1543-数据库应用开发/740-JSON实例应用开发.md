@@ -194,3 +194,6 @@ quit ;
 ## 总结
 
 我们通过 javascript 语法对 SequoiaDB 巨杉数据库 JSON 实例进行了创建集合空间、集合、索引以及数据的 CRUD 基本操作。
+                                                                                            
+                                                                                            
+                                                                                            

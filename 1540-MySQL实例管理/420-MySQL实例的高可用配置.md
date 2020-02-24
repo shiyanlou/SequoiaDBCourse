@@ -1,6 +1,6 @@
 ---
 show: step
-version: 9.0
+version: 10.0
 enable_checker: true
 ---
 # MySQL 实例的高可用配置
@@ -517,6 +517,7 @@ SHOW DATABASES ;
 
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/e5e8c2d83d06c76611712d3b727b7e6b-0
 )
+
 
 3） 切换数据库；
 
