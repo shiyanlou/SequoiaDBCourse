@@ -1,6 +1,6 @@
 ---
 show: step
-version: 9.0
+version: 10.0
 enable_checker: true
 ---
 # MySQL 实例的高可用配置
@@ -518,6 +518,7 @@ SHOW DATABASES ;
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/e5e8c2d83d06c76611712d3b727b7e6b-0
 )
 
+
 3） 切换数据库；
 
 ```sql
@@ -532,34 +533,3 @@ SELECT * FROM employee ;
 
 ## 总结
 本课程我们学会了 MySQL 实例的高可用配置并进行了验证，包括创建数据库用户、审计插件部署和元数据同步工具部署。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
