@@ -199,4 +199,5 @@ SELECT * FROM employee_bak ;
 ## 总结
 
 通过本课程，我们学习了通过 SparkSQL 操作 SequoiaDB 巨杉数据库中的数据。 同时讲解了 SequoiaDB 巨杉数据库所支持的 SparkSQL 语法。
+                                                                                                                            
 
