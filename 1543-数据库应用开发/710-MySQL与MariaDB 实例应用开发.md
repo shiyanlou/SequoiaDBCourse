@@ -459,3 +459,16 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 - SequoiaSQL-MySQL 实例兼容标准的 MySQL 语法；
 - Java语言操作 SequoiaSQL-MySQL 实例中的数据与操作原生 MySQL 中的数据无任何差异，可做到无缝切换；
 
+
+
+
+
+
+
+
+
+
+
+
+
+
