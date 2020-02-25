@@ -67,7 +67,7 @@ sdblist
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤。
+>如果显示的节点数量与预期不符，请稍等节点初始化完成并重试该步骤。
 
 #### 查看本机 MySQL 实例
 
@@ -176,10 +176,10 @@ SHOW GRANTS FOR sdbadmin ;
 \q
 ```
 
-6）使用 sdbadmin 用户重新登陆，输入密码进入 MySQL Shell 说明密码设置成功；
+6）使用 sdbadmin 用户重新登陆MySQL，进入 MySQL Shell 说明密码设置成功；
 
 ```shell
-/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u sdbadmin -p
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -usdbadmin -psdbadmin
 ```
 
 
@@ -207,8 +207,9 @@ ls /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 
 操作截图:
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/250edbc6970ed1d7e6605f4f20150d1b-0)
-
-> 如截图显示，则代表未给 MySQL 配置数据库审计日志
+> Note:
+>
+> 文件不存在，需要给 MySQL 配置数据库审计日志
 
 3）将审计插件 server_audit.so 文件复制到 MySQL 安装目录中的 lib/plugin 目录下；
 ```shell
@@ -504,7 +505,7 @@ exit
 1）登录 MySQL Shell，连接 172.17.0.1 的 MySQL 实例；
 
 ```shell
-/opt/sequoiasql/mysql/bin/mysql -h 172.17.0.2 -P 3306 -u sdbadmin -p
+/opt/sequoiasql/mysql/bin/mysql -h 172.17.0.2 -P 3306 -usdbadmin -psdbadmin
 ```
 
 2）查看数据库，可以看到 company 数据库已经同步创建；
