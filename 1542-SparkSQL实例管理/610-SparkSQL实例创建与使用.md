@@ -1,6 +1,6 @@
 ---
 show: step
-version: 3.0 
+version: 2.0 
 enable_checker: true 
 ---
 
@@ -240,6 +240,22 @@ FLUSH PRIVILEGES ;
 
 ![1542-610-8](https://doc.shiyanlou.com/courses/1542/1207281/b4bc251d26d926395cb7a0d05d8d4f98)
 
+3） 检查进程启动状态；
+
+```shell
+jps
+```
+
+3） 检查端口监听状态；
+
+```shell
+netstat -anp | grep 10000
+```
+
+操作截图：
+
+![1542-610-9](https://doc.shiyanlou.com/courses/1542/1207281/7d335ee8c9715f544256aeae63df63eb-0)
+
 ## SparkSQL 与 SequoiaDB 的集合关联
 
 #### 在 SequoiaDB 巨杉数据库引擎中建立集合空间和集合
@@ -276,7 +292,7 @@ db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 } , "ShardingTyp
 
 操作截图：
 
-![1542-610-9](https://doc.shiyanlou.com/courses/1542/1207281/574ce264d392979ae4ef35c939e1e598)
+![1542-610-10](https://doc.shiyanlou.com/courses/1542/1207281/574ce264d392979ae4ef35c939e1e598)
 
 #### 在 SparkSQL 中关联 SequoiaDB 的集合空间、集合
 
@@ -306,7 +322,7 @@ CREATE TABLE employee (
 
 操作截图：
 
-![1542-610-10](https://doc.shiyanlou.com/courses/1542/1207281/7513456f4f9c0730b34e5ebf1dcce0a4)
+![1542-610-11](https://doc.shiyanlou.com/courses/1542/1207281/7513456f4f9c0730b34e5ebf1dcce0a4)
 
 ## 在 SparkSQL 中进行数据操作
 
@@ -321,7 +337,7 @@ INSERT INTO employee VALUES ( 10003, 'Parto', 33 ) ;
 INSERT INTO employee VALUES ( 10004, 'Chirstian', 40 ) ;
 ```
 
-![1542-610-11](https://doc.shiyanlou.com/courses/1542/1207281/5a29365c408c0525cbec5dc7e7441426)
+![1542-610-12](https://doc.shiyanlou.com/courses/1542/1207281/5a29365c408c0525cbec5dc7e7441426)
 
 2）进行数据查询；
 
@@ -331,7 +347,7 @@ SELECT * FROM employee ;
 
 操作截图：
 
-![1542-610-12](https://doc.shiyanlou.com/courses/1542/1207281/2a5fa712de8bc2dcb23f453a8b56023b)
+![1542-610-13](https://doc.shiyanlou.com/courses/1542/1207281/2a5fa712de8bc2dcb23f453a8b56023b)
 
 ## 总结
 
