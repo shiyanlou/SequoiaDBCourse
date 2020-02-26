@@ -204,6 +204,8 @@ cat spark-env.sh
 
 ## 设置元数据库
 
+指定 Spark 实例的元数据信息存放的数据库信息。
+
 1）创建设置元数据数据库配置文件 hive-site.xml；
 
 ```shell
