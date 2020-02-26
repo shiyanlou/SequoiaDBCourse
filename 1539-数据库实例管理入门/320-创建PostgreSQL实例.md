@@ -47,7 +47,7 @@ cd /home/shiyanlou/sequoiadb-3.4
 ```shell
 chmod +x sequoiasql-postgresql-3.4-x86_64-installer.run  
 ```
-4）安装 SequoiaSQL-MySQL 实例；
+4）安装 SequoiaSQL-PostgreSQL 实例；
 
 ```shell
 ./sequoiasql-postgresql-3.4-x86_64-installer.run --mode text
