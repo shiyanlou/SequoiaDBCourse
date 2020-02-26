@@ -244,11 +244,11 @@ cat > /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml << EOF
    </property>
    <property>
       <name>javax.jdo.option.ConnectionUserName</name>
-      <value>metauser</value>
+      <value>root</value>
    </property>
    <property>
       <name>javax.jdo.option.ConnectionPassword</name>
-      <value>metauser</value>
+      <value>root</value>
    </property>
    <property>
       <name>datanucleus.autoCreateSchema</name>
