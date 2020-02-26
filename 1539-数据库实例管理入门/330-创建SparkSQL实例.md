@@ -199,28 +199,6 @@ echo "SPARK_MASTER_HOST=`hostname`" >> spark-env.sh
 cat spark-env.sh
 ```
 
-
-#### 拷贝相关驱动
-用户只要将 SequoiaDB for Spark 连接器 spark-sequoiadb.jar 和 SequoiaDB 的 Java 驱动 sequoiadb.jar 加入 Spark 的 jar 目录即可，另外本示例使用了 MySQL 作为元数据存储数据库，也需要加入 MySQL 的 Java 驱动 mysql-jdbc.jar。
-
-1）拷贝 spark-sequoiadb.jar 驱动连接器；
-
-```shell
-cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/
-```
-
-2）拷贝 SequoiaDB 的 java 驱动 sequoiadb.jar；
-
-```shell
-cp /opt/sequoiadb/spark/spark-sequoiadb_2.11-3.4.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/
-```
-
-3）拷贝 MySQL 的 java 驱动 mysql-jdbc.jar；
-
-```shell
-cp /home/sdbadmin/soft/mysql-jdbc.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/  
-```
-
 #### 设置元数据库
 
 1）创建设置元数据数据库配置文件 hive-site.xml；
@@ -264,6 +242,29 @@ EOF
 ```shell
 cat /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml
 ```
+
+
+#### 拷贝相关驱动
+用户只要将 SequoiaDB for Spark 连接器 spark-sequoiadb.jar 和 SequoiaDB 的 Java 驱动 sequoiadb.jar 加入 Spark 的 jar 目录即可，另外本示例使用了 MySQL 作为元数据存储数据库，也需要加入 MySQL 的 Java 驱动 mysql-jdbc.jar。
+
+1）拷贝 spark-sequoiadb.jar 驱动连接器；
+
+```shell
+cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/
+```
+
+2）拷贝 SequoiaDB 的 java 驱动 sequoiadb.jar；
+
+```shell
+cp /opt/sequoiadb/spark/spark-sequoiadb_2.11-3.4.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/
+```
+
+3）拷贝 MySQL 的 java 驱动 mysql-jdbc.jar；
+
+```shell
+cp /home/sdbadmin/soft/mysql-jdbc.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/  
+```
+
 
 ## 测试 SparkSQL 实例
 
