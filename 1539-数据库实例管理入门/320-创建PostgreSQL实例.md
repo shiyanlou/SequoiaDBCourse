@@ -64,7 +64,7 @@ chmod +x sequoiasql-postgresql-3.4-x86_64-installer.run
 su - sdbadmin
 ```
 
-2）进入 SequoiaSQL-MySQL 实例安装目录；
+2）进入 SequoiaSQL-PostgreSQL 实例安装目录；
 
 ```shell
 cd /opt/sequoiasql/postgresql
@@ -216,7 +216,7 @@ SELECT * FROM employee WHERE ename = 'Jack' ;
 ```
 
 ## 存储引擎中查看数据
-查看 SequoiaSQL-MySQL 实例中 employee 数据表在 SequoiaDB 数据库存储引擎中对应的分区表，并查看数据记录。
+查看 SequoiaSQL-PostgreSQL 实例中 employee 数据表在 SequoiaDB 数据库存储引擎中对应的分区表，并查看数据记录。
 
 1）通过 Linux 命令行进入 SequoiaDB Shell；
 
