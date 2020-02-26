@@ -151,7 +151,10 @@ cd /home/sdbadmin/soft
 tar -zxvf spark-2.4.4-bin-hadoop2.7.tar.gz -C /opt
 ```
 
-#### 设置免密
+## 设置免密
+
+部署 Spark 实例为了实现自动化操作,需要配置ssh免密码登陆方式。
+
 1）执行ssh-keygen生成公钥和密钥，执行后连续回车即可；
 
 ```shell
@@ -173,7 +176,7 @@ ssh-copy-id  sdbadmin@`hostname`
 
 ![](https://doc.shiyanlou.com/courses/1539/1207281/4ddc60dccd197c82bb269987a723d96a-0)
 
-#### 设置 spark-env.sh
+## 设置 spark-env.sh
 
 1）进入 Spark 的配置目录；
 
@@ -199,7 +202,7 @@ echo "SPARK_MASTER_HOST=`hostname`" >> spark-env.sh
 cat spark-env.sh
 ```
 
-#### 设置元数据库
+## 设置元数据库
 
 1）创建设置元数据数据库配置文件 hive-site.xml；
 
@@ -244,7 +247,7 @@ cat /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml
 ```
 
 
-#### 拷贝相关驱动
+## 拷贝相关驱动
 用户只要将 SequoiaDB for Spark 连接器 spark-sequoiadb.jar 和 SequoiaDB 的 Java 驱动 sequoiadb.jar 加入 Spark 的 jar 目录即可，另外本示例使用了 MySQL 作为元数据存储数据库，也需要加入 MySQL 的 Java 驱动 mysql-jdbc.jar。
 
 1）拷贝 spark-sequoiadb.jar 驱动连接器；
@@ -288,31 +291,10 @@ sbin/start-all.sh
 jps
 ```
 
-4）启动 thriftserver 服务；
+4）启动 spark-sql 客户端；
 
 ```shell
-sbin/start-thriftserver.sh   \
---master spark://`hostname`:7077 \
---executor-cores 1 \
---executor-memory 512m
-```
-
-5）检查 thriftserver 服务是否已经启动完成；
-
-```shell
-netstat -nap | grep 10000
-```
-> Note:
-> 若发现 10000 端口未被监听，请耐心等待一会后再次检查
-
-操作截图：
-
-![](https://doc.shiyanlou.com/courses/1539/1207281/526cd8311b102b3b0c81fd23515aebb1-0)
-
-6）进入 Beeline 客户端连接 thriftserver 服务；
-
-```shell
-bin/beeline -u 'jdbc:hive2://localhost:10000'
+bin/spark-sql
 ```
 
 7）创建 company 数据库；
