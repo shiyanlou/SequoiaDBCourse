@@ -4,8 +4,8 @@ version: 83.0
 enable_checker: true
 ---
 
-
 ## 课程介绍
+
 本课程主要介绍如何在 Linux 环境中部署巨杉数据库的 SparkSQL 实例，以及讲解建表、查询等基本操作。
 
 #### SparkSQL实例简介
@@ -349,3 +349,6 @@ SELECT AVG(age) FROM company.employee ;
 
 ## 总结
 本课程介绍了 standalone 模式下的 Spark 如何与 SequoiaDB 数据库引擎进行对接，并进行了数据操作。 
+
+
+
