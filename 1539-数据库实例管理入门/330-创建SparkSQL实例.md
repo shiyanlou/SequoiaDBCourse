@@ -303,26 +303,20 @@ netstat -nap | grep 10000
 
 ![](https://doc.shiyanlou.com/courses/1539/1207281/526cd8311b102b3b0c81fd23515aebb1-0)
 
-6）进入 Beeline 客户端测试 sql；
+6）进入 Beeline 客户端，连接 thriftserver 服务；
 
 ```shell
-bin/beeline
+bin/beeline -u 'jdbc:hive2://localhost:10000'
 ```
 
-7）连接 10000 端口获取 thriftserver 连接，在提示输入用户名及密码时，直接按回车；
-
-```sql
-!connect jdbc:hive2://localhost:10000
-```
-
-8）创建 company 数据库；
+7）创建 company 数据库；
 
 ```sql
 CREATE DATABASE company ;
 USE company ;
 ```
 
-9）创建映射表；
+8）创建映射表；
 
 ```sql
 CREATE TABLE company.employee (
@@ -332,13 +326,13 @@ age INT
 ) USING com.sequoiadb.spark OPTIONS (host 'localhost:11810', collectionspace 'company', collection 'employee', username '', password '') ;
 ```
 
-10）测试运行 sql ；
+9）测试运行 sql ；
 
 ```sql
 SELECT AVG(age) FROM company.employee ;
 ```
 
-11）退出 Beeline 客户端；
+10）退出 Beeline 客户端；
 
 ```sql
 !quit
