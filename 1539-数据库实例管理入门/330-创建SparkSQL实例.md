@@ -224,11 +224,7 @@ cp /home/sdbadmin/soft/mysql-jdbc.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/
 1）创建设置元数据数据库配置文件 hive-site.xml；
 
 ```shell
-vi hive-site.xml
-```
-输入以下内容到 hive-site.xml 文件
-
-```xml
+cat > /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml << EOF
 <configuration>
    <property>
      <name>hive.metastore.schema.verification</name>
@@ -236,7 +232,7 @@ vi hive-site.xml
    </property>
    <property>
       <name>javax.jdo.option.ConnectionURL</name>
-      <value>jdbc:mysql://localhost:3306/metastore?createDatabaseIfNotExist=true</value>
+      <value>jdbc:mysql://localhost:3306/metastore</value>
       <description>JDBC connect string for a JDBC metastore</description>
    </property>
    <property>
@@ -246,11 +242,11 @@ vi hive-site.xml
    </property>
    <property>
       <name>javax.jdo.option.ConnectionUserName</name>
-      <value>root</value>
+      <value>metauser</value>
    </property>
    <property>
       <name>javax.jdo.option.ConnectionPassword</name>
-      <value>root</value>
+      <value>metauser</value>
    </property>
    <property>
       <name>datanucleus.autoCreateSchema</name>
@@ -258,6 +254,13 @@ vi hive-site.xml
       <description>creates necessary schema on a startup if one doesn't exist. set this to false, after creating it once</description>
    </property>
 </configuration>
+EOF
+```
+
+2）检查是否创建成功；
+
+```shell
+cat /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml
 ```
 
 ## 测试 SparkSQL 实例
@@ -303,20 +306,26 @@ netstat -nap | grep 10000
 
 ![](https://doc.shiyanlou.com/courses/1539/1207281/526cd8311b102b3b0c81fd23515aebb1-0)
 
-6）进入 Beeline 客户端，连接 thriftserver 服务；
+6）进入 Beeline 客户端测试 sql；
 
 ```shell
-bin/beeline -u 'jdbc:hive2://localhost:10000'
+bin/beeline
 ```
 
-7）创建 company 数据库；
+7）连接 10000 端口获取 thriftserver 连接，在提示输入用户名及密码时，直接按回车；
+
+```sql
+!connect jdbc:hive2://localhost:10000
+```
+
+8）创建 company 数据库；
 
 ```sql
 CREATE DATABASE company ;
 USE company ;
 ```
 
-8）创建映射表；
+9）创建映射表；
 
 ```sql
 CREATE TABLE company.employee (
@@ -326,13 +335,13 @@ age INT
 ) USING com.sequoiadb.spark OPTIONS (host 'localhost:11810', collectionspace 'company', collection 'employee', username '', password '') ;
 ```
 
-9）测试运行 sql ；
+10）测试运行 sql ；
 
 ```sql
 SELECT AVG(age) FROM company.employee ;
 ```
 
-10）退出 Beeline 客户端；
+11）退出 Beeline 客户端；
 
 ```sql
 !quit
