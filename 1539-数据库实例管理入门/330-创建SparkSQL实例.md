@@ -299,7 +299,7 @@ jps
 bin/spark-sql
 ```
 
-7）创建 company 数据库；
+5）创建 company 数据库；
 
 ```sql
 CREATE DATABASE company ;
@@ -307,7 +307,7 @@ USE company ;
 ```
 
 
-8）创建映射表；
+6）创建映射表；
 
 ```sql
 CREATE TABLE company.employee (
@@ -317,13 +317,13 @@ age INT
 ) USING com.sequoiadb.spark OPTIONS (host 'localhost:11810', collectionspace 'company', collection 'employee', username '', password '') ;
 ```
 
-9）测试运行 sql ；
+7）测试运行 sql ；
 
 ```sql
 SELECT AVG(age) FROM company.employee ;
 ```
 
-10）退出 Beeline 客户端；
+8）退出 Beeline 客户端；
 
 ```sql
 !quit
