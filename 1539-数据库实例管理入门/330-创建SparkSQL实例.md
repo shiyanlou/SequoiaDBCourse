@@ -345,3 +345,6 @@ SELECT AVG(age) FROM company.employee ;
 
 ## 总结
 本课程介绍了 standalone 模式下的 Spark 如何与 SequoiaDB 数据库引擎进行对接，并进行了数据操作。 
+
+
+
