@@ -505,7 +505,7 @@ exit
 1）登录 MySQL Shell，连接 172.17.0.1 的 MySQL 实例；
 
 ```shell
-/opt/sequoiasql/mysql/bin/mysql -h 172.17.0.2 -P 3306 -usdbadmin -psdbadmin
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -usdbadmin -psdbadmin
 ```
 
 2）查看数据库，可以看到 company 数据库已经同步创建；
