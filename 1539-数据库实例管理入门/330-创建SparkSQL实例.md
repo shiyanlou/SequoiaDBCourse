@@ -167,7 +167,7 @@ ssh-copy-id  sdbadmin@`hostname`
 >
 >Note:
 >
-> sdbadmin的密码是：sdbadmin
+> sdbadmin的密码是：`sdbadmin`
 
 操作截图：
 
@@ -187,16 +187,18 @@ cd /opt/spark-2.4.4-bin-hadoop2.7/conf
 cp spark-env.sh.template spark-env.sh
 ```
 
-3）编辑 spark-env.sh 文件；
+3）设置 Spark 实例的 Master；
 
 ```shell
-vi spark-env.sh
+echo "SPARK_MASTER_HOST=`hostname`" >> spark-env.sh
 ```
-增加设置 Spark 的 Master 机器主机名；
+
+4）查看 spark-env.sh 文件是否设置成功；
 
 ```shell
-SPARK_MASTER_HOST=`hostname`
+cat spark-env.sh
 ```
+
 
 #### 拷贝相关驱动
 用户只要将 SequoiaDB for Spark 连接器 spark-sequoiadb.jar 和 SequoiaDB 的 Java 驱动 sequoiadb.jar 加入 Spark 的 jar 目录即可，另外本示例使用了 MySQL 作为元数据存储数据库，也需要加入 MySQL 的 Java 驱动 mysql-jdbc.jar。
