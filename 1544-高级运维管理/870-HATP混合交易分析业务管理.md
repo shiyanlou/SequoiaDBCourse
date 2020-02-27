@@ -4,10 +4,7 @@ version: 5.0
 enable_checker: true
 ---
 
-
-
 # HATP混合交易分析业务管理
-
 
 ## 课程介绍
 
