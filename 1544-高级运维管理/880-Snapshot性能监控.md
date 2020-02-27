@@ -3,8 +3,6 @@ show: step
 version: 5.0
 enable_checker: true
 ---
-
-
 # SNAPSHOT 性能监控
 
 ## 课程介绍
@@ -13,6 +11,7 @@ enable_checker: true
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，学习查看快照。
 
 #### 部署架构
+
 
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个引擎协调节点，1 个编目节点与3个数据节点。
 
