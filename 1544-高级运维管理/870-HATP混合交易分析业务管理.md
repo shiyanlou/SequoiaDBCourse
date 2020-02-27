@@ -174,6 +174,7 @@ db.updateConf ( { instanceid : 3 } ,{svcname : {"$in":["31820", "31830", "31840"
 db.updateConf ( { preferedinstance : "1,2,3" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } ) ;
 ```
 
+
 2）修改 21810 协调节点读取数据时的读取策略；
 
 ```javascript
