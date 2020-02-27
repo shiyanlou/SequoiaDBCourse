@@ -204,7 +204,7 @@ quit ;
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-2）创建数据库实例，并切换到该数据库；
+2）切换到 company 数据库；
 
 ```sql
 USE company ;
