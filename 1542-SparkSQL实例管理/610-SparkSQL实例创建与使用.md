@@ -1,6 +1,6 @@
 ---
 show: step
-version: 3.0 
+version: 2.0 
 enable_checker: true 
 ---
 
@@ -124,15 +124,8 @@ echo "SPARK_MASTER_IP=127.0.0.1" >> /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-en
 
 2）创建设置元数据信息的数据库配置文件 hive-site.xml；
 
-使用 vi 创建 hive-site.xml 文件；
-
 ```shell
-vi /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml
-```
-
-按 `i` 进入插入模式，输入下面的配置信息；
-
-```xml
+cat > /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml << EOF
 <configuration>
    <property>
      <name>hive.metastore.schema.verification</name>
@@ -162,6 +155,7 @@ vi /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml
       <description>creates necessary schema on a startup if one doesn't exist. set this to false, after creating it once</description>
    </property>
 </configuration>
+EOF
 ```
 
 文件保存后，退出编辑模式。
@@ -203,7 +197,6 @@ GRANT ALL ON *.* TO 'metauser'@'%' ;
 ```sql
 CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
 ```
-
 
 操作截图：
 
