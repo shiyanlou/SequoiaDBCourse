@@ -1,8 +1,9 @@
 ---
 show: step
-version: 5.0
+version: 4.0
 enable_checker: true
 ---
+
 
 # HATP混合交易分析业务管理
 
@@ -162,6 +163,10 @@ db.updateConf ( { instanceid : 3 } ,{svcname : {"$in":["31820", "31830", "31840"
 
  ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/809405c09a7269405ed082e582479d73-0)
 
+>Note:
+>
+>图中报 -264 错误，这个是因为修改数据节点 instanceid 参数需要重启节点后才生效，可通过 getLastErrObj() 接口获取详细信息。
+
 #### 修改协调节点配置
 
 1）修改 11810 协调节点读取数据时的读取策略；
@@ -194,20 +199,20 @@ SequoiaDB 数据库共有 3 个分区，分别是 group1，group2，group3。每
 quit ;
 ```
 
-## 重启 SequoiaDB 数据库
+## 重启 SequoiaDB 数据节点
 
-instanceid 参数为重启后生效，修改完参数后，重启数据库。
+数据节点 instanceid 参数为重启后生效，修改完参数后，重启数据节点。
 
 ```shell
-sdbstop -t all
-sdbstart -t all
+sdbstop -r data
+sdbstart -r data
 ```
 
 操作截图：
 
- ![870-3](https://doc.shiyanlou.com/courses/1544/1207281/084fe6c8d5b31a5199582b76c8c70588)
+ ![870-3](https://doc.shiyanlou.com/courses/1544/1207281/f8720c2ee67db46e9c6933bd4aad24ed-0)
 
- ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/ce86694217fb24781a5759c3cdbf20b7)
+ ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/9055f589f1fb6044ecffde1dcc83bb8a-0)
 
 ## 查看节点参数修改状态
 
