@@ -1,8 +1,9 @@
 ---
 show: step
-version: 5.0
+version: 4.0
 enable_checker: true
 ---
+
 
 # HATP混合交易分析业务管理
 
@@ -173,7 +174,6 @@ db.updateConf ( { instanceid : 3 } ,{svcname : {"$in":["31820", "31830", "31840"
 ```javascript
 db.updateConf ( { preferedinstance : "1,2,3" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } ) ;
 ```
-
 
 2）修改 21810 协调节点读取数据时的读取策略；
 
