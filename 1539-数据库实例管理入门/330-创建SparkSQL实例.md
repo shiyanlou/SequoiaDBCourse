@@ -69,37 +69,31 @@ sdblist
 
 本示例使用 MySQL 实例存储 Spark 引擎的元数据信息，故需要在 MySQL 实例中创建一个数据库进行存储。
 
-1）进入 SequoiaDB-MySQL 安装目录；
+1）使用 MySQL Shell 连接 SequoiaDB-MySQL 实例；
 
 ```shell
-cd /opt/sequoiasql/mysql/
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-2）使用 MySQL Shell 连接 SequoiaDB-MySQL 实例；
-
-```shell
-bin/mysql -h 127.0.0.1 -P 3306 -u root
-```
-
-3）赋予 root 用户远程连接权限；
+2）赋予 root 用户远程连接权限；
 
 ```sql
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION ;
 ```
 
-4）更新 root@localhost 用户密码；
+3）更新 root@localhost 用户密码；
 
 ```sql
 SET PASSWORD FOR root@localhost = PASSWORD('root') ;
 ```
 
-5）刷新权限；
+4）刷新权限；
 
 ```sql
 FLUSH PRIVILEGES ;
 ```
 
-6）创建元数据库；
+5）创建元数据库；
 
 ```sql
 CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
@@ -292,6 +286,8 @@ sbin/start-all.sh
 ```shell
 jps
 ```
+操作截图：
+![](https://doc.shiyanlou.com/courses/1539/1207281/81b2b0f2eee0b4ef8ac6ed28a191acca-0)
 
 4）启动 spark-sql 客户端；
 
