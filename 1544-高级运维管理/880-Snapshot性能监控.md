@@ -1,13 +1,12 @@
 ---
 show: step
-version: 5.0
+version: 4.0
 enable_checker: true
 ---
 
 # SNAPSHOT 性能监控
 
 ## 课程介绍
-
 
 在 SequoiaDB 巨杉数据库中，快照是一种得到系统当前状态的命令。
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，学习查看快照。
@@ -149,7 +148,10 @@ SELECT * FROM employee ;
 
 编写 shell 查询脚本，脚本名为 select.sh，用于模拟前端 MySQL 实例发起的查询，脚本内容如下：
 
+
 ```shell
+cat > select.sh <<EOF
+
 #!/bin/bash
 i=1
 while [ $i -le 600 ]
@@ -158,6 +160,8 @@ mysql -uroot -h127.0.0.1 -Dcompany -e "select * from employee;"
 i=$((${i}+1))
 sleep 1s
 done
+
+EOF
 ```
 
 2）使用 nohup 命令使 select.sh 脚本后台运行；
