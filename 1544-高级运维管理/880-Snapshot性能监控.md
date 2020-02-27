@@ -6,7 +6,6 @@ enable_checker: true
 
 # SNAPSHOT 性能监控
 
-
 ## 课程介绍
 
 在 SequoiaDB 巨杉数据库中，快照是一种得到系统当前状态的命令。
