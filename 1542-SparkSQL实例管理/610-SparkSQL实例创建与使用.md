@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.0 
+version: 3.0 
 enable_checker: true 
 ---
 
@@ -213,6 +213,7 @@ FLUSH PRIVILEGES ;
 ![1542-610-6](https://doc.shiyanlou.com/courses/1542/1207281/c4e6789a504b6158f5e3b86a44809115)
 
 #### 启动 Spark 服务
+
 
 1） 启动 Spark；
 
