@@ -1,8 +1,9 @@
 ---
 show: step
-version: 5.0
+version: 4.0
 enable_checker: true
 ---
+
 # SNAPSHOT 性能监控
 
 ## 课程介绍
@@ -11,7 +12,6 @@ enable_checker: true
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，学习查看快照。
 
 #### 部署架构
-
 
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个引擎协调节点，1 个编目节点与3个数据节点。
 
@@ -144,14 +144,10 @@ SELECT * FROM employee ;
 | SDB_SNAP_SVCTASKS             | 服务任务快照        |
 | SDB_SNAP_SEQUENCES            | 序列快照            |
 
-1）模拟 MySQL 查询
-
-编写 shell 查询脚本，脚本名为 select.sh，用于模拟前端 MySQL 实例发起的查询，脚本内容如下：
-
+1）模拟 MySQL 查询。编写 shell 查询脚本，脚本名为 select.sh，用于模拟前端 MySQL 实例发起的查询；
 
 ```shell
 cat > select.sh <<EOF
-
 #!/bin/bash
 i=1
 while [ \$i -le 600 ]
@@ -160,7 +156,6 @@ mysql -uroot -h127.0.0.1 -Dcompany -e "select * from employee;"
 i=\$((\${i}+1))
 sleep 1s
 done
-
 EOF
 ```
 
@@ -188,7 +183,13 @@ var db = new Sdb ("localhost",11810) ;
 db.snapshot (SDB_SNAP_SESSIONS,{ Source : { $regex:'MySQL.*' } } ) ;
 ```
 
->{ Source:{$regex:'MySQL.*'} 使用正则匹配的方式过滤 Source 列中以 MySQL 为开头的会话信息。  
+>Note:
+>
+>{ Source:{$regex:'MySQL.*'} 使用正则匹配的方式过滤 Source 列中以 MySQL 为开头的会话信息。
+
+操作截图：
+
+ ![880-4](https://doc.shiyanlou.com/courses/1544/1207281/fdf07e3856152a93538e55d89b8f3f7d-0)
 
 6）查看数据库状态；
 
