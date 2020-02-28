@@ -295,7 +295,7 @@ jps
 ```shell
 cat > /opt/spark-2.4.4-bin-hadoop2.7/conf/log4j.properties << EOF
 # Set everything to be logged to the console
-log4j.rootCategory=WARN, console
+log4j.rootCategory=ERROR, console
 log4j.appender.console=org.apache.log4j.ConsoleAppender
 log4j.appender.console.target=System.err
 log4j.appender.console.layout=org.apache.log4j.PatternLayout
@@ -314,21 +314,26 @@ log4j.logger.org.apache.hadoop.hive.metastore.RetryingHMSHandler=FATAL
 log4j.logger.org.apache.hadoop.hive.ql.exec.FunctionRegistry=ERROR
 EOF
 ```
+5）检查日志输出配置是否成功；
 
-5) 启动 spark-sql 客户端；
+```shell
+cat /opt/spark-2.4.4-bin-hadoop2.7/conf/log4j.properties
+```
+
+6) 启动 spark-sql 客户端；
 
 ```shell
 bin/spark-sql
 ```
 
-6）创建 company 数据库；
+7）创建 company 数据库；
 
 ```sql
 CREATE DATABASE company ;
 USE company ;
 ```
 
-7）创建映射表；
+8）创建映射表；
 
 ```sql
 CREATE TABLE company.employee (
@@ -338,13 +343,13 @@ age INT
 ) USING com.sequoiadb.spark OPTIONS (host 'localhost:11810', collectionspace 'company', collection 'employee', username '', password '') ;
 ```
 
-8）测试运行 sql ；
+9）测试运行 sql；
 
 ```sql
 SELECT AVG(age) FROM company.employee ;
 ```
 
-9）退出 spark-sql 客户端；
+10）退出 spark-sql 客户端；
 
 ```sql
 exit ;
