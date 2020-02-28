@@ -1,6 +1,6 @@
 ---
 show: step
-version: 89.0
+version: 90.0
 enable_checker: true
 ---
 
@@ -13,9 +13,9 @@ Apache Spark 是专为大规模数据处理而设计的快速通用的计算引�
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
-本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SparkSQL 数据库实例包括2个 worker 节点，1个 SequoiaSQL-MySQL 数据库实例节点，1个引擎协调节点，1个编目节点与3个数据节点。
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SparkSQL 数据库实例包括1个 worker 节点，1个 SequoiaSQL-MySQL 数据库实例节点，1个引擎协调节点，1个编目节点与3个数据节点。
 
-![图片描述](https://doc.shiyanlou.com/courses/1539/1207281/97a485c5a18b385fdd1a24f2e62ed888-0)
+![图片描述](https://doc.shiyanlou.com/courses/1539/1207281/367ebe10595c8f60914f193ca230285a-0)
 
 详细了解 SequoiaDB 巨杉数据库系统架构：
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
