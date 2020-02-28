@@ -96,7 +96,7 @@ FLUSH PRIVILEGES ;
 5）创建元数据库；
 
 ```sql
-CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
+CREATE DATABASE metastore ;
 ```
 
 ## 创建测试数据库实例及数据表
@@ -147,9 +147,9 @@ tar -zxvf spark-2.4.4-bin-hadoop2.7.tar.gz -C /opt
 
 ## 设置免密
 
-部署 Spark 实例为了实现自动化操作,需要配置ssh免密码登陆方式。
+部署 Spark 实例为了实现自动化操作,需要配置 ssh 免密码登陆方式。
 
-1）执行ssh-keygen生成公钥和密钥，执行后连续回车即可；
+1）执行 ssh-keygen 生成公钥和密钥，执行后连续回车即可；
 
 ```shell
 ssh-keygen -t rsa
@@ -244,18 +244,18 @@ cat /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml
 
 
 ## 拷贝相关驱动
-用户只要将 SequoiaDB for Spark 连接器 spark-sequoiadb.jar 和 SequoiaDB 的 Java 驱动 sequoiadb.jar 加入 Spark 的 jar 目录即可，另外本示例使用了 MySQL 作为元数据存储数据库，也需要加入 MySQL 的 Java 驱动 mysql-jdbc.jar。
+用户只要将 SequoiaDB for Spark 连接器 spark-sequoiadb_2.11-3.4.jar 和 SequoiaDB 的 Java 驱动 sequoiadb-driver-3.4.jar 加入 Spark 的 jar 目录即可，另外本示例使用了 MySQL 作为元数据存储数据库，也需要加入 MySQL 的 Java 驱动 mysql-jdbc.jar。
 
-1）拷贝 spark-sequoiadb.jar 驱动连接器；
-
-```shell
-cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/
-```
-
-2）拷贝 SequoiaDB 的 java 驱动 sequoiadb.jar；
+1）拷贝 spark-sequoiadb_2.11-3.4.jar 驱动连接器；
 
 ```shell
 cp /opt/sequoiadb/spark/spark-sequoiadb_2.11-3.4.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/
+```
+
+2）拷贝 SequoiaDB 的 java 驱动 sequoiadb-driver-3.4.jar；
+
+```shell
+cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/
 ```
 
 3）拷贝 MySQL 的 java 驱动 mysql-jdbc.jar；
