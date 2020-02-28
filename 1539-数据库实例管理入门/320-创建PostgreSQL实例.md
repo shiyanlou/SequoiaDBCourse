@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.0
+version: 3.0
 enable_checker: true
 ---
 
@@ -11,6 +11,9 @@ enable_checker: true
 
 #### PostgreSQL 实例简介
 SequoiaDB 巨杉数据库支持创建 PostgreSQL 实例，完全兼容 PostgreSQL 语法，用户可以使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改及其他操作。
+
+#### 请点击右侧选择使用的实验环境
+
 #### 部署架构：
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SequoiaSQL-PostgreSQL 数据库实例节点，1个引擎协调节点，1个编目节点与3个数据节点。
 
