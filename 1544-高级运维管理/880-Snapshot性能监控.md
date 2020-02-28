@@ -1,6 +1,6 @@
 ---
 show: step
-version: 5.0
+version: 5.2
 enable_checker: true
 ---
 
@@ -146,6 +146,7 @@ sleep 1s
 done
 EOF
 ```
+
 
 2）使用 nohup 命令使 select.sh 脚本后台运行；
 
