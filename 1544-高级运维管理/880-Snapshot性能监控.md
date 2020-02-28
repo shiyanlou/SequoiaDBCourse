@@ -1,10 +1,11 @@
 ---
 show: step
-version: 5.2
+version: 6.2
 enable_checker: true
 ---
 
 # SNAPSHOT 性能监控
+
 
 ## 课程介绍
 
