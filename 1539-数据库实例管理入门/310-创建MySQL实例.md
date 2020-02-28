@@ -1,6 +1,6 @@
 ---
 show: step
-version: 3.0
+version: 4.0
 enable_checker: true
 ---
 
@@ -10,6 +10,8 @@ enable_checker: true
 
 #### MySQL 实例简介
 MySQL 是一款开源的关系型数据库管理系统，也是目前最流行的关系型数据库管理系统之一，支持标准的 SQL 语言。 SequoiaDB 支持创建 MySQL 实例，完全兼容 MySQL 语法和协议，用户可以使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他 MySQL 语法操作。
+
+#### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1个 SequoiaSQL-MySQL 数据库实例节点，1个引擎协调节点，1个编目节点与3个数据节点。
