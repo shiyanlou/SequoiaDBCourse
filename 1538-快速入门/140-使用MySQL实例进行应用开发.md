@@ -26,14 +26,14 @@ enable_checker: true
 
 ## 切换到 sdbadmin 用户
 
-部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin
+部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 `sdbadmin` 。
 ```shell
 su - sdbadmin
 ```
 
 >Note:
 >
->用户 sdbadmin 的密码为 sdbadmin
+>用户 `sdbadmin` 的密码为 `sdbadmin`
 
 #### 查看巨杉数据库版本
 
@@ -80,7 +80,7 @@ sdblist
 
 2）查看 MySQL 存储引擎，确认默认存储引擎为 SequoiaDB；
 ```sql
-show engines ;
+SHOW ENGINES ;
 ```
 
 3）创建数据库；
@@ -145,14 +145,14 @@ javac -d . *.java
 
 ## 写入数据
 
-本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并写入数据；
+本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并写入数据。
 
 1）运行 Insert 类的代码；
 ```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ```
 
-2）写入代码如下：
+2）Insert 类代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -193,7 +193,7 @@ public class Insert {
 
 ## 查询数据
 
-本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并查询数据
+本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并查询数据。
 
 1）运行 Select 类的代码；
 ```shell
@@ -201,7 +201,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
 
-2）查询代码如下：
+2）Select 类代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -242,7 +242,7 @@ public class Select {
 
 ## 更新数据
 
-本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并更新数据；
+本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并更新数据。
 
 1）运行 Update 类代码；
 ```shell
@@ -254,7 +254,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Update
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
-3）更新代码如下：
+3）Update 类代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -289,7 +289,7 @@ public class Update {
 
 ## 删除数据
 
-本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并删除数据；
+本小节介绍如何使用 MySQL 的 JAVA 驱动连接 SequoiaSQL-MySQL 实例并删除数据。
 
 1）运行 Delete 类的代码；
 ```shell
@@ -301,7 +301,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Delete
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
-3）删除代码如下：
+3）Delete 类代码如下：
 ```java
 import java.sql.Connection;
 import java.sql.PreparedStatement;
