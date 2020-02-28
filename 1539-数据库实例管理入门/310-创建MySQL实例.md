@@ -1,6 +1,6 @@
 ---
 show: step
-version: 5.0
+version: 6.0
 enable_checker: true
 ---
 
@@ -160,6 +160,8 @@ INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
 
 ## 存储引擎中查看数据
 查看 SequoiaSQL-MySQL 实例中 employee 数据表在 SequoiaDB 数据库存储引擎中对应的分区表，并查看数据记录。
+
+#### 查询SequoiaDB数据
 
 1）使用 Linux 命令行进去 SequoiaDB Shell；
 
