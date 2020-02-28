@@ -67,7 +67,7 @@ sdblist
 >
 >如果显示的节点数量与预期不符，请稍等节点初始化完成后再重试该步骤。
 
-## 创建数据库及数据表
+## 使用数据表并插入数据
 
 进入 MySQL Shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
 
@@ -77,41 +77,29 @@ sdblist
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-#### 创建数据库实例
+#### 使用数据库实例
 
 ```sql
-CREATE DATABASE company ;
 USE company ;
 ```
 
 #### 创建数据表
 
-在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎，包含主键或唯一键的表将会默认以唯一键作为分区键，进行自动分区。
 
-1）创建包含自增主键字段的 employee 表；
-
-```sql
-CREATE TABLE employee (
-    empno INT AUTO_INCREMENT PRIMARY KEY,
-    ename VARCHAR(128),
-    age INT
-) ;
-```
-
-2）数据写入操作；
+1）数据写入操作；
 
 ```sql
 INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
 INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
 ```
 
-3）查看数据情况；
+2）查看数据情况；
 
 ```sql
 SELECT * FROM employee ;
 ```
 
-4）退出 MySQL Shell ；
+3）退出 MySQL Shell ；
 
 ```sql
 \q
