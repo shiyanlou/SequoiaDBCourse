@@ -1,6 +1,6 @@
 ---
 show: step
-version: 4.0
+version: 5.0
 enable_checker: true
 ---
 
@@ -172,7 +172,7 @@ sdb
 var db = new Sdb ("localhost", 11810) ;
 ```
 
-3）查看存储引擎中的集合信息
+3）查看存储引擎中的集合信息；
 
 ```javascript
 db.list (SDB_LIST_COLLECTIONS) ;
@@ -190,7 +190,7 @@ db.company.employee.find () ;
 db.company.employee.insert ({ ename : "Ben" , age : 20 }) ;
 ```
 
-5）退出 SequoiaDB Shell
+5）退出 SequoiaDB Shell；
 
 ```javascript
 quit ;
