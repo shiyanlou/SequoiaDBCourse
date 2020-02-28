@@ -1,6 +1,6 @@
 ---
 show: step
-version: 88.0
+version: 89.0
 enable_checker: true
 ---
 
@@ -211,7 +211,7 @@ cat > /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml << EOF
    </property>
    <property>
       <name>javax.jdo.option.ConnectionURL</name>
-      <value>jdbc:mysql://localhost:3306/metastore</value>
+      <value>jdbc:mysql://localhost:3306/metastore?useSSL=false</value>
       <description>JDBC connect string for a JDBC metastore</description>
    </property>
    <property>
@@ -287,23 +287,48 @@ sbin/start-all.sh
 jps
 ```
 操作截图：
+
 ![](https://doc.shiyanlou.com/courses/1539/1207281/81b2b0f2eee0b4ef8ac6ed28a191acca-0)
 
-4）启动 spark-sql 客户端；
+4）配置 spark-sql 日志输出；
+
+```shell
+cat > /opt/spark-2.4.4-bin-hadoop2.7/conf/log4j.properties << EOF
+# Set everything to be logged to the console
+log4j.rootCategory=WARN, console
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.target=System.err
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n
+
+log4j.logger.org.apache.spark.repl.Main=WARN
+
+log4j.logger.org.spark_project.jetty=WARN
+log4j.logger.org.spark_project.jetty.util.component.AbstractLifeCycle=ERROR
+log4j.logger.org.apache.spark.repl.SparkIMain$exprTyper=INFO
+log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO
+log4j.logger.org.apache.parquet=ERROR
+log4j.logger.parquet=ERROR
+
+log4j.logger.org.apache.hadoop.hive.metastore.RetryingHMSHandler=FATAL
+log4j.logger.org.apache.hadoop.hive.ql.exec.FunctionRegistry=ERROR
+EOF
+```
+
+5) 启动 spark-sql 客户端；
 
 ```shell
 bin/spark-sql
 ```
 
-5）创建 company 数据库；
+6）创建 company 数据库；
 
 ```sql
 CREATE DATABASE company ;
 USE company ;
 ```
 
-
-6）创建映射表；
+7）创建映射表；
 
 ```sql
 CREATE TABLE company.employee (
@@ -313,16 +338,16 @@ age INT
 ) USING com.sequoiadb.spark OPTIONS (host 'localhost:11810', collectionspace 'company', collection 'employee', username '', password '') ;
 ```
 
-7）测试运行 sql ；
+8）测试运行 sql ；
 
 ```sql
 SELECT AVG(age) FROM company.employee ;
 ```
 
-8）退出 Beeline 客户端；
+9）退出 spark-sql 客户端；
 
 ```sql
-!quit
+exit ;
 ```
 
 ## 总结
