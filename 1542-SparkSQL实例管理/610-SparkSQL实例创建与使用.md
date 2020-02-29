@@ -1,6 +1,6 @@
 ---
 show: step
-version: 3.0 
+version: 2.0 
 enable_checker: true 
 ---
 
@@ -105,6 +105,29 @@ cp /home/sdbadmin/soft/mysql-jdbc.jar /opt/spark-2.4.4-bin-hadoop2.7/jars/
 cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar /opt/spark-2.4.4-bin-hadoop2.7/jars/
 ```
 
+#### 设置免密
+1）执行ssh-keygen生成公钥和密钥，执行后连续回车即可；
+```
+ssh-keygen -t rsa
+```
+
+2）查看本机主机名；
+
+```shell
+hostname
+```
+
+3）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
+```
+ssh-copy-id  sdbadmin@本机主机名
+```
+
+>
+>Note:
+>
+> sdbadmin的密码是：sdbadmin
+> 单机不需要拷贝到其它服务器上，如果是多机部署，需要配置所有服务器的互相关系。
+
 #### 配置 Spark
 
 1）设置 spark-env.sh；
@@ -158,8 +181,6 @@ cat > /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml << EOF
 EOF
 ```
 
-文件保存后，退出编辑模式。
-
 #### 配置 Spark 元数据库
 
 1）使用 Linux 命令进入 MySQL shell；
@@ -212,8 +233,13 @@ FLUSH PRIVILEGES ;
 
 ![1542-610-6](https://doc.shiyanlou.com/courses/1542/1207281/c4e6789a504b6158f5e3b86a44809115)
 
-#### 启动 Spark 服务
+6） 退出 MySQL shell；
 
+```shell
+\q
+```
+
+#### 启动 Spark 服务
 
 1） 启动 Spark；
 
@@ -285,6 +311,12 @@ db.createCS ( "company", { Domain : "company_domain" } ) ;
 db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 } , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false } ) ;
 ```
 
+5）退出 SequoiaDB Shell；
+
+```shell
+quit
+```
+
 操作截图：
 
 ![1542-610-10](https://doc.shiyanlou.com/courses/1542/1207281/574ce264d392979ae4ef35c939e1e598)
@@ -343,6 +375,12 @@ SELECT * FROM employee ;
 操作截图：
 
 ![1542-610-13](https://doc.shiyanlou.com/courses/1542/1207281/2a5fa712de8bc2dcb23f453a8b56023b)
+
+3）退出 Beeline Shell；
+
+```shell
+!quit
+```
 
 ## 总结
 
