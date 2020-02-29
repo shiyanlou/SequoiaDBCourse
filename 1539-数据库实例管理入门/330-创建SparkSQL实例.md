@@ -96,7 +96,7 @@ FLUSH PRIVILEGES ;
 5）创建元数据库；
 
 ```sql
-CREATE DATABASE metastore ;
+CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
 ```
 
 ## 创建测试数据库实例及数据表
