@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.3
+version: 3.0
 ---
 
 ## 课程介绍
@@ -154,7 +154,7 @@ SELECT * FROM employee ;
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/dcf250f3fc2c0cbfb37af7d2e904e04a)
 
 #### 删除分区表中的数据
-1）删除分区表 employees 中的数据，将 empno 为10006的记录删除；
+1）删除分区表 employees 中的数据，将 empno 为 10006 的记录删除；
 
 ```sql
 DELETE FROM employee WHERE empno=10006 ;
@@ -226,7 +226,7 @@ javac -d . MySQLConnection.java
 ```
 
 #### 在 MySQL 实例中插入数据
-1）增加 empno 为 20004 、 20005 和 20006 这三条记录，修改 Insert.java 代码如下：
+1）增加 empno 为 20004 、 20005 和 20006 这三条记录，请用户自行修改 Insert.java 文件，代码如下：
 ```java
 package com.sequoiadb.mysql;
 
@@ -283,7 +283,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/8bd056fb349bf57f152591728d2044c9-0)
 
 #### 从 MySQL 实例中查询数据
-1）查询只返回 empno 和 ename 两个字段 ，修改 Select.java 查询代码如下：
+1）查询只返回 empno 和 ename 两个字段 ，请用户自行修改 Select.java 查询代码如下：
 ```java
 package com.sequoiadb.mysql;
 
@@ -342,7 +342,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/b45914dd6398ff798b23b6896b2c8e3f-0)
 
 #### 在 MySQL 实例中更新数据  
-1）将 empno 值为 10001 的 ename 修改为 Georgi_2 ， Update 代码如下：
+1）将 empno 值为 10001 的 ename 修改为 Georgi_2 ，请用户自行修改 Update 文件，代码如下：
 ```java
 package com.sequoiadb.mysql;
 
@@ -400,7 +400,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 
 
 #### 在 MySQL 实例中删除数据
-1）将 empno 值为 10001 的记录删除 ,修改 Delete.java 代码如下：
+1）将 empno 值为 10001 的记录删除 ,请用户自行修改 Delete.java 文件，代码如下：
 ```java
 package com.sequoiadb.mysql;
 
@@ -458,17 +458,4 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 通过本课程，我们通过 MySQL 语法在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并对数据表进行了 CRUD 的基本数据操作；同时展示了使用 JAVA 语言对数据表进行数据操作。可以看出：
 - SequoiaSQL-MySQL 实例兼容标准的 MySQL 语法；
 - Java语言操作 SequoiaSQL-MySQL 实例中的数据与操作原生 MySQL 中的数据无任何差异，可做到无缝切换；
-
-
-
-
-
-
-
-
-
-
-
-
-
 

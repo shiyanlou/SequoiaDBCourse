@@ -1,10 +1,9 @@
 ---
 show: step
-version: 2.1444
+version: 3.0
 ---
 
 ## 课程介绍
-
 
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 PostgreSQL 实例的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其它 PostgreSQL 语法操作。
 
@@ -360,7 +359,7 @@ javac -d . PostgreSQLConnection.java
 ```
 
 #### 在 PostgreSQL 实例中插入数据：
-1）增加 empno 为 30004 、 30005 和 30006 这三条记录， Insert.java 文件的插入代码如下：
+1）增加 empno 为 30004 、 30005 和 30006 这三条记录，请用户自行修改 Insert.java 文件，代码如下：
 ```java
 package com.sequoiadb.postgresql;
 
@@ -415,7 +414,7 @@ javac -d . Insert.java
 
 
 #### 从 PostgreSQL 实例中查询数据：
-1）只查询 empno 和 age 这两个字段 ，Select.java 文件的查询代码如下；
+1）只查询 empno 和 age 这两个字段 ，请用户自行修改 Select.java 文件，代码如下；
 ```java
 package com.sequoiadb.postgresql;
 
@@ -476,7 +475,7 @@ javac -d . Select.java
 
 
 #### 在 PostgreSQL 实例中更新数据：
-1）将 empno 值为 10002 的 age 修改为 25 ，Update.java 文件的插入代码如下：
+1）将 empno 值为 10002 的 age 修改为 25 ，请用户自行修改 Update.java 文件，代码如下：
 ```java
 package com.sequoiadb.postgresql;
 
@@ -530,7 +529,7 @@ javac -d . Update.java
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/768a48c689597e5f9e9061a7ba847326-0)
 
 #### 在 PostgreSQL 实例中删除数据
-1）将 empno 值为 10003 的记录删除 , Delete.java 文件的插入代码如下；
+1）将 empno 值为 10003 的记录删除 , 请用户自行修改 Delete.java 文件，代码如下；
 ```java
 package com.sequoiadb.postgresql;
 
@@ -587,4 +586,3 @@ javac -d . Delete.java
 通过本课程，我们验证了 SequoiaDB 巨杉数据库所支持的 PostgreSQL 语法，并展示了使用 JAVA 语言对 SequoiaSQL-PostgreSQL 实例中的表进行 CRUD 操作。可以看出：
 - SequoiaSQL-PostgreSQL 实例兼容标准的 PostgreSQL 语法；
 - Java语言操作 SequoiaSQL-PostgreSQL 实例中的数据与操作原生 PostgreSQL 中的数据无任何差异，可做到无缝切换；
-                                                                                        
