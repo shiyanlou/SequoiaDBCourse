@@ -1,6 +1,6 @@
 ---
 show: step
-version: 92.0
+version: 93.0
 enable_checker: true
 ---
 
@@ -75,16 +75,16 @@ sdblist
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-2）赋予 root 用户远程连接权限；
+2）创建 metauser 用户；
 
 ```sql
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION ;
+CREATE USER 'metauser'@'%' IDENTIFIED BY 'metauser' ;
 ```
 
-3）更新 root@localhost 用户密码；
+3）给 metauser 用户授权；
 
 ```sql
-SET PASSWORD FOR root@localhost = PASSWORD('root') ;
+GRANT ALL ON *.* TO 'metauser'@'%' ;
 ```
 
 4）刷新权限；
@@ -221,11 +221,11 @@ cat > /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml << EOF
    </property>
    <property>
       <name>javax.jdo.option.ConnectionUserName</name>
-      <value>root</value>
+      <value>metauser</value>
    </property>
    <property>
       <name>javax.jdo.option.ConnectionPassword</name>
-      <value>root</value>
+      <value>metauser</value>
    </property>
    <property>
       <name>datanucleus.autoCreateSchema</name>
