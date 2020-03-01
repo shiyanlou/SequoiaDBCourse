@@ -120,7 +120,7 @@ hostname
 
 3）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
 
-```ssh
+```shell
 ssh-copy-id  sdbadmin@本机主机名
 ```
 
