@@ -4,13 +4,7 @@ version: 111.0
 enable_checker: true
 ---
 
-
-
-
 # 使用MySQL实例进行应用开发
-
-
-
 
 ## 课程介绍
 
