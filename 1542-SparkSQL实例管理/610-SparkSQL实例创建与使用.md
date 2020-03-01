@@ -69,7 +69,7 @@ sdblist
 
 #### 解压 Spark 安装包
 
-1）检查 Spark 安装包：
+1）检查 Spark 安装包；
 
 ```shell
 ls -trl /home/sdbadmin/soft/
