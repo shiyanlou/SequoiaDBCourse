@@ -1,6 +1,6 @@
 ---
 show: step
-version: 4.0 
+version: 2.0 
 enable_checker: true 
 ---
 
@@ -121,7 +121,7 @@ hostname
 3）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
 
 ```shell
-ssh-copy-id  sdbadmin@`hostname`
+ssh-copy-id  sdbadmin@sdbserver1
 ```
 
 >
@@ -398,4 +398,3 @@ SELECT * FROM employee ;
 + SequoiaDB 集合空间、集合的创建
 + SparkSQL 实例的配置
 + SparkSQL 实例中操作 SequoiaDB 巨杉数据库的数据
- 
