@@ -38,7 +38,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本:
+查看 SequoiaDB 巨杉数据库引擎版本：
 
 ```shell
 sequoiadb --version
