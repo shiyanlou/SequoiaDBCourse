@@ -39,7 +39,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本；
+查看 SequoiaDB 巨杉数据库引擎版本：
 
 ```shell
 sequoiadb --version
@@ -51,7 +51,7 @@ sequoiadb --version
 
 ## 查看节点启动列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表；
+查看 SequoiaDB 巨杉数据库引擎节点列表：
 
 ```shell
 sdblist
@@ -69,7 +69,7 @@ sdblist
 
 #### 解压 Spark 安装包
 
-1）检查 Spark 安装包；
+1）检查 Spark 安装包：
 
 ```shell
 ls -trl /home/sdbadmin/soft/
@@ -134,7 +134,7 @@ ssh-copy-id  sdbadmin@`hostname`
 
 1）设置 spark-env.sh；
 
-从模板中复制一份 spark-env.sh 脚本；
+从模板中复制一份 spark-env.sh 脚本：
 
 ```shell
 cp /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh.template /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh
@@ -340,7 +340,7 @@ quit ;
 
 2）创建 employee 表；
 
-创建 employee 表，并且与 SequoiaDB 中的集合 company.employee 进行关联；
+创建 employee 表，并且与 SequoiaDB 中的集合 company.employee 进行关联：
 
 ```sql
 CREATE TABLE employee (
@@ -398,4 +398,3 @@ SELECT * FROM employee ;
 + SequoiaDB 集合空间、集合的创建
 + SparkSQL 实例的配置
 + SparkSQL 实例中操作 SequoiaDB 巨杉数据库的数据
-
