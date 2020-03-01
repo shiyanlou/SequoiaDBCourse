@@ -1,8 +1,9 @@
 ---
 show: step
-version: 3.0 
+version: 2.0 
 enable_checker: true 
 ---
+
 
 # SparkSQL 实例创建与使用
 
@@ -119,7 +120,7 @@ hostname
 
 3）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
 
-```ssh
+```shell
 ssh-copy-id  sdbadmin@本机主机名
 ```
 
