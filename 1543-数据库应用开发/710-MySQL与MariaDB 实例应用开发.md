@@ -226,7 +226,7 @@ javac -d . MySQLConnection.java
 ```
 
 #### 在 MySQL 实例中插入数据
-1）增加 empno 为 20004 、 20005 和 20006 这三条记录，请用户自行修改 Insert.java 文件，代码如下：
+1）增加 empno 为 20001 、 20002 和 20003 这三条记录，Insert.java 源代码如下；
 ```java
 package com.sequoiadb.mysql;
 
@@ -251,11 +251,11 @@ terEncoding=utf-8&useSSL=false";
         String sql = "INSERT INTO employee VALUES";
         PreparedStatement psmt = connection.prepareStatement("");
         StringBuffer sb = new StringBuffer();
-        sb.append("(").append(20004).append(",").append("'Quincy'").append(",").append(30).
+        sb.append("(").append(20001).append(",").append("'Quincy'").append(",").append(30).
 append("),");
-        sb.append("(").append(20005).append(",").append("'Newton'").append(",").append(31).
+        sb.append("(").append(20002).append(",").append("'Newton'").append(",").append(31).
 append("),");
-        sb.append("(").append(20006).append(",").append("'Dan'").append(",").append(32).app
+        sb.append("(").append(20003).append(",").append("'Dan'").append(",").append(32).app
 end("),");
 
         sb.deleteCharAt(sb.length() - 1);
@@ -280,10 +280,10 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ```
 
 4）插入操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/8bd056fb349bf57f152591728d2044c9-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/cfa44cf731fb7cabafaf1769c17dddf4-0)  
 
 #### 从 MySQL 实例中查询数据
-1）查询只返回 empno 和 ename 两个字段 ，请用户自行修改 Select.java 查询代码如下：
+1）查询表中 empno 、 ename 和 age 这三个字段，Select.java 源代码如下；
 ```java
 package com.sequoiadb.mysql;
 
@@ -310,15 +310,13 @@ terEncoding=utf-8&useSSL=false";
         PreparedStatement psmt = connection.prepareStatement(sql);
         ResultSet rs = psmt.executeQuery();
         System.out.println("-------------------------------------------");
-        //System.out.println("empno \t ename \t age");
-        System.out.println("empno \t ename \t ");
+        System.out.println("empno \t ename \t age");
         System.out.println("-------------------------------------------");
         while(rs.next()){
             Integer empno = rs.getInt("empno");
             String ename = rs.getString("ename");
-            //String age = rs.getString("age");
-            //System.out.println(empno + "\t" + ename + "\t" + age);
-            System.out.println(empno + "\t" + ename + "\t") ;
+            String age = rs.getString("age");
+            System.out.println(empno + "\t" + ename + "\t" + age);
         }
         connection.close();
     }
@@ -339,10 +337,10 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
 4）查询截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/b45914dd6398ff798b23b6896b2c8e3f-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9a0807e3351365ca5af562a78af85137-0)
 
 #### 在 MySQL 实例中更新数据  
-1）将 empno 值为 10001 的 ename 修改为 Georgi_2 ，请用户自行修改 Update 文件，代码如下：
+1）将 empno 为 10001 的 age 修改为 49 ，Update.java 文件源代码如下；
 ```java
 package com.sequoiadb.mysql;
 
@@ -365,11 +363,9 @@ terEncoding=utf-8&useSSL=false";
 		MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
 
 		Connection connection = mysqlConnection.getConnection();
-		// String sql = "update employee set age = ? where empno = ?";
-		String sql = "update employee set ename = ? where empno = ?";
+		String sql = "update employee set age = ? where empno = ?";
 		PreparedStatement psmt = connection.prepareStatement(sql);
-		// psmt.setInt(1, 49);
-		psmt.setString(1, "Georgi_2");
+	    psmt.setInt(1, 49);
 		psmt.setInt(2, 10001);
 		psmt.execute();
 
@@ -389,18 +385,18 @@ javac -d . Update.java
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Update
 ```
 
-4）查询确认10001雇员的名字已经被更改为 Georgi_2 ；
+4）查询确认 empno 为 10001 的记录 age 值是否被更改为 49 ；
 
 ```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
 5）更新操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/607ff9eaed36b9b923eed207d24ac01d-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/8adea8f2804552f884138718fa3af781-0)
 
 
 #### 在 MySQL 实例中删除数据
-1）将 empno 值为 10001 的记录删除 ,请用户自行修改 Delete.java 文件，代码如下：
+1）将 empno 值为 10006 的记录删除， Delete.java 源代码如下； 
 ```java
 package com.sequoiadb.mysql;
 
@@ -410,26 +406,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Delete {
-	private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
+    private static String url = "jdbc:mysql://127.0.0.1:3306/company?useUnicode=true&charac
 terEncoding=utf-8&useSSL=false";
-	private static String username = "root";
-	private static String password = "";
+    private static String username = "root";
+    private static String password = "";
 
-	public static void main(String[] args) throws SQLException {
-		delete();
-	}
+    public static void main(String[] args) throws SQLException {
+        delete();
+    }
 
-	public static void delete() throws SQLException {
-		MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
+    public static void delete() throws SQLException {
+        MySQLConnection mysqlConnection = new MySQLConnection(url, username, password);
 
-		Connection connection = mysqlConnection.getConnection();
-		String sql = "delete from employee where empno = ?";
-		PreparedStatement psmt = connection.prepareStatement(sql);
-		// psmt.setInt(1, 10006);
-		psmt.setInt(1, 10001);
-		psmt.execute();
-		connection.close();
-	}
+        Connection connection = mysqlConnection.getConnection();
+        String sql = "delete from employee where empno = ?";
+        PreparedStatement psmt = connection.prepareStatement(sql);
+        psmt.setInt(1, 10006);
+        psmt.execute();
+        connection.close();
+    }
 }
 ```
 2）对 Delete.java 文件进行编译；
@@ -444,14 +439,14 @@ javac -d . Delete.java
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Delete
 ```
 
-4）检查确认 empno 为 10001 的雇员信息已经被删除；
+4）检查确认 empno 为 10006 的雇员信息已经被删除；
 
 ```shell
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
 5）删除操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/38b7cbba8d8587625456b271b2cec2c4-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/fef78d3dc2644066798c8b6bd0aeb561-0)
 
 ## 总结
 

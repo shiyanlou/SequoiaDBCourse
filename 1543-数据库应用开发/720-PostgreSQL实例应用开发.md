@@ -359,7 +359,7 @@ javac -d . PostgreSQLConnection.java
 ```
 
 #### 在 PostgreSQL 实例中插入数据：
-1）增加 empno 为 30004 、 30005 和 30006 这三条记录，请用户自行修改 Insert.java 文件，代码如下：
+1）增加 empno 为 30001 、 30002 和 30003 这三条记录，Insert.java 源代码如下；
 ```java
 package com.sequoiadb.postgresql;
 
@@ -382,11 +382,11 @@ d);
         String sql = "INSERT INTO employee VALUES";
         Statement stmt = connection.createStatement();
         StringBuffer sb = new StringBuffer();
-        sb.append("(").append(30004).append(",").append("'Mike'").append(",").append(20).ap
+        sb.append("(").append(30001).append(",").append("'Mike'").append(",").append(20).ap
 pend("),");
-        sb.append("(").append(30005).append(",").append("'Donna'").append(",").append(21).a
+        sb.append("(").append(30002).append(",").append("'Donna'").append(",").append(21).a
 ppend("),");
-        sb.append("(").append(30006).append(",").append("'Jack'").append(",").append(22).ap
+        sb.append("(").append(30003).append(",").append("'Jack'").append(",").append(22).ap
 pend("),");
         sb.deleteCharAt(sb.length() - 1);
         sql = sql + sb.toString();
@@ -410,11 +410,11 @@ javac -d . Insert.java
 ```
 
 4）操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3ff51f3645fc34c76dd9a628438ac402-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7e39b84aa42b4fe40a38045cbf2b2591-0)
 
 
 #### 从 PostgreSQL 实例中查询数据：
-1）只查询 empno 和 age 这两个字段 ，请用户自行修改 Select.java 文件，代码如下；
+1）查询返回 empno 、 ename 和 age 这三个字段 ，Select.java 源代码如下；
 ```java
 package com.sequoiadb.postgresql;
 
@@ -441,17 +441,15 @@ d);
         ResultSet rs = psmt.executeQuery();
         System.out.println("---------------------------------------------------------------
 -------");
-        //System.out.println("empno \t ename \t age");
-        System.out.println("empno \t  \t age");
+        System.out.println("empno \t ename \t age");
         System.out.println("---------------------------------------------------------------
 -------");
         while(rs.next()){
             Integer empno = rs.getInt("empno");
-            //String ename = rs.getString("ename");
+            String ename = rs.getString("ename");
             String age = rs.getString("age");
 
-            //System.out.println(empno + "\t" + ename + "\t" + age);
-            System.out.println(empno + "\t" + age + "\t" );
+            System.out.println(empno + "\t" + ename + "\t" + age);
         }
         connection.close();
     }
@@ -471,11 +469,11 @@ javac -d . Select.java
 ```
 
 4）操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0b9e6d8e24e1c26b3f4131bc51a522c7-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/5377b73da5f8ca47d060e96ce999b936-0)
 
 
 #### 在 PostgreSQL 实例中更新数据：
-1）将 empno 值为 10002 的 age 修改为 25 ，请用户自行修改 Update.java 文件，代码如下：
+1）将 empno 值为 10004 的 age 修改为 41 ， Update.java 源代码如下；
 ```java
 package com.sequoiadb.postgresql;
 
@@ -498,10 +496,8 @@ d);
         Connection connection = pgConnection.getConnection();
         String sql = "update employee set age = ? where empno = ?";
         PreparedStatement psmt = connection.prepareStatement(sql);
-        //psmt.setInt(1, 41);
-        psmt.setInt(1, 25);
-        //psmt.setInt(2, 10004);
-        psmt.setInt(2, 10002);
+        psmt.setInt(1, 41);
+        psmt.setInt(2, 10004);
         psmt.execute();
 
         connection.close();
@@ -519,17 +515,17 @@ javac -d . Update.java
 ```shell
  java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Update
 ```
-4）更新后查看 empno 为 10002 的 age 值是否更新为 25；
+4）更新后查看 empno 为 10004 的 age 值是否更新为 41；
 
 ```shell
  java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Select
 ```
 
 5）操作截图 ：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/768a48c689597e5f9e9061a7ba847326-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3fe5936fbd18b68ec2e92fa365c623e9-0)
 
 #### 在 PostgreSQL 实例中删除数据
-1）将 empno 值为 10003 的记录删除 , 请用户自行修改 Delete.java 文件，代码如下；
+1）将 empno 值为 10005 的记录删除 ,  Delete.java 源代码如下；
 ```java
 package com.sequoiadb.postgresql;
 
@@ -552,8 +548,7 @@ d);
         Connection connection = pgConnection.getConnection();
         String sql = "delete from employee where empno = ?";
         PreparedStatement psmt = connection.prepareStatement(sql);
-        //psmt.setInt(1, 10005);
-        psmt.setInt(1, 10003);
+        psmt.setInt(1, 10005);
         psmt.execute();
         connection.close();
     }
@@ -572,14 +567,14 @@ javac -d . Delete.java
  java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Delete
 ```
 
-4）检查确认 empno 为 10003 的雇员信息已经被删除；
+4）检查确认 empno 为 10005 的雇员信息已经被删除；
 
 ```shell
  java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Select
 ```
 
 5）操作截图；
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/8c0e90ab58632d19c39aa2211c4ee197-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/4af36643e5d00856da956dd2e6d39adc-0)
 
 ## 总结
 
