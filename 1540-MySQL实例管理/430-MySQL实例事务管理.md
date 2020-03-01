@@ -31,7 +31,7 @@ enable_checker: true
 
 #### 切换到 sdbadmin 用户
 
-部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
+部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin；
 
 ```shell
 su - sdbadmin
@@ -42,7 +42,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本。
+查看 SequoiaDB 巨杉数据库引擎版本；
 
 ```shell
 sequoiadb --version
@@ -53,7 +53,7 @@ sequoiadb --version
 
 #### 查看节点启动列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表。
+查看 SequoiaDB 巨杉数据库引擎节点列表；
 
 ```shell
 sdblist 
@@ -66,7 +66,7 @@ sdblist
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等节点初始化完成并重试该步骤
+>如果显示的节点数量与预期不符，请稍等节点初始化完成并重试该步骤。
 
 #### 检查 MySQL 实例进程
 
@@ -99,12 +99,14 @@ ps -elf | grep mysql
 
 #### 登录 MySQL shell 
 
+登录 MySQL 实例；
 ```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
 #### 创建数据库
 
+创建数据库实例；
 ```sql
 CREATE DATABASE company ;
 USE company ;
@@ -192,10 +194,9 @@ UPDATE employee SET age = 26 WHERE ename = "Ben" ;
 ROLLBACK ;
 ```
 
-
 #### 事务回滚操作的结果验证
 
-查询数据， 验证事务回滚后的数据结果。
+查询数据，验证事务回滚后的数据结果；
 
 ```sql
 SELECT * FROM employee ;
