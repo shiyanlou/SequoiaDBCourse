@@ -121,7 +121,7 @@ hostname
 3）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
 
 ```shell
-ssh-copy-id  sdbadmin@本机主机名
+ssh-copy-id  sdbadmin@`hostname`
 ```
 
 >
@@ -251,7 +251,7 @@ FLUSH PRIVILEGES ;
 
 操作截图：
 
-![1542-610-7](https://doc.shiyanlou.com/courses/1542/1207281/8db1588d0b54de7d2fe3dcfbcacf9d3f)
+![1542-610-7](https://doc.shiyanlou.com/courses/1542/1207281/03863dae19bd159a40ff9e9f22a8392e-0)
 
 2）启动 thriftserver；
 
@@ -261,7 +261,7 @@ FLUSH PRIVILEGES ;
 
 操作截图：
 
-![1542-610-8](https://doc.shiyanlou.com/courses/1542/1207281/b4bc251d26d926395cb7a0d05d8d4f98)
+![1542-610-8](https://doc.shiyanlou.com/courses/1542/1207281/48734adc82d3f49c198066121fe18792-0)
 
 3） 检查进程启动状态；
 
@@ -278,6 +278,11 @@ netstat -anp | grep 10000
 操作截图：
 
 ![1542-610-9](https://doc.shiyanlou.com/courses/1542/1207281/7d335ee8c9715f544256aeae63df63eb-0)
+
+>
+>Note:
+>
+> 本环境使用 Docker 镜像，性能参数较低，启动 Spark 的耗时较长，请耐心等待 10000 端口的监听状态；如截图所示，此时 10000 端口监听成功。
 
 ## SparkSQL 与 SequoiaDB 的集合关联
 
