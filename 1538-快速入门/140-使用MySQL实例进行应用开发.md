@@ -96,9 +96,8 @@ USE company ;
 CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
 ```
 
-
-
 ## 基本数据操作
+
 
 SequoiaDB 巨杉数据库的 MySQL 实例支持完整的 CRUD 数据基本操作，本小节仅写入部分测试数据。
 
