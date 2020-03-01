@@ -35,7 +35,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本。
+查看 SequoiaDB 巨杉数据库引擎版本：
 
 ```shell
 sequoiadb --version
@@ -49,7 +49,7 @@ sequoiadb --version
 
 #### 查看节点启动列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表。
+查看 SequoiaDB 巨杉数据库引擎节点列表：
 
 ```shell
 sdblist 
@@ -66,7 +66,7 @@ sdblist
 
 #### 检查实例状态
 
-查看 PostgreSQL 实例状态。
+查看 PostgreSQL 实例状态：
 
 ```shell
 /opt/sequoiasql/postgresql/bin/sdb_sql_ctl status
