@@ -81,6 +81,7 @@ sdblist
 #### 使用数据库实例
 
 ```sql
+CREATE DATABASE company ;
 USE company ;
 ```
 
