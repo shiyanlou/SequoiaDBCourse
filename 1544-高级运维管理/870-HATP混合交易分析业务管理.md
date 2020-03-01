@@ -13,9 +13,9 @@ enable_checker: true
 
 #### 部署架构
 
-本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区三副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个 SequoiaSQL-PostgreSQL 数据库实例节点、1 个 SparkSQL 实例节点、1 个引擎协调节点，1 个编目节点与 3 个数据节点。
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区三副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个 SparkSQL 实例节点、3 个引擎协调节点，1 个编目节点与 3 个数据节点。
 
-![870-1](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
+![870-1](https://doc.shiyanlou.com/courses/1544/1207281/cbccf04bb55c07e56ebff9b76925b53d-0)
 
 关于 SequoiaDB 巨杉数据库系统架构的详细信息，请参考如下链接：
 
@@ -187,7 +187,7 @@ db.updateConf ( { preferedinstance : "2,1,3" , preferedinstancemode : "ordered" 
 db.updateConf ( { preferedinstance : "3,2,1" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "31810" } ) ;
 ```
 
-SequoiaDB 数据库共有 3 个分区，分别是 group1，group2，group3。每个分区有三个副本，一个主节点副本，两个从节点副本。通过上面的命令把三个副本分别标示为 1，2，3。主节点的副本编号为 1，从节点的副本编为 2 和 3。
+SequoiaDB 数据库共有 3 个分区，分别是 group1，group2，group3。每个分区有三个副本，一个主节点副本，两个从节点副本。通过上面的命令把三个副本分别标示为 1，2，3。
 
 操作截图：
 
@@ -303,4 +303,4 @@ SELECT * FROM company.employee ;
 
 ## 总结
 
-本课程通过给数据组的副本设置实例 id 和协调节点设置数据读取的顺序，使得 MySQL 实例连接的11810协调节点，读取数据的实例 id 顺序为 1，2；SparkSQL 实例读取的数据节点实例 id 为 3，2。由于生产环境中我们部署节点一般是 1 台机器 1 个数据组为 1个副本，这样的读取顺序能够把两个不同的实例分开，实现资源隔离。
+本课程通过给数据组的副本设置实例 id 和协调节点设置数据读取的顺序，达到数据读写分离。
