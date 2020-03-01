@@ -162,7 +162,7 @@ SELECT * FROM employee ;
 
 操作截图:
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/cef48f411e08307839dffe889cbb62bb-0)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/2f95a5b013de24775c07d49865a08b6c-0)
 
 
 
@@ -203,7 +203,7 @@ SELECT * FROM employee ;
 
 操作截图:
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/cef48f411e08307839dffe889cbb62bb-0)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/2f95a5b013de24775c07d49865a08b6c-0)
 
 > 如操作截图显示，雇员 Janey 的信息未写入到数据库；而 Ben 的年龄也没有更新。
 
