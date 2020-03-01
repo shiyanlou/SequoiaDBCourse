@@ -27,6 +27,7 @@ enable_checker: true
 ## 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 `sdbadmin` 。
+
 ```shell
 su - sdbadmin
 ```
@@ -37,7 +38,8 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本
+查看 SequoiaDB 巨杉数据库引擎版本:
+
 ```shell
 sequoiadb --version
 ```
@@ -60,7 +62,7 @@ sdblist
 
 >Note:
 >
->如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤
+>如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤。
 
 #### 查看 MySQL 实例是否已经启动
 ```shell
