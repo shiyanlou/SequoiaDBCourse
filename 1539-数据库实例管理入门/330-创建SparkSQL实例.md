@@ -290,50 +290,38 @@ jps
 
 ![](https://doc.shiyanlou.com/courses/1539/1207281/81b2b0f2eee0b4ef8ac6ed28a191acca-0)
 
-4）配置 spark-sql 日志输出；
+4）拷贝 log4j.properties；
 
 ```shell
-cat > /opt/spark-2.4.4-bin-hadoop2.7/conf/log4j.properties << EOF
-# Set everything to be logged to the console
-log4j.rootCategory=ERROR, console
-log4j.appender.console=org.apache.log4j.ConsoleAppender
-log4j.appender.console.target=System.err
-log4j.appender.console.layout=org.apache.log4j.PatternLayout
-log4j.appender.console.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n
-
-log4j.logger.org.apache.spark.repl.Main=WARN
-
-log4j.logger.org.spark_project.jetty=WARN
-log4j.logger.org.spark_project.jetty.util.component.AbstractLifeCycle=ERROR
-log4j.logger.org.apache.spark.repl.SparkIMain$exprTyper=INFO
-log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO
-log4j.logger.org.apache.parquet=ERROR
-log4j.logger.parquet=ERROR
-
-log4j.logger.org.apache.hadoop.hive.metastore.RetryingHMSHandler=FATAL
-log4j.logger.org.apache.hadoop.hive.ql.exec.FunctionRegistry=ERROR
-EOF
+cp conf/log4j.properties.template  conf/log4j.properties
 ```
-5）检查日志输出配置是否成功；
+ 
+5）log4j.properties 中设置日志级别，避免大量日志输出屏幕；
+
+```shell
+sed -i 's/log4j.rootCategory=INFO, console/log4j.rootCategory=ERROR, console/g' conf/log4j.properties
+```
+
+6）检查日志输出配置是否成功；
 
 ```shell
 cat /opt/spark-2.4.4-bin-hadoop2.7/conf/log4j.properties
 ```
 
-6) 启动 spark-sql 客户端；
+7) 启动 spark-sql 客户端；
 
 ```shell
 bin/spark-sql
 ```
 
-7）创建 company 数据库；
+8）创建 company 数据库；
 
 ```sql
 CREATE DATABASE company ;
 USE company ;
 ```
 
-8）创建映射表；
+9）创建映射表；
 
 ```sql
 CREATE TABLE company.employee (
@@ -343,13 +331,13 @@ age INT
 ) USING com.sequoiadb.spark OPTIONS (host 'localhost:11810', collectionspace 'company', collection 'employee', username '', password '') ;
 ```
 
-9）测试运行 sql；
+10）测试运行 sql；
 
 ```sql
 SELECT AVG(age) FROM company.employee ;
 ```
 
-10）退出 spark-sql 客户端；
+11）退出 spark-sql 客户端；
 
 ```sql
 exit ;
