@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.2
+version: 3.0
 ---
 
 ## 课程介绍
@@ -34,7 +34,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本：
+查看 SequoiaDB 巨杉数据库引擎版本。
 
 ```shell
 sequoiadb --version
@@ -46,7 +46,7 @@ sequoiadb --version
 
 ## 查看节点启动列表
 
-1）查看 SequoiaDB 巨杉数据库引擎节点列表：
+1）查看 SequoiaDB 巨杉数据库引擎节点列表；
 
 ```shell
 sdblist 
@@ -59,7 +59,7 @@ sdblist
 >
 >如果显示的节点数量少于上图中的数量，请稍等初始化完成并重试该步骤。
 
-2）检查 SparkSQL 实例：
+2）检查 SparkSQL 实例；
 ```shell
 jps
 ```
@@ -199,5 +199,4 @@ SELECT * FROM employee_bak ;
 ## 总结
 
 通过本课程，我们学习了通过 SparkSQL 操作 SequoiaDB 巨杉数据库中的数据。 同时讲解了 SequoiaDB 巨杉数据库所支持的 SparkSQL 语法。
-                                                                                                                            
 

@@ -1,18 +1,18 @@
 ---
 show: step
-version: 2.2
+version: 3.0 
 ---
 
 ## 课程介绍
 
-之前的小节通过 SequoiaSQL-MySQL、 SequoiaSQL-PostgreSQL 数据库实例对数据进行增删改查。同时，对分布式存储引擎中的数据，SequoiaDB 巨杉数据库支持通过 JSON API 的方式直接进行查询与修改。SequoiaDB 巨杉数据库存储引擎的交互式命令行界面为 SequoiaDB Shell，使用 JavaScript 作为其脚本开发语言。
+之前的小节通过 SequoiaSQL-MySQL、 SequoiaSQL-PostgreSQL 数据库实例对数据进行增删改查。同时对分布式存储引擎中的数据，SequoiaDB 巨杉数据库支持通过 JSON API 的方式直接进行查询与修改。SequoiaDB 巨杉数据库存储引擎的交互式命令行界面为 SequoiaDB Shell，使用 JavaScript 作为其脚本开发语言。
 
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括1个引擎协调节点，1个编目节点与3个数据节点。
 
-![图片描述](https://doc.shiyanlou.com/courses/1480/1207281/96cb907f16094f2f959938fe26df8546-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/dd11cb78ba9732f36f58883df952282a)
 
 详细了解 SequoiaDB 巨杉数据库系统架构：
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
@@ -35,7 +35,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本：
+查看 SequoiaDB 巨杉数据库引擎版本。
 
 ```shell
 sequoiadb --version
@@ -47,7 +47,7 @@ sequoiadb --version
 
 ## 查看节点启动列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表
+查看 SequoiaDB 巨杉数据库引擎节点列表。
 
 ```shell
 sdblist 
@@ -127,7 +127,7 @@ db.company.employee.find ( { "age" : { "$gt" : 20 , "$lt" : 30 } } ) ;
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/95b0770b9305772d6c795fe29a0b02d6)
 
 #### 更新集合中的数据
-1）更新JSON 实例集合 employees 中的数据，将 empno 为10001的记录 age 更改为34；
+1）集合 employees 中的数据，将 empno 为10001的记录 age 更改为34；
 
 ```javascript
 db.company.employee.update ( { "$set" : { "age" : 34 } } , { "empno" : 10001 }) ;
@@ -194,6 +194,3 @@ quit ;
 ## 总结
 
 我们通过 javascript 语法对 SequoiaDB 巨杉数据库 JSON 实例进行了创建集合空间、集合、索引以及数据的 CRUD 基本操作。
-                                                                                            
-                                                                                            
-                                                                                            
