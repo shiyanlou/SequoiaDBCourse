@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.0 
+version: 4.0 
 enable_checker: true 
 ---
 
@@ -282,7 +282,7 @@ netstat -anp | grep 10000
 >
 >Note:
 >
-> 本环境使用 Docker 镜像，性能参数较低，启动 Spark 的耗时较长，请耐心等待 10000 端口的监听状态；如截图所示，此时 10000 端口监听成功。
+> 本实验环境性能参数较低，启动 Spark 的耗时较长，请耐心等待 10000 端口的监听状态；如截图所示，此时 10000 端口监听成功即可继续执行后续操作。
 
 ## SparkSQL 与 SequoiaDB 的集合关联
 
@@ -398,3 +398,4 @@ SELECT * FROM employee ;
 + SequoiaDB 集合空间、集合的创建
 + SparkSQL 实例的配置
 + SparkSQL 实例中操作 SequoiaDB 巨杉数据库的数据
+ 
