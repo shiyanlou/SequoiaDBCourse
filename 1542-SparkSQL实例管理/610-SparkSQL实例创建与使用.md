@@ -108,7 +108,7 @@ cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar /opt/spark-2.4.4-bin-hadoop2.7/j
 #### 设置免密
 1）执行ssh-keygen生成公钥和密钥，执行后连续回车即可；
 
-```ssh
+```shell
 ssh-keygen -t rsa
 ```
 
