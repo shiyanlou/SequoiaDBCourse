@@ -29,7 +29,7 @@ enable_checker: true
 
 #### 切换到 sdbadmin 用户
 
-部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
+部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin；
 
 ```shell
 su - sdbadmin
@@ -40,7 +40,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本。
+查看 SequoiaDB 巨杉数据库引擎版本；
 
 ```shell
 sequoiadb --version
@@ -72,13 +72,13 @@ sdblist
 
 此实验环境已经安装了 SequoiaSQL-MySQL 程序，我们直接添加 MySQL 实例。
 
-1）切换到 SequoiaSQL-MySQL 安装目录;
+1）切换到 SequoiaSQL-MySQL 安装目录；
 
 ```shell
 cd /opt/sequoiasql/mysql
 ```
 
-2）添加实例;
+2）添加实例；
 
 ```shell
 bin/sdb_sql_ctl addinst myinst -D database/3306/
@@ -164,7 +164,7 @@ SHOW CREATE TABLE employee ;
 
 ## 数据表中写入数据并查询
 
-4）在分区表 employee 中插入数据：
+4）在分区表 employee 中插入数据；
 ```sql
 INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
 INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
@@ -184,4 +184,4 @@ SELECT * FROM employee ;
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/03af12a43819e244a320314f21bb391c-0)
 
 ## 总结
-通过本课程，我们学习了在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并在数据表上进行了写入和查询操作；
+通过本课程，我们学习了在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并在数据表上进行了写入和查询操作。
