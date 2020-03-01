@@ -107,7 +107,8 @@ cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar /opt/spark-2.4.4-bin-hadoop2.7/j
 
 #### 设置免密
 1）执行ssh-keygen生成公钥和密钥，执行后连续回车即可；
-```
+
+```ssh
 ssh-keygen -t rsa
 ```
 
@@ -118,14 +119,15 @@ hostname
 ```
 
 3）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
-```
+
+```ssh
 ssh-copy-id  sdbadmin@本机主机名
 ```
 
 >
 >Note:
 >
-> sdbadmin的密码是：sdbadmin
+> sdbadmin 的密码是：`sdbadmin` 。
 > 单机不需要拷贝到其它服务器上，如果是多机部署，需要配置所有服务器的互相关系。
 
 #### 配置 Spark
@@ -267,7 +269,7 @@ FLUSH PRIVILEGES ;
 jps
 ```
 
-3） 检查端口监听状态；
+4） 检查端口监听状态；
 
 ```shell
 netstat -anp | grep 10000
@@ -314,7 +316,7 @@ db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 } , "ShardingTyp
 5）退出 SequoiaDB Shell；
 
 ```shell
-quit
+quit ;
 ```
 
 操作截图：
