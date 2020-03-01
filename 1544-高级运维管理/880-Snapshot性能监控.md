@@ -230,6 +230,20 @@ Name 参数指定了需要查看的集合，如果想查看所有集合，可以
 db.snapshot (SDB_SNAP_COLLECTIONS) ;
 ```
 
+9）退出 SequoiaDB Shell ；
+
+```javascript
+quit ;
+```
+
+10）若查询集合快照信息输出过大，可以把查询结果输出到一个文件中 ；
+
+```shell
+/opt/sequoiadb/bin/sdb 'var db=new Sdb("localhost", 11810) ;'
+sdb 'db.snapshot (SDB_SNAP_COLLECTIONS, { Name : 'company.employee' } ) ;' > /home/sdbadmin/snap_collection.log
+```
+
+
 ## 总结
 
 SequoiaDB 巨杉数据库提供多种快照类型，获取快照我们能够得到系统当前的状态，有利于快速分析问题和对性能进行监控。
