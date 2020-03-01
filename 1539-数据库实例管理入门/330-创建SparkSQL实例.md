@@ -264,6 +264,28 @@ cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar  /opt/spark-2.4.4-bin-hadoop2.7/
 cp /home/sdbadmin/soft/mysql-jdbc.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/  
 ```
 
+## 设置 Spark 日志级别
+
+由于 Spark 默认日志级别为 INFO ，运行 spark-sql 客户端时会打印大量日志输出屏幕，为了避免这个问题把日志级别改为 ERROR。
+
+1）拷贝 log4j.properties；
+
+```shell
+cp conf/log4j.properties.template  conf/log4j.properties
+```
+ 
+2）log4j.properties 中设置日志级别；
+
+```shell
+sed -i 's/log4j.rootCategory=INFO, console/log4j.rootCategory=ERROR, console/g' conf/log4j.properties
+```
+
+3）检查日志输出配置是否成功；
+
+```shell
+cat conf/log4j.properties
+```
+
 
 ## 测试 SparkSQL 实例
 
@@ -290,38 +312,21 @@ jps
 
 ![](https://doc.shiyanlou.com/courses/1539/1207281/81b2b0f2eee0b4ef8ac6ed28a191acca-0)
 
-4）拷贝 log4j.properties；
 
-```shell
-cp conf/log4j.properties.template  conf/log4j.properties
-```
- 
-5）log4j.properties 中设置日志级别，避免大量日志输出屏幕；
-
-```shell
-sed -i 's/log4j.rootCategory=INFO, console/log4j.rootCategory=ERROR, console/g' conf/log4j.properties
-```
-
-6）检查日志输出配置是否成功；
-
-```shell
-cat /opt/spark-2.4.4-bin-hadoop2.7/conf/log4j.properties
-```
-
-7) 启动 spark-sql 客户端；
+4) 启动 spark-sql 客户端；
 
 ```shell
 bin/spark-sql
 ```
 
-8）创建 company 数据库；
+5）创建 company 数据库；
 
 ```sql
 CREATE DATABASE company ;
 USE company ;
 ```
 
-9）创建映射表；
+6）创建映射表；
 
 ```sql
 CREATE TABLE company.employee (
@@ -331,13 +336,13 @@ age INT
 ) USING com.sequoiadb.spark OPTIONS (host 'localhost:11810', collectionspace 'company', collection 'employee', username '', password '') ;
 ```
 
-10）测试运行 sql；
+7）测试运行 sql；
 
 ```sql
 SELECT AVG(age) FROM company.employee ;
 ```
 
-11）退出 spark-sql 客户端；
+8）退出 spark-sql 客户端；
 
 ```sql
 exit ;
