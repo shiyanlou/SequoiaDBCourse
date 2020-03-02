@@ -1,12 +1,10 @@
 ---
 show: step
-version: 4.0
+version: 5.1
 enable_checker: true
 ---
 
 # MySQL 实例事务管理
-
-
 
 
 ## 课程介绍
