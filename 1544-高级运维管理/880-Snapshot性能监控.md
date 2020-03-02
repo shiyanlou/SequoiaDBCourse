@@ -54,7 +54,7 @@ sequoiadb --version
 
 ## 查看节点启动列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表
+查看 SequoiaDB 巨杉数据库引擎节点列表：
 
 ```shell
 sdblist
