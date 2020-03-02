@@ -102,7 +102,7 @@ bin/sdb_sql_ctl status
 
 ## 创建数据库及数据表
 
-进入 MySQL shell，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，验证实例创建以及使用是否成功。
+进入 MySQL shell，连接 SequoiaSQL-MySQL 实例并创建 company 数据库，验证 SequoiaSQL-MySQL 实例创建以及使用是否成功。
 
 #### 创建数据库
 
@@ -129,7 +129,7 @@ SHOW DATABASES ;
 
 在 SequoiaSQL-MySQL 实例中创建的表将会默认使用 SequoiaDB 数据库存储引擎，包含主键或唯一键的表将会默认以唯一键作为分区键，进行自动分区。
 
-1）在 MySQL 实例 company 数据库中创建数据表 employee；
+1）在 MySQL 实例的 company 数据库中创建数据表 employee；
 
 ```sql
 CREATE TABLE employee (
@@ -166,8 +166,8 @@ SHOW CREATE TABLE employee ;
 
 4）在分区表 employee 中插入数据；
 ```sql
-INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
 INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
+INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
 ```
 
 操作截图：
