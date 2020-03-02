@@ -192,7 +192,7 @@ db.snapshot (SDB_SNAP_SESSIONS,{ Source : { $regex:'MySQL.*' } } ) ;
 
 操作截图：
 
- ![880-4](https://doc.shiyanlou.com/courses/1544/1207281/fdf07e3856152a93538e55d89b8f3f7d-0)
+ ![880-4](https://doc.shiyanlou.com/courses/1544/1207281/50d1d98c8cb2175bff047df8b5ed2353-0)
 
 6）查看数据库状态；
 
