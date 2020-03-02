@@ -1,9 +1,8 @@
 ---
 show: step
-version: 5.1
+version: 2.0
 enable_checker: true
 ---
-
 # MySQL 实例事务管理
 
 
