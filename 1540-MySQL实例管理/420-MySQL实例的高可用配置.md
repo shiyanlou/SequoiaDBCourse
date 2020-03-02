@@ -33,7 +33,7 @@ MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插�
 
 #### 切换到 sdbadmin 用户
 
-部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin；
+部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin：
 ```shell
 su - sdbadmin
 ```
@@ -43,7 +43,7 @@ su - sdbadmin
 
 #### 查看巨杉数据库版本
 
-查看 SequoiaDB 巨杉数据库引擎版本；
+查看 SequoiaDB 巨杉数据库引擎版本：
 
 ```shell
 sequoiadb --version
@@ -58,7 +58,7 @@ sequoiadb --version
 
 #### 检查 SequoiaDB 巨杉数据库节点列表
 
-查看 SequoiaDB 巨杉数据库引擎节点列表；
+查看 SequoiaDB 巨杉数据库引擎节点列表：
 
 ```shell
 sdblist 
