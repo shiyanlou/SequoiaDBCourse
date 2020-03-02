@@ -167,8 +167,8 @@ SHOW CREATE TABLE employee ;
 
 4）在分区表 employee 中插入数据；
 ```sql
-INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
 INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
+INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
 ```
 
 操作截图：
