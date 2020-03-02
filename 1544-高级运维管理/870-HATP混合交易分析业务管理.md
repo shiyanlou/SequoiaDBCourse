@@ -251,6 +251,12 @@ db.snapshot ( SDB_SNAP_CONFIGS , {Role : "coord" } , { NodeName : "" , preferedi
  ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/b132ec3cc727b718dc7b93c27871a99d-0)
 
  此时，所有数据节点的 preferedinstance 均已修改完成。
+ 
+ 5）退出 SequoiaDB Shell；
+
+```javascript
+quit ;
+```
 
 ## SparkSQL 设置
 
