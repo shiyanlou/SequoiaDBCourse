@@ -1,6 +1,6 @@
 ---
 show: step
-version: 3.0
+version: 33423423423442332.0
 enable_checker: true
 ---
 
@@ -66,8 +66,6 @@ sdblist
 >Note:
 >
 >如果显示的节点数量与预期不符，请稍等节点初始化完成并重试该步骤。
-
-
 
 ## 创建 MySQL 实例
 
