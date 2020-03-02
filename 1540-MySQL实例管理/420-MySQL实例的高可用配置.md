@@ -496,12 +496,12 @@ SELECT * FROM employee ;
 ```
 
 4）退出 MySQL Shell；
-```
+```sql
 \q
 ```
 
 5）退出 sdbserver2 机器；
-```
+```shell
 exit
 ```
 
@@ -521,7 +521,7 @@ SHOW DATABASES ;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/e5e8c2d83d06c76611712d3b727b7e6b-0
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/c32c36f921b0e11c6d271e713248ce80-0
 )
 
 
@@ -533,8 +533,12 @@ USE company ;
 
 4）查询 employee 表；
 
-```
+```sql
 SELECT * FROM employee ;
+```
+5）退出 MySQL Shell；
+```sql
+\q
 ```
 
 ## 总结
