@@ -1,6 +1,6 @@
 ---
 show: step
-version: 5.0
+version: 6.0
 ---
 
 ## 课程介绍
@@ -111,6 +111,7 @@ CREATE EXTENSION sdb_fdw ;
 
 #### 配置与 SequoiaDB 连接参数
 在 PostgreSQL 实例中配置 SequoiaDB 连接参数：
+
 1）创建 sdb_server 这个连接器
 ```sql
 CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw OPTIONS (address '127.0.0.1', service '11810', user '', password '', preferedinstance 'A', transaction 'on' ) ;
