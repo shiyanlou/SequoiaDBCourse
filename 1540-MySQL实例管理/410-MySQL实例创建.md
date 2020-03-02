@@ -103,7 +103,7 @@ bin/sdb_sql_ctl status
 
 ## 创建数据库及数据表
 
-进入 MySQL shell，连接 SequoiaSQL-MySQL 实例并创建 company 数据库，验证 SequoiaSQL-MySQL 实例创建以及使用是否成功。
+进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，验证实例的创建及使用是否成功。
 
 #### 创建数据库
 
