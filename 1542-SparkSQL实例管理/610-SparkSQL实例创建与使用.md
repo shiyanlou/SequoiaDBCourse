@@ -1,6 +1,6 @@
 ---
 show: step
-version: 10.0 
+version: 2.0 
 enable_checker: true 
 ---
 
@@ -112,13 +112,7 @@ cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar /opt/spark-2.4.4-bin-hadoop2.7/j
 ssh-keygen -t rsa
 ```
 
-2）查看本机主机名；
-
-```shell
-hostname
-```
-
-3）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
+2）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
 
 ```shell
 ssh-copy-id  sdbadmin@sdbserver1
