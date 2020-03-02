@@ -1,6 +1,6 @@
 ---
 show: step
-version: 10.0
+version: 9.0
 enable_checker: true
 ---
 # MySQL 实例的高可用配置
