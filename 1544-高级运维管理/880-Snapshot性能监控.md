@@ -171,7 +171,7 @@ nohup sh select.sh &
 3）在 Linux 命令行中进入 SequoiaDB Shell 交互式界面；
 
 ```shell
-sdb ;
+sdb
 ```
 
 4）使用 JavaScript 连接协调节点，并获取数据库连接；
@@ -240,7 +240,7 @@ quit ;
 
 ```shell
 /opt/sequoiadb/bin/sdb 'var db=new Sdb("localhost", 11810) ;'
-sdb 'db.snapshot (SDB_SNAP_COLLECTIONS, { Name : 'company.employee' } ) ;' > /home/sdbadmin/snap_collection.log
+/opt/sequoiadb/bin/sdb 'db.snapshot (SDB_SNAP_COLLECTIONS, { Name : "company.employee" } ) ;' > /home/sdbadmin/snap_collection.log
 ```
 
 
