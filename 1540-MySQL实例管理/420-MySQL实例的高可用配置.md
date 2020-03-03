@@ -247,26 +247,8 @@ echo 'server_audit_query_log_limit=102400' >> /opt/sequoiasql/mysql/database/330
 
 以上添加的参数说明如下：
 
-```
-### add server_audit.so config ###
-# 加载审计插件 
-plugin-load=server_audit=server_audit.so 
-# 审计记录的审计，建议只记录需要同步的DCL和DDL操作 server_audit_events=CONNECT,QUERY_DDL,QUERY_DCL 
-# 开启审计 
-server_audit_logging=ON 
-# 审计日志路径及文件名 
-server_audit_file_path=/opt/sequoiasql/mysql/database/auditlog/server_audit.log 
-# 强制切分审计日志文件 
-server_audit_file_rotate_now=OFF 
-# 审计日志文件大小10MB，超过该大小进行切割，单位为byte 
-server_audit_file_rotate_size=10485760 
-# 审计日志保留个数，超过后会丢弃最旧的 
-server_audit_file_rotations=999 
-# 输出类型为文件 
-server_audit_output_type=file 
-# 限制每行查询日志的大小为100kb，若表比较复杂，对应的操作语句比较长，建议增大该值 
-server_audit_query_log_limit=102400 
-```
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/685ded713da4cc70c31a25b7a677ab24-0)
+
 
 2）创建审计日志存放的文件夹；
 ```shell
