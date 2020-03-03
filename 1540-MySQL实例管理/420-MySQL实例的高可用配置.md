@@ -359,23 +359,14 @@ python /opt/sequoiasql/mysql/tools/metaSync/meta_sync.py &
 ```shell
 crontab -e
 ```
-操作截图:
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/ba8a95c9dfd51cc37d428acc24ff8462-0)
-
-
-3）输入 3 并按回车，选用 vim.basic 编辑；
->Note：
->   
->首次学习需要进行选择跳转，后面一般都会自动跳转到 3 模式 
-
-4）去到最后一行按 `i` 然后输入以下内容；
+3）去到最后一行按 `i` 然后添加以下内容；
 ```
 #每一分钟运行一次
 */1 * * * * /usr/bin/python /opt/sequoiasql/mysql/tools/metaSync/meta_sync.py >/dev/null 2>&1 &
 ```
 
-5）linux 系统后台进程作业配置检查，最后一行可以显示上一步骤输入内容；
+4）linux 系统后台进程作业配置检查，最后一行可以显示上一步骤输入内容；
 
 ```shell
 crontab -l
