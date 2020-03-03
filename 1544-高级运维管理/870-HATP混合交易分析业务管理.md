@@ -9,7 +9,7 @@ enable_checker: true
 
 ## 课程介绍
 
-本课程主要介绍 SequoiaDB 巨杉数据库的 HTAP 能力。通过连接不同的分区副本，实现 OLTP 与 OLAP 业务资源隔离，进而提高整体性能。
+日常业务处理之中，面对不同的业务场景需求，我们需要设置对应不同的数据库权限给予用户，从而实现数据库的安全性以及提升数据库的整体性能，而本课程主要介绍 SequoiaDB 巨杉数据库的 HTAP 能力，它通过连接不同的分区副本，实现 OLTP 与 OLAP 业务资源隔离，进而提高整体性能。
 
 #### 部署架构
 
@@ -29,7 +29,7 @@ enable_checker: true
 
 #### 切换到 sdbadmin 用户
 
-部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
+部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin:
 
 ```shell
 su - sdbadmin
@@ -121,7 +121,7 @@ SHOW VARIABLES LIKE '%sequoiadb_conn_addr%' ;
 
 ## SequoiaDB 巨杉数据库访问隔离设置
 
-数据库访问隔离功能主要是通过修改数据库节点配置参数 instanceid 、 preferedinstance 和 preferedinstancemode、preferedstrict 来实现。
+数据库访问隔离功能的实现主要是通过修改数据库节点配置参数 instanceid 、 preferedinstance 和 preferedinstancemode、preferedstrict 来实现。
 
 关于数据库配置的更多说明，请参考如下链接：
 
@@ -129,7 +129,7 @@ SHOW VARIABLES LIKE '%sequoiadb_conn_addr%' ;
 
 #### 修改数据节点配置
 
-1）使用 Linux 命令行进去 SequoiaDB Shell；
+1）使用 Linux 命令行进去 SequoiaDB Shell ；
 
 ```shell
 sdb
@@ -187,7 +187,7 @@ db.updateConf ( { preferedinstance : "2,1,3" , preferedinstancemode : "ordered" 
 db.updateConf ( { preferedinstance : "3,2,1" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "31810" } ) ;
 ```
 
-SequoiaDB 数据库共有 3 个分区，分别是 group1，group2，group3。每个分区有三个副本，一个主节点副本，两个从节点副本。通过上面的命令把三个副本分别标示为 1，2，3。
+SequoiaDB 数据库共有 1 个分区，分别是 group1。每个分区有三个副本，一个主节点副本，两个从节点副本。通过上面的命令把三个副本分别标示为 1，2，3。
 
 操作截图：
 
@@ -201,7 +201,7 @@ quit ;
 
 ## 重启 SequoiaDB 数据节点
 
-数据节点 instanceid 参数为重启后生效，修改完参数后，重启数据节点。
+数据节点 instanceid 参数为需要节点重启后生效，修改完参数后，重启数据节点。
 
 ```shell
 sdbstop -r data
