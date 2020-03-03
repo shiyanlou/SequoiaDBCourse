@@ -164,6 +164,7 @@ SHOW GRANTS FOR sdbadmin ;
 ```
 
 操作截图:
+
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/fcff6a32b56524b705e743e2e9a1ca0f)
 
 5）退出 MySQL Shell；
@@ -202,7 +203,9 @@ ls /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
 
 操作截图:
+
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/250edbc6970ed1d7e6605f4f20150d1b-0)
+
 > Note:
 >
 > 文件不存在，需要给 MySQL 配置数据库审计日志。
@@ -213,6 +216,7 @@ cp /opt/sequoiasql/mysql/tools/lib/server_audit.so /opt/sequoiasql/mysql/lib/plu
 ```
 
 4）赋予 MySQL 运行用户的可执行权限；
+
 ```shell
 chmod a+x /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
@@ -254,6 +258,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 #### 重启 MySQL 实例并检查审计日志
 
 1）检查 MySQL 实例；
+
 ```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
@@ -264,6 +269,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 
 
 2）重启 MySQL 实例；
+
 ```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl restart myinst
 ```
@@ -273,6 +279,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 
 
 3）检查 MySQL 实例进程；
+
 ```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
@@ -282,6 +289,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 
 
 4）检查审计日志文件目录，确保生成了审计日志文件 server_audit.log；
+
 ```shell
 ls -alt /opt/sequoiasql/mysql/database/auditlog/
 ```
@@ -306,6 +314,7 @@ cp /opt/sequoiasql/mysql/tools/metaSync/config.sample /opt/sequoiasql/mysql/tool
 ```
 
 2）进行元数据同步工具配置文件修改；
+
 ```shell
 sed -i 's/hosts = sdb1,sdb2,sdb3/hosts = sdbserver1,sdbserver2/g' /opt/sequoiasql/mysql/tools/metaSync/config
 ```
@@ -340,6 +349,7 @@ crontab -e
 ```
 
 3）去到最后一行按 `i` 然后添加以下内容；
+
 ```
 #每一分钟运行一次
 */1 * * * * /usr/bin/python /opt/sequoiasql/mysql/tools/metaSync/meta_sync.py >/dev/null 2>&1 &
