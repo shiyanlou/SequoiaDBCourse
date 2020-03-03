@@ -8,7 +8,7 @@ enable_checker: true
 
 ## 课程介绍
 
-本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及安装了 SequoiaSQL-MySQL 程序的环境中，创建 MySQL 实例及数据库和数据表，并向数据表中写入一定量数据。
+本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及安装了 SequoiaSQL-MySQL 程序的环境中，创建 MySQL 实例及数据库和数据表，并向数据表中写入数据进行测试。
 
 #### 请点击右侧选择使用的实验环境
 
