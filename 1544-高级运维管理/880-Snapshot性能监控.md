@@ -6,7 +6,6 @@ enable_checker: true
 
 # SNAPSHOT 性能监控
 
-
 ## 课程介绍
 
 在 SequoiaDB 巨杉数据库中，快照是一种得到系统当前状态的命令，用于监视当前系统状态的方法，通过使用 snapshot 命令，我们可以自由选择监控某个节点的状态信息，从而得到应用的使用情况，进而判断如何对数据库信息进行维护，本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，学习如何正常使用快照查看我们对应的 SequoiaDB 数据库信息情况。
@@ -160,7 +159,6 @@ done
 EOF
 ```
 
-
 2）使用 nohup 命令使 select.sh 脚本后台运行；
 
 ```shell
@@ -185,13 +183,20 @@ var db = new Sdb ("localhost",11810) ;
 db.snapshot (SDB_SNAP_SESSIONS,{ Source : { $regex:'MySQL.*' } } ) ;
 ```
 
+通过 LastOpType 字段可以知道当前会话最后一次操作类型，通过 TotalDataRead 和 TotalIndexRead 查看当前会话数据记录读和索引读情况,通过 TotalSelect 字段知道当前会话查询总选取记录数量 ，通过 UserCPU 和 SysCPU 了解当前会话 cpu 资源使用的，通过 LastOpInfo 字段可以查看到当前会话对集合操作的具体信息，而通过LastOpBegin 和 LastOpEnd 可以知道最后一次操作的耗时。
+
 >Note:
 >
 >{ Source:{$regex:'MySQL.*'} 使用正则匹配的方式过滤 Source 列中以 MySQL 为开头的会话信息。
 
+会话快照中查询出来的字段信息，详情请查看：
+* [SequoiaDB 会话快照列表说明](http://doc.sequoiadb.com/cn/index-cat_id-1479173713-edition_id-304)
+
 操作截图：
 
  ![880-4](https://doc.shiyanlou.com/courses/1544/1207281/50d1d98c8cb2175bff047df8b5ed2353-0)
+
+ 其中
 
 6）查看数据库状态；
 
