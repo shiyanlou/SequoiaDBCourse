@@ -66,7 +66,7 @@ sdblist
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/73fc0e5e1674703f570a9d7878bdfc4c-0)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/80c8d70317e125f8ee3201d8a2f51dc3-0)
 
 >Note:
 >
