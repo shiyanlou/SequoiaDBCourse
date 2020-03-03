@@ -4,9 +4,6 @@ version: 5.0
 enable_checker: true
 ---
 
-
-
-
 # 图形化监控管理界面
 
 ## 课程介绍
