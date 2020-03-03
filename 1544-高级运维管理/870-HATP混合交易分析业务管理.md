@@ -1,8 +1,9 @@
 ---
 show: step
-version: 5.0
+version: 4.0
 enable_checker: true
 ---
+
 
 # HATP混合交易分析业务管理
 
@@ -25,7 +26,6 @@ enable_checker: true
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本、SequoiaDB-Spark驱动连接器版本为3.4、 SparkSQL 版本为 2.4.4。
 
 ## 切换用户及查看数据库版本
-
 
 #### 切换到 sdbadmin 用户
 
