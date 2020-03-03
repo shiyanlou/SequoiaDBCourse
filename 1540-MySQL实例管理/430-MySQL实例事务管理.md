@@ -130,6 +130,21 @@ INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
 INSERT INTO employee (ename, age) VALUES ("Alice", 21) ;
 ```
 
+## MySQL 实例事务管理
+MySQL 实例的事务是基于 SequoiaDB 巨杉数据库存储引擎的，如果需要 MySQL 实例支持事务，存储引擎也必须开启事务。本课程环境中  SequoiaDB 巨杉数据库存储引擎使用的是默认值及开启事务，隔离级别为读未提交；下面对 MySQL 实例自身事务控制参数进行说明。
+
+1）查看是否已打开事务；
+```sql
+SHOW VARIABLES LIKE '%sequoiadb_use_transaction%' ;
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/30b998dd08806864e0421301f7808fd1-0)
+
+图片中 sequoiadb_use_transaction 参数的值为 on ，说明事务功能已经打开。
+
+
 ## 事务提交
 
 SequoiaDB 巨杉数据库的 MySQL 数据库实例支持完整的事务操作能力，本小节将验证其基本的回滚与提交能力。
