@@ -13,9 +13,9 @@ enable_checker: true
 
 #### 部署架构
 
-本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区三副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个 SparkSQL 实例节点、3 个引擎协调节点，1 个编目节点与 3 个数据节点。
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区三副本，其中包括：1 个 SequoiaSQL-MySQL 数据库实例节点、1 个 SparkSQL 实例节点、3 个引擎协调节点，3 个编目节点与 3 个数据节点。
 
-![870-1](https://doc.shiyanlou.com/courses/1544/1207281/a73f8c4aa1964dc0b408c49fae716516-0)
+![870-1](https://doc.shiyanlou.com/courses/1544/1207281/136759e29ff1e16b9d0903cdf18bea8c-0)
 
 关于 SequoiaDB 巨杉数据库系统架构的详细信息，请参考如下链接：
 
