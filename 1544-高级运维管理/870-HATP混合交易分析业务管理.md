@@ -61,7 +61,7 @@ sdblist  -t all -l -m local
 
 操作截图：
 
-![870-3](https://doc.shiyanlou.com/courses/1544/1207281/a10f6d46b7911a7659f95f14453754ff-0)
+![870-3](https://doc.shiyanlou.com/courses/1544/1207281/6068aa2c80ecba03a4c5ed401f8f68ec-0)
 
 >Note:
 >
@@ -141,27 +141,27 @@ sdb
 var db=new Sdb("localhost", 11810) ;
 ```
 
-3）修改 11820，11830，11840 数据节点实例 id 为 1；
+3）修改 11820 数据节点实例 id 为 1；
 
 ```javascript
-db.updateConf ( { instanceid : 1 } ,{svcname : {"$in":["11820", "11830", "11840"]}} ) ;
+db.updateConf ( { instanceid : 1 } ,{svcname : {"$in":["11820"]}} ) ;
 ```
 
-4）修改 21820，21830，21840 数据节点实例 id 为 2；
+4）修改 21820 数据节点实例 id 为 2；
 
 ```javascript
-db.updateConf ( { instanceid : 2 } ,{svcname : {"$in":["21820", "21830", "21840"]}} ) ;
+db.updateConf ( { instanceid : 2 } ,{svcname : {"$in":["21820"]}} ) ;
 ```
 
-5）修改 31820，31830，31840 数据节点实例 id 为 3；
+5）修改 31820 数据节点实例 id 为 3；
 
 ```javascript
-db.updateConf ( { instanceid : 3 } ,{svcname : {"$in":["31820", "31830", "31840"]}} ) ;
+db.updateConf ( { instanceid : 3 } ,{svcname : {"$in":["31820"]}} ) ;
 ```
 
 操作截图：
 
- ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/809405c09a7269405ed082e582479d73-0)
+ ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/aecb10be850489dad57c1f96c4f9afc1-0)
 
 >Note:
 >
@@ -210,9 +210,9 @@ sdbstart -r data
 
 操作截图：
 
- ![870-3](https://doc.shiyanlou.com/courses/1544/1207281/f8720c2ee67db46e9c6933bd4aad24ed-0)
+ ![870-3](https://doc.shiyanlou.com/courses/1544/1207281/4a47a0db6e60853dedfcfdf08a5ca249-0)
 
- ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/9055f589f1fb6044ecffde1dcc83bb8a-0)
+ ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/fb5c81ed3a220004b71069645f112867-0)
 
 ## 查看节点参数修改状态
 
@@ -238,7 +238,7 @@ db.snapshot ( SDB_SNAP_CONFIGS , {Role : "data" } , { NodeName : "" , instanceid
 
 操作截图：
 
- ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/5f77d97e4518664dd9e36694b69f1a82-0)
+ ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/089c566d13e548eda5d6a3adfdd7de1c-0)
 
 4）查看协调节点参数修改状态；
 
@@ -251,7 +251,7 @@ db.snapshot ( SDB_SNAP_CONFIGS , {Role : "coord" } , { NodeName : "" , preferedi
  ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/b132ec3cc727b718dc7b93c27871a99d-0)
 
  此时，所有数据节点的 preferedinstance 均已修改完成。
- 
+
  5）退出 SequoiaDB Shell；
 
 ```javascript
