@@ -33,6 +33,10 @@ SparkSQL 是 Spark 产品中一个组成部分，SQL 的执行引擎使用 Spark
 - SparkSQL 实例的配置
 - SparkSQL 实例中操作 SequoiaDB 巨杉数据库的数据
 
+#### 实验环境
+
+课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 巨杉数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
+
 ## 切换用户及查看数据库版本
 
 #### 切换到 sdbadmin 用户
