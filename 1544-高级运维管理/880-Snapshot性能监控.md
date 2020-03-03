@@ -154,7 +154,7 @@ cat > select.sh <<EOF
 i=1
 while [ \$i -le 600 ]
 do
-mysql -uroot -h127.0.0.1 -Dcompany -e "select * from employee;"
+mysql -uroot -h127.0.0.1 -Dcompany -e "SELECT * FROM employee;"
 i=\$((\${i}+1))
 sleep 1s
 done
