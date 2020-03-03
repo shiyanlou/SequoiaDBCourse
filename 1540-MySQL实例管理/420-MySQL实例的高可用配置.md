@@ -281,7 +281,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 ```
 
 操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/cc1e61a3314ee6c7b49740df0fdcfff9)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/ec36eba52982b258d17b5d87e5a45b6c-0)
 
 
 
@@ -300,7 +300,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 ```
 
 操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/7639a5c0c083603c33c7fda2fb5861bd)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/0d9fd0dc2a1c25c242d6ba29933ded44-0)
 
 
 4）检查审计日志文件目录，确保生成了审计日志文件 server_audit.log；
