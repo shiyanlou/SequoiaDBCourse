@@ -250,7 +250,6 @@ echo 'server_audit_query_log_limit=102400' >> /opt/sequoiasql/mysql/database/330
 ```
 
 >Note:
->
 >- add server_audit.so config ：加载审计插件；
 >- plugin-load=server_audit=server_audit.so ：审计记录的审计，建议只记录需要同步的DCL和DDL操作 server_audit_events=CONNECT，QUERY_DDL,QUERY_DCL ；
 >- server_audit_logging=ON ：开启审计；
