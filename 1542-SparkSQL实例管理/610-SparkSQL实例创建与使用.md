@@ -11,11 +11,21 @@ enable_checker: true
 
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，进行 SparkSQL 实例的最简单安装部署和数据操作。
 
+#### 请点击右侧选择使用的实验环境
+
+#### 部署架构：
+
+本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括：1 个 SequoiaSQL-SparkSQL 数据库实例节点， 1 个引擎协调节点， 1 个编目节点与 3 个数据节点。
+
+![图片描述](https://doc.shiyanlou.com/courses/1542/1207281/50d088eb3f655c3058e4ee9ea6a29446-0)
+
+详细了解 SequoiaDB 巨杉数据库系统架构：
+
+* [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
+
 #### SparkSQL 简介
 
 SparkSQL 是 Spark 产品中一个组成部分，SQL 的执行引擎使用 Spark 的 RDD 和 Dataframe 实现。目前 SparkSQL 已经可以完整运行 TPC-DS99 测试，标志着 SparkSQL 在数据分析和数据处理场景上技术进一步成熟。SequoiaDB 巨杉数据库为 Spark 开发了 SequoiaDB for Spark 的连接器，让 Spark 支持从 SequoiaDB 中并发获取数据，再完成相应的数据计算。
-
-#### 请点击右侧选择使用的实验环境
 
 #### 知识点
 
