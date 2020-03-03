@@ -1,17 +1,20 @@
 ---
 show: step
-version: 1.0
+version: 2.0
 enable_checker: true
 ---
 # MySQL 实例的高可用配置
 
+
+
 ## 课程介绍
 
-本课程将带领您在2台机器中展示 MySQL 进行实例高可用的配置，其中1台已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境，另外一台已经安装了 MySQL 实例组件。
+SequoiaSQL-MySQL 的架构使集群中的多个 MySQL 实例均为主机模式，都可独立对外提供读写服务。由于各实例的元数据都只存储在该实例本身，于是 SequoiaSQL-MySQL 提供了元数据同步工具，用来保证 MySQL 服务的高可用。当一个 MySQL 实例退出后，连接该实例的应用可以切换到其它实例，获得对等的读写服务。  
 
-SequoiaSQL-MySQL 的架构使集群中的多个 MySQL 实例均为主机模式，都可对外提供读写服务。由于各实例的元数据均只存储在该实例本身，SequoiaSQL-MySQL 提供了元数据同步工具，用来保证 MySQL 服务的高可用。当一个 MySQL 实例退出后，连接该实例的应用可以切换到其它实例，获得对等的读写服务。  
+本课程将带领您在2台机器中展示 MySQL 进行实例高可用的配置，其中1台已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境，另外一台只安装了 MySQL 实例组件。
 
 #### 请点击右侧选择使用的实验环境
+
 
 #### MySQL 元数据同步工具架构
 MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插件输出审计日志，元数据同步工具从审计日志中提取 SQL 语句，连接到其它 MySQL 实例执行，以达到元数据同步的目的。包含元数据同步工具的集群架构如下:
@@ -20,6 +23,7 @@ MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插�
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/e938c31f0190facca69b64369fc1a5eb)
 
 在上图中，meta_sync 即同步工具进程，每一个 MySQL 实例都有一个对应的同步工具在运行。它独立于 MySQL 服务进程运行，对 MySQL 的审计日志文件 server_audit.log 进行分析处理。由于用户的业务数据存储于底层的 SequoiaDB 数据库集群中，因此只要 MySQL 层的元数据在各实例间完成同步，连接 MySQL 实例的客户端就可以访问到一致的数据，这就为 MySQL 服务提供了高可用能力。
+
 
 #### 实验环境
 
@@ -31,6 +35,7 @@ MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插�
 #### 切换到 sdbadmin 用户
 
 部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin：
+
 ```shell
 su - sdbadmin
 ```
@@ -45,6 +50,7 @@ su - sdbadmin
 ```shell
 sequoiadb --version
 ```
+
 操作截图：
 
 ![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/b4082b0d6d6bdf89d229aa713a53759d)
@@ -119,7 +125,7 @@ ssh sdbadmin@sdbserver2
 
 >Note:
 >
->未展示实例名，说明仅安装 MySQL 实例组件。
+>命令未发现存在的实例名，说明仅安装 SequoiaSQL-MySQL 实例组件。
 
 3）退出 sdbserver2 远程服务器；
 
@@ -130,11 +136,11 @@ exit
 
 ## 创建元数据同步用户
 
-进行元数据同步的 MySQL 实例均要设置用户名和密码，故需连接两个MySQL 实例进行设置，本步骤展示对本机实例进行设置。
+进行元数据同步的 MySQL 实例均要设置相同的用户名和密码，故需连接两个 MySQL 实例进行相应的设置，本步骤展示对本机的 MySQL 实例进行设置。
 
 #### 创建数据库同步的用户
 
-1）登录 MySQL Shell，连接本机 sdbserver1 的 MySQL 实例；
+1）登录 MySQL Shell，连接本机的 MySQL 实例；
 
 ```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
@@ -155,7 +161,7 @@ FLUSH PRIVILEGES ;
 
 >Note:
 >
-> 此处使用的密码 `sdbadmin` 仅为示例，请根据需要自行设置安全的密码。
+> 此处使用的密码 `sdbadmin` 仅为示例，请根据需要自行的需要设置安全的密码。
 
 4）查询数据库用户的权限；
 
@@ -164,51 +170,50 @@ SHOW GRANTS FOR sdbadmin ;
 ```
 
 操作截图:
-
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/fcff6a32b56524b705e743e2e9a1ca0f)
 
-5）退出 MySQL Shell；
+5）退出 MySQL Shell ；
 
 ```sql
 \q
 ```
 
-6）使用 `sdbadmin` 用户重新登陆MySQL，进入 MySQL Shell 说明密码设置成功；
+6）使用 `sdbadmin` 用户重新登陆 MySQL ，如果进入 MySQL Shell 说明密码设置成功；
 
 ```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -usdbadmin -psdbadmin
 ```
 
-
-7）退出 MySQL Shell；
+7）退出 MySQL Shell ；
 
 ```sql
 \q
 ```
 
 ## 审计插件部署
+
 进行元数据同步的 MySQL 实例均要部署审计插件，本步骤展示对本机实例进行设置。
 
 #### 审计插件准备
 
 1）检查 MySQL 安装目录下 tools/lib 目录的审计插件；
+
 ```shell
 ls /opt/sequoiasql/mysql/tools/lib/server_audit.so
 ```
 
 
 2）检查 MySQL 安装目录下 lib/plugin 目录的审计插件；
+
 ```shell
 ls /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
 
 操作截图:
-
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/250edbc6970ed1d7e6605f4f20150d1b-0)
-
 > Note:
 >
-> 文件不存在，需要给 MySQL 配置数据库审计日志。
+> 文件不存在，需要给 SequoiaSQL-MySQL 配置数据库审计日志。
 
 3）将审计插件 server_audit.so 文件复制到 MySQL 安装目录中的 lib/plugin 目录下；
 ```shell
@@ -216,7 +221,6 @@ cp /opt/sequoiasql/mysql/tools/lib/server_audit.so /opt/sequoiasql/mysql/lib/plu
 ```
 
 4）赋予 MySQL 运行用户的可执行权限；
-
 ```shell
 chmod a+x /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
@@ -245,9 +249,17 @@ echo 'server_audit_output_type=file' >> /opt/sequoiasql/mysql/database/3306/auto
 echo 'server_audit_query_log_limit=102400' >> /opt/sequoiasql/mysql/database/3306/auto.cnf 
 ```
 
-以上添加的参数说明如下：
+>Note:
+>-add server_audit.so config ：加载审计插件；
+>-plugin-load=server_audit=server_audit.so ：审计记录的审计，建议只记录需要同步的DCL和DDL操作 server_audit_events=CONNECT，QUERY_DDL,QUERY_DCL ；
+>-server_audit_logging=ON ：开启审计；
+>-server_audit_file_path=/opt/sequoiasql/mysql/database/auditlog/server_audit.log ：审计日志路径及文件名 ；
+>-server_audit_file_rotate_now=OFF ：强制切分审计日志文件 ；
+>-server_audit_file_rotate_size=10485760 ：审计日志文件大小10MB，超过该大小进行切割，单位为byte ；
+>-server_audit_file_rotations=999 ：审计日志保留个数，超过后会丢弃最旧的 ；
+>-server_audit_output_type=file ： 输出类型为文件 ；
+>-server_audit_query_log_limit=102400 ：限制每行查询日志的大小为100kb，若表比较复杂，对应的操作语句比较长，建议增大该值 ；
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/685ded713da4cc70c31a25b7a677ab24-0)
 
 
 2）创建审计日志存放的文件夹；
@@ -258,7 +270,6 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 #### 重启 MySQL 实例并检查审计日志
 
 1）检查 MySQL 实例；
-
 ```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
@@ -269,7 +280,6 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 
 
 2）重启 MySQL 实例；
-
 ```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl restart myinst
 ```
@@ -279,7 +289,6 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 
 
 3）检查 MySQL 实例进程；
-
 ```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
@@ -289,7 +298,6 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 
 
 4）检查审计日志文件目录，确保生成了审计日志文件 server_audit.log；
-
 ```shell
 ls -alt /opt/sequoiasql/mysql/database/auditlog/
 ```
@@ -297,9 +305,6 @@ ls -alt /opt/sequoiasql/mysql/database/auditlog/
 操作截图:
 
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/dcc686392312e9273f2ac29cb65ce99f)
-
-
-
 
 
 ## 部署元数据同步工具
@@ -314,7 +319,6 @@ cp /opt/sequoiasql/mysql/tools/metaSync/config.sample /opt/sequoiasql/mysql/tool
 ```
 
 2）进行元数据同步工具配置文件修改；
-
 ```shell
 sed -i 's/hosts = sdb1,sdb2,sdb3/hosts = sdbserver1,sdbserver2/g' /opt/sequoiasql/mysql/tools/metaSync/config
 ```
@@ -349,7 +353,6 @@ crontab -e
 ```
 
 3）去到最后一行按 `i` 然后添加以下内容；
-
 ```
 #每一分钟运行一次
 */1 * * * * /usr/bin/python /opt/sequoiasql/mysql/tools/metaSync/meta_sync.py >/dev/null 2>&1 &
