@@ -5,18 +5,13 @@ enable_checker: true
 ---
 # MySQL 实例的高可用配置
 
-
-
 ## 课程介绍
 
 本课程将带领您在2台机器中展示 MySQL 进行实例高可用的配置，其中1台已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境，另外一台已经安装了 MySQL 实例组件。
 
 SequoiaSQL-MySQL 的架构使集群中的多个 MySQL 实例均为主机模式，都可对外提供读写服务。由于各实例的元数据均只存储在该实例本身，SequoiaSQL-MySQL 提供了元数据同步工具，用来保证 MySQL 服务的高可用。当一个 MySQL 实例退出后，连接该实例的应用可以切换到其它实例，获得对等的读写服务。  
 
-
-
 #### 请点击右侧选择使用的实验环境
-
 
 #### MySQL 元数据同步工具架构
 MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插件输出审计日志，元数据同步工具从审计日志中提取 SQL 语句，连接到其它 MySQL 实例执行，以达到元数据同步的目的。包含元数据同步工具的集群架构如下:
@@ -25,7 +20,6 @@ MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插�
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/e938c31f0190facca69b64369fc1a5eb)
 
 在上图中，meta_sync 即同步工具进程，每一个 MySQL 实例都有一个对应的同步工具在运行。它独立于 MySQL 服务进程运行，对 MySQL 的审计日志文件 server_audit.log 进行分析处理。由于用户的业务数据存储于底层的 SequoiaDB 数据库集群中，因此只要 MySQL 层的元数据在各实例间完成同步，连接 MySQL 实例的客户端就可以访问到一致的数据，这就为 MySQL 服务提供了高可用能力。
-
 
 #### 实验环境
 
@@ -170,6 +164,7 @@ SHOW GRANTS FOR sdbadmin ;
 ```
 
 操作截图:
+
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/fcff6a32b56524b705e743e2e9a1ca0f)
 
 5）退出 MySQL Shell；
@@ -208,7 +203,9 @@ ls /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
 
 操作截图:
+
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/250edbc6970ed1d7e6605f4f20150d1b-0)
+
 > Note:
 >
 > 文件不存在，需要给 MySQL 配置数据库审计日志。
@@ -219,6 +216,7 @@ cp /opt/sequoiasql/mysql/tools/lib/server_audit.so /opt/sequoiasql/mysql/lib/plu
 ```
 
 4）赋予 MySQL 运行用户的可执行权限；
+
 ```shell
 chmod a+x /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
@@ -260,6 +258,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 #### 重启 MySQL 实例并检查审计日志
 
 1）检查 MySQL 实例；
+
 ```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
@@ -270,6 +269,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 
 
 2）重启 MySQL 实例；
+
 ```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl restart myinst
 ```
@@ -279,6 +279,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 
 
 3）检查 MySQL 实例进程；
+
 ```shell
 /opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
 ```
@@ -288,6 +289,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 
 
 4）检查审计日志文件目录，确保生成了审计日志文件 server_audit.log；
+
 ```shell
 ls -alt /opt/sequoiasql/mysql/database/auditlog/
 ```
@@ -312,6 +314,7 @@ cp /opt/sequoiasql/mysql/tools/metaSync/config.sample /opt/sequoiasql/mysql/tool
 ```
 
 2）进行元数据同步工具配置文件修改；
+
 ```shell
 sed -i 's/hosts = sdb1,sdb2,sdb3/hosts = sdbserver1,sdbserver2/g' /opt/sequoiasql/mysql/tools/metaSync/config
 ```
@@ -346,6 +349,7 @@ crontab -e
 ```
 
 3）去到最后一行按 `i` 然后添加以下内容；
+
 ```
 #每一分钟运行一次
 */1 * * * * /usr/bin/python /opt/sequoiasql/mysql/tools/metaSync/meta_sync.py >/dev/null 2>&1 &
