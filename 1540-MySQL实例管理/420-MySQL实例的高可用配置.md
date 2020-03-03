@@ -153,7 +153,7 @@ CREATE USER 'sdbadmin'@'%' IDENTIFIED BY 'sdbadmin' ;
 3）授予所有权限，用户名与密码在所有实例上保持一致；
 
 ```sql
-GRANT all on *.* TO 'sdbadmin'@'%' with grant option ; 
+GRANT ALL ON *.* TO 'sdbadmin'@'%' WITH GRANT OPTION ; 
 FLUSH PRIVILEGES ;
 ```
 
