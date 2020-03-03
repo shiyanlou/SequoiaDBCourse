@@ -1,11 +1,9 @@
 ---
 show: step
-version: 1.0
+version: 2.0
 enable_checker: true
 ---
 # MySQL 实例的高可用配置
-
-
 
 ## 课程介绍
 
@@ -131,7 +129,6 @@ ssh sdbadmin@sdbserver2
 exit
 ```
 
-
 ## 创建元数据同步用户
 
 进行元数据同步的 MySQL 实例均要设置用户名和密码，故需连接两个MySQL 实例进行设置，本步骤展示对本机实例进行设置。
@@ -217,6 +214,7 @@ cp /opt/sequoiasql/mysql/tools/lib/server_audit.so /opt/sequoiasql/mysql/lib/plu
 ```
 
 4）赋予 MySQL 运行用户的可执行权限；
+
 ```shell
 chmod a+x /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
@@ -325,9 +323,6 @@ cat /opt/sequoiasql/mysql/tools/metaSync/config
 ```shell
 cp /opt/sequoiasql/mysql/tools/metaSync/log.config.sample /opt/sequoiasql/mysql/tools/metaSync/log.config
 ```
-
-
-
 
 #### 启动元数据同步工具
 
