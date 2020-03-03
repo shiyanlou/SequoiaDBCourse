@@ -1,6 +1,6 @@
 ---
 show: step
-version: 12.0 
+version: 2.0 
 enable_checker: true 
 ---
 
@@ -120,7 +120,7 @@ cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar /opt/spark-2.4.4-bin-hadoop2.7/j
 ```
 
 #### 设置免密
-1）执行ssh-keygen生成公钥和密钥，执行后连续回车即可；
+1）执行 ssh-keygen 生成公钥和密钥，执行后连续回车即可；
 
 ```shell
 ssh-keygen -t rsa
@@ -193,7 +193,7 @@ EOF
 
 #### 配置 Spark 元数据库
 
-1）使用 Linux 命令进入 MySQL shell；
+1）使用 Linux 命令进入 MySQL Shell；
 
 ```shell
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
@@ -243,7 +243,7 @@ FLUSH PRIVILEGES ;
 
 ![1542-610-6](https://doc.shiyanlou.com/courses/1542/1207281/c4e6789a504b6158f5e3b86a44809115)
 
-6） 退出 MySQL shell；
+6） 退出 MySQL Shell；
 
 ```shell
 \q
@@ -406,4 +406,3 @@ SELECT * FROM employee ;
 + SequoiaDB 集合空间、集合的创建
 + SparkSQL 实例的配置
 + SparkSQL 实例中操作 SequoiaDB 巨杉数据库的数据
-
