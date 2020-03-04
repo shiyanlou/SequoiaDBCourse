@@ -372,6 +372,10 @@ CREATE TABLE employee (
 ) ;
 ```
 
+>Note:
+>
+> 当前环境未开启鉴权，因此忽略了 username 和 password 字段。
+
 操作截图：
 
 ![1542-610-11](https://doc.shiyanlou.com/courses/1542/1207281/7513456f4f9c0730b34e5ebf1dcce0a4)
