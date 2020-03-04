@@ -288,9 +288,9 @@ netstat -anp | grep 10000
 >
 > 本实验环境性能参数较低，启动 Spark 的耗时较长，请耐心等待 10000 端口的监听状态；如截图所示，此时 10000 端口监听成功即可继续执行后续操作。
 
-## SparkSQL 与 SequoiaDB 的集合关联
+## 在 SequoiaDB 巨杉数据库引擎中建立集合空间和集合
 
-#### 在 SequoiaDB 巨杉数据库引擎中建立集合空间和集合
+进入 SequoiaDB Shell，在 SequoiaDB 巨杉数据库引擎中创建 company 集合空间和 employee 集合。
 
 1）使用 Linux 命令进入 SequoiaDB Shell 命令行；
 
@@ -332,9 +332,23 @@ quit ;
 
 ![1542-610-10](https://doc.shiyanlou.com/courses/1542/1207281/574ce264d392979ae4ef35c939e1e598)
 
-#### 在 SparkSQL 中关联 SequoiaDB 的集合空间、集合
+## 在 SparkSQL 中关联 SequoiaDB 的集合空间和集合
 
-进入 SparkSQL Beeline Shell，在 SparkSQL 实例中创建 employee 表并与 SequoiaDB 中的集合空间、集合关联。
+使用 Spark-SequoiaDB 连接组件，只需要在 SparkSQL 中创建与 SequoiaDB 的集合空间和集合映射的表，就可以将 SequoiaDB 巨杉数据库引擎作为 SparkSQL 的数据源进行相应的数据计算。
+
+#### SequoiaDB-SparkSQL 建表参数说明
+
+下面是部分常用的 SequoiaDB-SparkSQL 建表参数说明，完整的建表参数请参考 [SequoiaDB-SparkSQL 参数说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)。
+
++ host ：SequoiaDB 协调节点/独立节点地址，多个地址以 “,” 分隔。例如：“server1:11810, server2:11810”。
++ collectionspace ：集合空间名称。
++ collection ：集合名称（不包含集合空间名称）。
++ username ：数据库用户名。
++ passwordtype : 密码类型，取值为“cleartext”或“file”，分别表示明文密码和文件密钥。
++ password ：数据库用户名对应的用户密码。
++ preferredinstance ：指定分区优先选择的节点实例。
+
+#### SparkSQL 与 SequoiaDB 的集合空间和集合关联
 
 1）登录到 SparkSQL 实例 Beeline Shell；
 
