@@ -68,7 +68,7 @@ sdblist
 
 ## 使用数据表并插入数据
 
-进入 MySQL Shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
+进入 MySQL Shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库，为接下来验证 MySQL 语法特性做准备。
 
 #### 登录 MySQL Shell 
 
