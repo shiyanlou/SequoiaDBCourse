@@ -56,7 +56,7 @@ sequoiadb --version
 查看 SequoiaDB 巨杉数据库引擎节点列表：
 
 ```shell
-sdblist  -t all -l -m local
+sdblist  -l
 ```
 
 操作截图：
