@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2.0
+version: 3.0
 enable_checker: true
 ---
 # MySQL 实例事务管理
@@ -28,6 +28,7 @@ enable_checker: true
 
 
 ## 切换用户及查看数据库版本
+
 
 #### 切换到 sdbadmin 用户
 
