@@ -140,6 +140,9 @@ sdb
 ```javascript
 var db=new Sdb("localhost", 11810) ;
 ```
+>Note:
+>
+>以下 3-5 步骤会报 -264 错误，这个是因为修改数据节点 instanceid 参数需要重启节点后才生效，可通过 getLastErrObj() 接口获取详细信息。
 
 3）修改 11820 数据节点实例 id 为 1；
 
@@ -163,9 +166,6 @@ db.updateConf ( { instanceid : 3 } ,{svcname : {"$in":["31820"]}} ) ;
 
  ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/aecb10be850489dad57c1f96c4f9afc1-0)
 
->Note:
->
->图中报 -264 错误，这个是因为修改数据节点 instanceid 参数需要重启节点后才生效，可通过 getLastErrObj() 接口获取详细信息。
 
 #### 修改协调节点配置
 
@@ -187,7 +187,7 @@ db.updateConf ( { preferedinstance : "2,1,3" , preferedinstancemode : "ordered" 
 db.updateConf ( { preferedinstance : "3,2,1" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "31810" } ) ;
 ```
 
-SequoiaDB 数据库共有 1 个分区，分别是 group1。每个分区有三个副本，一个主节点副本，两个从节点副本。通过上面的命令把三个副本分别标示为 1，2，3。
+本课程的SequoiaDB 数据库有 1 个分区为 group1。该分区有三个副本，一个主节点副本，两个从节点副本。通过上面的命令把三个副本设置为不同的读取策略权限。
 
 操作截图：
 
