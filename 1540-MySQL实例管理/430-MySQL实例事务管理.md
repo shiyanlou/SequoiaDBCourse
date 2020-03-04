@@ -1,6 +1,6 @@
 ---
 show: step
-version: 4.0
+version: 2.0
 enable_checker: true
 ---
 # MySQL 实例事务管理
@@ -11,7 +11,6 @@ enable_checker: true
 事务主要用于处理操作量大，复杂度高的数据。比如说，在人员管理系统中，你删除一个人员，你既需要删除人员的基本资料，也要删除和该人员相关的信息，如信箱，文章等等，这样，这些数据库操作语句就构成一个事务。本课程主要讲解 MySQL 事务的基本操作。
 
 #### 请点击右侧选择使用的实验环境
-
 
 #### 事务的 ACID 属性
 
@@ -29,7 +28,6 @@ enable_checker: true
 
 
 ## 切换用户及查看数据库版本
-
 
 #### 切换到 sdbadmin 用户
 
@@ -163,8 +161,6 @@ SHOW VARIABLES LIKE '%transaction_isolation%' ;
 
 >Note:
 >- 目前版本的 SequoiaDB 支持三种数据库隔离级别，分别为 RU，RC，RS ；
-
-3）事务
 
 ## 事务提交
 
