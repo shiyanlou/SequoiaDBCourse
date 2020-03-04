@@ -144,6 +144,25 @@ SHOW VARIABLES LIKE '%sequoiadb_use_transaction%' ;
 
 图片中 sequoiadb_use_transaction 参数的值为 on ，说明事务功能已经打开。
 
+> Note:
+> - SequoiaSQL-MySQL 的事务开启关系需要修改相应数据库实例下的 auto.cnf 文件的 sequoiadb_use_transaction 参数信息，然后重启实例。
+> - sequoiadb_use_transaction 参数默认值为 on , 在业务无需事务功能时，我们可以将它设成 OFF，从而节省不必要的开销。
+
+2) 查看事务隔离级别配置内容；
+```sql
+SHOW VARIABLES LIKE '%transaction_isolation%' ;
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/2b74b78aca9089c7d6125b2c1020953e-0)
+
+图片中 transaction_isolation 参数的值为 REPEATABLE-READ ，说明事务隔离级别为读未提交。
+
+>Note:
+>- 目前版本的 SequoiaDB 支持三种数据库隔离级别，分别为 RU，RC，RS ；
+
+3）事务
 
 ## 事务提交
 
