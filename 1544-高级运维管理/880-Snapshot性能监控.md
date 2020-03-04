@@ -183,7 +183,7 @@ var db = new Sdb ("localhost",11810) ;
 db.snapshot (SDB_SNAP_SESSIONS,{ Source : { $regex:'MySQL.*' } } ) ;
 ```
 
-通过 LastOpType 字段可以知道当前会话最后一次操作类型，通过 TotalDataRead 和 TotalIndexRead 查看当前会话数据记录读和索引读情况,通过 TotalSelect 字段知道当前会话查询总选取记录数量 ，通过 UserCPU 和 SysCPU 了解当前会话 cpu 资源使用的，通过 LastOpInfo 字段可以查看到当前会话对集合操作的具体信息，而通过LastOpBegin 和 LastOpEnd 可以知道最后一次操作的耗时。
+通过会话快照，获取 LastOpType 字段可以知道当前会话最后一次操作类型，根据 TotalDataRead 和 TotalIndexRead 可以查看当前会话数据记录读和索引读情况,还可以通过 TotalSelect 字段知道当前会话查询总选取记录数量 ，会话快照中包含的 UserCPU 和 SysCPU 字段可以了解当前会话 cpu 资源使用。
 
 >Note:
 >
