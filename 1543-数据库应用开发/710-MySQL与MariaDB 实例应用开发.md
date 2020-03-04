@@ -70,7 +70,7 @@ sdblist
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/582f2d310ee38910e856e13415f47855-0)
 
 ## 创建数据库及数据表
-进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 语法特性做准备。
+进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库，为接下来验证 MySQL 语法特性做准备。
 
 #### 登录 MySQL 实例 Shell
 ```shell

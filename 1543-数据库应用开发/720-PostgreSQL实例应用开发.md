@@ -77,7 +77,7 @@ sdblist
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/ee64c7881af3a8f329bfb50848ed56e2)
 
 ## 创建数据库
-1）在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库实例，为接下来验证 PostgreSQL 语法特性做准备；
+1）在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库，为接下来验证 PostgreSQL 语法特性做准备；
 
 以 sdbadmin 用户登录，在 PostgreSQL 实例创建数据库 company；
 ```shell
