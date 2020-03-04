@@ -185,7 +185,7 @@ db.updateConf ( { preferedinstance : "2,1,3" , preferedinstancemode : "ordered" 
 db.updateConf ( { preferedinstance : "3,2,1" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "31810" } ) ;
 ```
 
-本课程的SequoiaDB 数据库有 1 个分区为 group1。该分区有三个副本，一个主节点副本，两个从节点副本。通过上面的命令把三个副本设置为不同的读取策略权限。
+preferedinstance 指定执行读请求时优先选择的实例。上面命令为三个协调节点分配了不同的读取策略。例如：31810优先读取实例id为3的数据节点，即31820。
 
 操作截图：
 
