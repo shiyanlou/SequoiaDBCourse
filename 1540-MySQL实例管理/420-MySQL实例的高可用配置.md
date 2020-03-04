@@ -440,7 +440,7 @@ bin/sdb_sql_ctl status myinst
 
 ## 验证元数据同步情况
 
-进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，并创建数据表。
+进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库，并创建数据表。
 
 #### 登录 MySQL shell 
 
@@ -449,9 +449,9 @@ bin/sdb_sql_ctl status myinst
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-#### 创建数据库实例
+#### 创建数据库
 
-创建数据库实例；
+创建数据库；
 ```sql
 CREATE DATABASE company ;
 USE company ;
