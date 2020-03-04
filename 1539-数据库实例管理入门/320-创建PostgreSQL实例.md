@@ -143,7 +143,7 @@ quit ;
 
 ## 创建数据库及配置实例
 
-1）创建 company 数据库实例；
+1）创建 company 数据库；
 
 ```shell
 bin/sdb_sql_ctl createdb company myinst

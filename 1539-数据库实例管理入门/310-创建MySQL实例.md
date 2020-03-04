@@ -73,7 +73,7 @@ su - sdbadmin
 cd /opt/sequoiasql/mysql
 ```
 
-3）创建数据库实例；
+3）创建 myinst 实例；
 
 ```shell
 bin/sdb_sql_ctl addinst myinst -D database/3306/
@@ -120,7 +120,7 @@ Note:
 
 ## 创建数据库及数据表
 
-进入 MySQL shell，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，为接下来验证 MySQL 实例是否安装成功提供测试数据。
+进入 MySQL shell，连接 SequoiaSQL-MySQL 实例并创建 company 数据库，为接下来验证 MySQL 实例是否安装成功提供测试数据。
 
 #### 登录 MySQL shell 
 
@@ -128,7 +128,7 @@ Note:
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-#### 创建数据库实例
+#### 创建数据库
 
 ```sql
 CREATE DATABASE company ;
