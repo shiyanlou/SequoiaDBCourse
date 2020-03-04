@@ -106,7 +106,7 @@ ps -elf | grep mysql
 
 #### 创建数据库
 
-创建数据库实例；
+创建数据库；
 ```sql
 CREATE DATABASE company ;
 USE company ;
