@@ -97,7 +97,7 @@ ls -trl /home/sdbadmin/soft/
 2）解压 Spark 安装包；
 
 ```shell
-tar -zxvf /home/sdbadmin/soft/spark-2.4.4-bin-hadoop2.7.tar.gz -C /opt
+tar -zxf /home/sdbadmin/soft/spark-2.4.4-bin-hadoop2.7.tar.gz -C /opt
 ```
 
 #### 添加驱动包
@@ -156,7 +156,7 @@ echo "SPARK_WORKER_INSTANCES=2" >> /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env
 echo "SPARK_MASTER_IP=127.0.0.1" >> /opt/spark-2.4.4-bin-hadoop2.7/conf/spark-env.sh
 ```
 
-2）创建设置元数据信息的数据库配置文件 hive-site.xml；
+2）复制以下代码到实验环境终端执行，用于创建设置元数据信息的数据库配置文件 hive-site.xml；
 
 ```shell
 cat > /opt/spark-2.4.4-bin-hadoop2.7/conf/hive-site.xml << EOF
