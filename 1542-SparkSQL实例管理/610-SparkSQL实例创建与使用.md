@@ -288,7 +288,7 @@ netstat -anp | grep 10000
 >
 > 本实验环境性能参数较低，启动 Spark 的耗时较长，请耐心等待 10000 端口的监听状态；如截图所示，此时 10000 端口监听成功即可继续执行后续操作。
 
-## 在 SequoiaDB 巨杉数据库引擎中建立集合空间和集合
+## 在 SequoiaDB 建立集合空间和集合
 
 进入 SequoiaDB Shell，在 SequoiaDB 巨杉数据库引擎中创建 company 集合空间和 employee 集合。
 
@@ -332,9 +332,9 @@ quit ;
 
 ![1542-610-10](https://doc.shiyanlou.com/courses/1542/1207281/574ce264d392979ae4ef35c939e1e598)
 
-## 在 SparkSQL 中关联 SequoiaDB 的集合空间和集合
+## 在 SparkSQL 关联集合空间和集合
 
-使用 Spark-SequoiaDB 连接组件，只需要在 SparkSQL 中创建与 SequoiaDB 的集合空间和集合映射的表，就可以将 SequoiaDB 巨杉数据库引擎作为 SparkSQL 的数据源进行相应的数据计算。
+SparkSQL 通过 Spark-SequoiaDB 连接组件建立映射表的方式关联 SequoiaDB 的集合空间和集合将 SequoiaDB 巨杉数据库引擎作为 SparkSQL 的数据源进行相应的数据计算。
 
 #### SequoiaDB-SparkSQL 建表参数说明
 
@@ -350,15 +350,23 @@ quit ;
 
 #### SparkSQL 与 SequoiaDB 的集合空间和集合关联
 
-1）登录到 SparkSQL 实例 Beeline Shell；
+1）使用 Beeline 客户端工具连接至 thriftserver 服务；
 
 ```shell
 /opt/spark-2.4.4-bin-hadoop2.7/bin/beeline -u 'jdbc:hive2://localhost:10000'
 ```
 
+2）创建并切换至 company 数据库；
+
+```sql
+CREATE DATABASE company;
+USE company;
+```
+
+
 2）创建 employee 表；
 
-创建 employee 表，并且与 SequoiaDB 中的集合 company.employee 进行关联：
+创建 employee 表，并且与 SequoiaDB 中的集合 employee 进行关联：
 
 ```sql
 CREATE TABLE employee (
@@ -382,7 +390,7 @@ CREATE TABLE employee (
 
 ## 在 SparkSQL 中进行数据操作
 
-在 SparkSQL 中对 SequoiaDB 巨杉数据库的数据进行插入、查询操作。
+在 Beeline 客户端中对 SequoiaDB 巨杉数据库的数据进行插入、查询操作。
 
 1）插入数据；
 
