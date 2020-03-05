@@ -9,11 +9,17 @@ enable_checker: true
 
 ## 课程介绍
 
-本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，进行 SparkSQL 实例的最简单安装部署和数据操作。
+本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，进行 SparkSQL 实例的安装部署并启动 Spark Thrift Server 服务使用 Beeline 客户端进行数据操作。
 
 #### SparkSQL 简介
 
 SparkSQL 是 Spark 产品中一个组成部分，SQL 的执行引擎使用 Spark 的 RDD 和 Dataframe 实现。目前 SparkSQL 已经可以完整运行 TPC-DS99 测试，标志着 SparkSQL 在数据分析和数据处理场景上技术进一步成熟。SequoiaDB 巨杉数据库为 Spark 开发了 SequoiaDB for Spark 的连接器，让 Spark 支持从 SequoiaDB 中并发获取数据，再完成相应的数据计算。
+
+#### Spark Thrift Server 介绍
+
+Spark Thrift Server 是 Spark 社区基于 HiveServer2 实现的一个 Thrift 服务，旨在无缝兼容 HiveServer2。
+
+Spark Thrift Server 的接口和协议都和 HiveServer2 完全一致，因此部署好 Spark Thrift Server 后，可以直接使用 hive 的 beeline 客户端东京访问 Spark Thrift Server 执行相关语句。
 
 
 #### 请点击右侧选择使用的实验环境
@@ -245,7 +251,9 @@ FLUSH PRIVILEGES ;
 \q
 ```
 
-#### 启动 Spark 服务
+## 启动 Spark 服务
+
+本课程演示如何使用 Spark Thrift Server 服务连接 Spark 进行数据操作，所以需要启动 Spark 和 Spark Thrift Server 服务。
 
 1） 启动 Spark；
 
@@ -257,7 +265,7 @@ FLUSH PRIVILEGES ;
 
 ![1542-610-7](https://doc.shiyanlou.com/courses/1542/1207281/03863dae19bd159a40ff9e9f22a8392e-0)
 
-2）启动 thriftserver；
+2）启动 thriftserver 服务；
 
 ```shell
 /opt/spark-2.4.4-bin-hadoop2.7/sbin/start-thriftserver.sh
@@ -267,13 +275,6 @@ FLUSH PRIVILEGES ;
 
 ![1542-610-8](https://doc.shiyanlou.com/courses/1542/1207281/48734adc82d3f49c198066121fe18792-0)
 
-
-> Note:
->
-> Spark Thrift Server 是 Spark 社区基于 HiveServer2 实现的一个 Thrift 服务。旨在无缝兼容 HiveServer2。
->
-> Spark Thrift Server 的接口和协议都和 HiveServer2 完全一致，因此部署好 Spark Thrift Server 后，可以直接使用 hive 的 beeline 客户端东京访问 Spark Thrift Server 执行相关语句。
->
 
 
 3） 检查进程启动状态；
@@ -343,9 +344,7 @@ quit ;
 
 ## 在 SparkSQL 关联集合空间和集合
 
-SparkSQL 通过 Spark-SequoiaDB 连接组件建立映射表的方式关联 SequoiaDB 的集合空间和集合将 SequoiaDB 巨杉数据库引擎作为 SparkSQL 的数据源进行相应的数据计算。
-
-
+SparkSQL 通过 Spark-SequoiaDB 连接组件关联 SequoiaDB 的集合空间和集合，将 SequoiaDB 巨杉数据库引擎作为 SparkSQL 的数据源进行相应的数据计算。
 
 #### SequoiaDB-SparkSQL 建表参数说明
 
@@ -375,7 +374,7 @@ USE company;
 ```
 
 
-2）创建 employee 表；
+3）创建 employee 表；
 
 创建 employee 表，并且与 SequoiaDB 中的集合 employee 进行关联：
 
@@ -399,11 +398,11 @@ CREATE TABLE employee (
 
 ![1542-610-11](https://doc.shiyanlou.com/courses/1542/1207281/7513456f4f9c0730b34e5ebf1dcce0a4)
 
-## 在 SparkSQL 中进行数据操作
+## 在 Beeline 中进行数据操作
 
-在 Beeline 客户端中对 SequoiaDB 巨杉数据库的数据进行插入、查询操作。
+在 Beeline 客户端中对 SequoiaDB 巨杉数据库的集合进行数据写入、查询操作。
 
-1）插入数据；
+1）写入数据；
 
 ```sql
 INSERT INTO employee VALUES ( 10001, 'Georgi', 48 ) ;
