@@ -19,8 +19,7 @@ SparkSQL 是 Spark 产品中一个组成部分，SQL 的执行引擎使用 Spark
 
 Spark Thrift Server 是 Spark 社区基于 HiveServer2 实现的一个 Thrift 服务，旨在无缝兼容 HiveServer2。
 
-Spark Thrift Server 的接口和协议都和 HiveServer2 完全一致，因此部署好 Spark Thrift Server 后，可以直接使用 hive 的 beeline 客户端东京访问 Spark Thrift Server 执行相关语句。
-
+Spark Thrift Server 的接口和协议都和 HiveServer2 完全一致，因此部署好 Spark Thrift Server 后，可以直接使用 hive 的 beeline 客户端访问 Spark Thrift Server 执行相关语句。
 
 #### 请点击右侧选择使用的实验环境
 
@@ -369,8 +368,8 @@ SparkSQL 通过 Spark-SequoiaDB 连接组件关联 SequoiaDB 的集合空间和�
 2）创建并切换至 company 数据库；
 
 ```sql
-CREATE DATABASE company;
-USE company;
+CREATE DATABASE company ;
+USE company ;
 ```
 
 
@@ -392,11 +391,11 @@ CREATE TABLE employee (
 
 >Note:
 >
-> 当前环境未开启鉴权，因此忽略了 username 和 password 字段。
+> 当前环境未开启鉴权，因此忽略了 username 和 password 参数。
 
 操作截图：
 
-![1542-610-11](https://doc.shiyanlou.com/courses/1542/1207281/7513456f4f9c0730b34e5ebf1dcce0a4)
+![1542-610-11](https://doc.shiyanlou.com/courses/1542/1207281/7fbf398ea09dfeeec92881eaba5da512-0)
 
 ## 在 Beeline 中进行数据操作
 
