@@ -271,7 +271,6 @@ FLUSH PRIVILEGES ;
 > Note:
 >
 > Spark Thrift Server 是 Spark 社区基于 HiveServer2 实现的一个 Thrift 服务。旨在无缝兼容 HiveServer2。
-操作截图：
 >
 > Spark Thrift Server 的接口和协议都和 HiveServer2 完全一致，因此部署好 Spark Thrift Server 后，可以直接使用 hive 的 beeline 客户端东京访问 Spark Thrift Server 执行相关语句。
 >
