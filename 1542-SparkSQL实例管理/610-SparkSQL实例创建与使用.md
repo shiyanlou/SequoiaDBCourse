@@ -262,8 +262,11 @@ FLUSH PRIVILEGES ;
 ```shell
 /opt/spark-2.4.4-bin-hadoop2.7/sbin/start-thriftserver.sh
 ```
-- Note: Spark Thrift Server是 Spark 社区基于 HiveServer2 实现的一个 Thrift 服务。旨在无缝兼容 HiveServer2。
+> Note: 
+> Spark Thrift Server 是 Spark 社区基于 HiveServer2 实现的一个 Thrift 服务。旨在无缝兼容 HiveServer2。
 操作截图：
+> Spark Thrift Server 的接口和协议都和 HiveServer2 完全一致，因此部署好 Spark Thrift Server 后，可以直接使用 hive 的 beeline 客户端东京访问 Spark Thrift Server 执行相关语句。
+>
 
 ![1542-610-8](https://doc.shiyanlou.com/courses/1542/1207281/48734adc82d3f49c198066121fe18792-0)
 
