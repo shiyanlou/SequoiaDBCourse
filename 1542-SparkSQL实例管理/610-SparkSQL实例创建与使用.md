@@ -262,7 +262,7 @@ FLUSH PRIVILEGES ;
 ```shell
 /opt/spark-2.4.4-bin-hadoop2.7/sbin/start-thriftserver.sh
 ```
-
+- Note: Spark Thrift Server是 Spark 社区基于 HiveServer2 实现的一个 Thrift 服务。旨在无缝兼容 HiveServer2。
 操作截图：
 
 ![1542-610-8](https://doc.shiyanlou.com/courses/1542/1207281/48734adc82d3f49c198066121fe18792-0)
@@ -335,6 +335,8 @@ quit ;
 ## 在 SparkSQL 关联集合空间和集合
 
 SparkSQL 通过 Spark-SequoiaDB 连接组件建立映射表的方式关联 SequoiaDB 的集合空间和集合将 SequoiaDB 巨杉数据库引擎作为 SparkSQL 的数据源进行相应的数据计算。
+
+
 
 #### SequoiaDB-SparkSQL 建表参数说明
 
