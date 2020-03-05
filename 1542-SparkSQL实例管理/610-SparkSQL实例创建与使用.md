@@ -262,6 +262,12 @@ FLUSH PRIVILEGES ;
 ```shell
 /opt/spark-2.4.4-bin-hadoop2.7/sbin/start-thriftserver.sh
 ```
+
+操作截图：
+
+![1542-610-8](https://doc.shiyanlou.com/courses/1542/1207281/48734adc82d3f49c198066121fe18792-0)
+
+
 > Note:
 >
 > Spark Thrift Server 是 Spark 社区基于 HiveServer2 实现的一个 Thrift 服务。旨在无缝兼容 HiveServer2。
@@ -270,7 +276,6 @@ FLUSH PRIVILEGES ;
 > Spark Thrift Server 的接口和协议都和 HiveServer2 完全一致，因此部署好 Spark Thrift Server 后，可以直接使用 hive 的 beeline 客户端东京访问 Spark Thrift Server 执行相关语句。
 >
 
-![1542-610-8](https://doc.shiyanlou.com/courses/1542/1207281/48734adc82d3f49c198066121fe18792-0)
 
 3） 检查进程启动状态；
 
@@ -291,7 +296,7 @@ netstat -anp | grep 10000
 >
 >Note:
 >
-> 本实验环境性能参数较低，启动 Spark 的耗时较长，请耐心等待 10000 端口的监听状态；如截图所示，此时 10000 端口监听成功即可继续执行后续操作。
+> 本实验环境性能较低，启动 Spark 的耗时较长，请耐心等待 10000 端口的监听状态；如截图所示，此时 10000 端口监听成功即可继续执行后续操作。
 
 ## 在 SequoiaDB 建立集合空间和集合
 
