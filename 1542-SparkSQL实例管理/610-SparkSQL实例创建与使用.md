@@ -445,8 +445,8 @@ SELECT * FROM employee_bak ;
 ```
 
 操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9b2f6201953abb8679f52b5d3e02ffc1)
 
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9b2f6201953abb8679f52b5d3e02ffc1)
 
 
 3）退出 Beeline Shell；
