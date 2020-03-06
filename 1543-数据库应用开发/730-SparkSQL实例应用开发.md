@@ -5,7 +5,7 @@ version: 4.0
 
 ## 课程介绍
 
-本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 SequoiaSQL-SparkSQL 实例和启动了 thriftserver 的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的插入、查询操作。
+本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 SequoiaSQL-SparkSQL 实例和启动了 thriftserver 的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的写入、查询操作，重点介绍如何使用 JDBC 接口访问 SparkSQL 进行应用开发。
 
 #### 请点击右侧选择使用的实验环境
 
@@ -173,13 +173,15 @@ SELECT * FROM employee  WHERE age BETWEEN  20 AND 24 ;
 ```
 ## 通过 JAVA 语言操作数据
 
-1）创建 JAVA 项目目录；
+SparkSQL 支持 JDBC 的访问方式，在使用前，需要启动 Thriftserver 服务，在开发应用中通过 JDBC 访问 SparkSQL 时，需要在 Java 工程中加入 Thriftserver 依赖的库。
+
+1）创建 JAVA 工程目录；
 
 ```shell
 mkdir -p /home/sdbadmin/source/spark/lib
 ```
 
-2）进入项目目录；
+2）进入工程目录；
 
 ```shell
 cd /home/sdbadmin/source/spark
