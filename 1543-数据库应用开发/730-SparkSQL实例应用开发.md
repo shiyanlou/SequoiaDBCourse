@@ -146,8 +146,8 @@ age INT
 ## 关联表数据操作
 使用 SparkSQL 实例操作关联表中的数据。
 
-#### 通过关联表插入数据
-在 SparkSQL 实例关联表 employee 中插入数据：
+
+1）在 SparkSQL 实例关联表 employee 中插入数据；
 ```sql
 INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
 INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
@@ -157,9 +157,7 @@ INSERT INTO employee VALUES (10005, 'Kyoichi', 23) ;
 INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
 ```
 
-#### 查询关联表插入数据
-
-使用 SparkSQL 实例查询员工年龄为20至24之间的记录：
+2）使用 SparkSQL 实例查询员工年龄为20至24之间的记录；
 
 ```sql
 SELECT * FROM employee  WHERE age BETWEEN  20 AND 24 ;
@@ -169,36 +167,120 @@ SELECT * FROM employee  WHERE age BETWEEN  20 AND 24 ;
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/90bd7360e38d6af4ada588588f30c58b)
 
+3）退出 SparkSQL 的客户端；
+```sql 
+!quit
+```
+## 通过 JAVA 语言操作数据
 
-#### 通过已有表创建表
-1）通过已有表 employee 创建表 employee_bak，并将表中的数据存放到指定域和集合空间中；
-```sql
-CREATE TABLE employee_bak USING com.sequoiadb.spark OPTIONS (
-host 'localhost:11810',
-domain 'company_domain',
-collectionspace 'company_bak',
-collection 'employee',
-autosplit true,
-shardingkey '{_id:1}',
-shardingtype 'hash',
-compressiontype 'lzw'
-)  AS SELECT * FROM employee ;
+1）创建 JAVA 项目目录；
+
+```shell
+mkdir -p /home/sdbadmin/source/spark/lib
 ```
 
-2）查看 employee_bak 表中的数据；
-```sql
-SELECT * FROM employee_bak ;
+2）进入项目目录；
+
+```shell
+cd /home/sdbadmin/source/spark
 ```
+
+3）拷贝 JDBC 接口需要的 jar 包；
+
+```shell
+cp /opt/spark/jars/commons-logging-1.1.3.jar ./lib
+cp /opt/spark/jars/hadoop-common-2.7.3.jar ./lib
+cp /opt/spark/jars/hive-exec-1.2.1.spark2.jar ./lib
+cp /opt/spark/jars/hive-jdbc-1.2.1.spark2.jar ./lib
+cp /opt/spark/jars/hive-metastore-1.2.1.spark2.jar ./lib
+cp /opt/spark/jars/httpclient-4.5.6.jar ./lib
+cp /opt/spark/jars/httpcore-4.4.10.jar ./lib
+cp /opt/spark/jars/libthrift-0.9.3.jar ./lib
+cp /opt/spark/jars/log4j-1.2.17.jar ./lib
+cp /opt/spark/jars/slf4j-api-1.7.16.jar ./lib
+cp /opt/spark/jars/slf4j-log4j12-1.7.16.jar ./lib
+cp /opt/spark/jars/spark-network-common_2.11-2.4.4.jar ./lib
+cp /opt/spark/jars/spark-hive-thriftserver_2.11-2.4.4.jar ./lib
+```
+
+4）复制以下代码到实验环境终端执行，生成通过 JDBC 接口操作 SparkSQL 数据的 Select.java 文件；
+```shell
+cat > /home/sdbadmin/source/spark/Select.java << EOF
+package com.sequoiadb.spark;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Select {
+    private static String driverName = "org.apache.hive.jdbc.HiveDriver";
+    public static void main(String args[])
+    {
+        try {
+            Class.forName(driverName);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        String url = "jdbc:hive2://localhost:10000/company";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url, "sdbadmin", "");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Connection success!");
+        try {
+            System.out.println("--------- Get Records ---------");
+            Statement st = conn.createStatement();
+            String sql = " select * from employee";
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                System.out.println(rs.getInt("empno") + "\t" + rs.getString("ename") + "\t" + rs.getInt("age"));
+            }
+            rs.close();
+            st.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+EOF
+
+```
+
+
+5）查询是否已经生成 Select.java 文件；
+
+```shell
+ls -trl /home/sdbadmin/source/spark/Select.java
+```
+
+6）编译 Select.java 文件；
+
+```shell
+javac -d . Select.java
+```
+
+7）运行 Select 类代码，查询数据；
+
+```shell
+java -cp .:./lib/* com.sequoiadb.spark.Select
+```
+
+
 
 操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9b2f6201953abb8679f52b5d3e02ffc1)
 
-3）退出 SparkSQL 的客户端
-```sql 
-!q
-```
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/cac8884284b2afc701236689e3504bab-0)
+
+
 
 ## 总结
 
-通过本课程，我们学习了通过 SparkSQL 操作 SequoiaDB 巨杉数据库中的数据。 同时讲解了 SequoiaDB 巨杉数据库所支持的 SparkSQL 语法。
+通过本课程，我们学习了通过 SparkSQL 操作 SequoiaDB 巨杉数据库中的数据，同时介绍了如何使用 JDBC 接口操作 SparkSQL 实例中的数据。
 
