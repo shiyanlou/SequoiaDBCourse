@@ -74,7 +74,7 @@ jps
 >
 >如果显示的进程少于上图中的数量，请稍等初始化完成并重试该步骤，环境初始化过程可能会有点慢，需要耐心等待一下。
 
-## 创建集合空间和集合
+## SequoiaDB 创建集合空间和集合
 
 进入 SequoiaDB Shell，在 SequoiaDB 中创建集合空间 company，集合 employee，存储 SparkSQL 操作的数据。
 
@@ -109,7 +109,8 @@ db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 }, "ShardingType
 quit ;
 ```
 
-## SparkSQL 实例中创建数据库及数据表
+## SparkSQL 创建数据库及映射表
+
 在 SparkSQL 实例中创建数据库及数据表并与 SequoiaDB 数据库引擎中的集合空间和集合关联。
 
 #### 创建数据库
@@ -143,7 +144,7 @@ age INT
 从 SparkSQL 实例中创建视图、表及数据类型对应关系的详细说明请参考：
 [SparkSQL 实例访问SequoiaDB数据库存储引擎](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)
 
-## 关联表数据操作
+## 在 Beeline 中进行数据操作
 使用 SparkSQL 实例操作关联表中的数据。
 
 
