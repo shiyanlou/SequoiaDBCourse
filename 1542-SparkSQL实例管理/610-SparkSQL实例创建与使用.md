@@ -422,6 +422,33 @@ SELECT * FROM employee ;
 
 ![1542-610-13](https://doc.shiyanlou.com/courses/1542/1207281/2a5fa712de8bc2dcb23f453a8b56023b)
 
+
+## 通过已有表创建表
+
+1）通过已有表 employee 创建表 employee_bak，并将表中的数据存放到指定域和集合空间中；
+```sql
+CREATE TABLE employee_bak USING com.sequoiadb.spark OPTIONS (
+host 'localhost:11810',
+domain 'company_domain',
+collectionspace 'company_bak',
+collection 'employee',
+autosplit true,
+shardingkey '{_id:1}',
+shardingtype 'hash',
+compressiontype 'lzw'
+)  AS SELECT * FROM employee ;
+```
+
+2）查看 employee_bak 表中的数据；
+```sql
+SELECT * FROM employee_bak ;
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9b2f6201953abb8679f52b5d3e02ffc1)
+
+
 3）退出 Beeline Shell；
 
 ```shell
