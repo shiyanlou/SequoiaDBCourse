@@ -7,7 +7,6 @@ version: 4.0
 
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 SequoiaSQL-SparkSQL 实例和启动了 thriftserver 的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的插入、查询操作。
 
-
 #### 请点击右侧选择使用的实验环境
 
 #### 部署架构：
@@ -273,12 +272,9 @@ javac -d . Select.java
 java -cp .:./lib/* com.sequoiadb.spark.Select
 ```
 
-
-
 操作截图：
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/cac8884284b2afc701236689e3504bab-0)
-
 
 
 ## 总结
