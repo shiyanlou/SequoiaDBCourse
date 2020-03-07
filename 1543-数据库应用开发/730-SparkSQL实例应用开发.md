@@ -172,7 +172,7 @@ SELECT * FROM employee  WHERE age BETWEEN  20 AND 24 ;
 ```sql 
 !quit
 ```
-## 通过 JAVA 语言操作数据
+## 创建 JAVA 工程项目
 
 SparkSQL 支持 JDBC 的访问方式，在使用前需要启动 Thriftserver 服务，在开发应用中通过 JDBC 访问 SparkSQL 时，需要在 Java 工程中加入 Thriftserver 依赖的库。
 
@@ -263,13 +263,17 @@ EOF
 ls -trl /home/sdbadmin/spark/Select.java
 ```
 
-6）编译 Select.java 文件；
+
+## 编译运行代码
+上一小节已经创建了 JAVA 工程和代码并且拷贝了 JAVA 驱动，接下来我们对代码进行编译运行。
+
+1）编译 Select.java 文件；
 
 ```shell
 javac -d . Select.java
 ```
 
-7）运行 Select 类代码，查询数据；
+2）运行 Select 类代码，查询数据；
 
 ```shell
 java -cp .:./lib/* com.sequoiadb.spark.Select
