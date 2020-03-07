@@ -5,9 +5,7 @@ version: 3.0
 
 ## 课程介绍
 
-之前的小节通过 SequoiaSQL-MySQL、 SequoiaSQL-PostgreSQL 数据库实例对数据进行增删改查。同时对分布式存储引擎中的数据，SequoiaDB 巨杉数据库支持通过 JSON API 的方式直接进行查询与修改。SequoiaDB 巨杉数据库存储引擎的交互式命令行界面为 SequoiaDB Shell，使用 JavaScript 作为其脚本开发语言。对于驱动开发，本课程也将展示 JAVA 语言对集合的 CRUD 操作，JSON 实例支持多种 SDK 驱动开发，请参考：
-* [SequoiaDB 巨杉数据库 JSON 实例驱动开发](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
-
+SequoiaDB 巨杉数据库为用户提供了 JSON 实例, 通过此实例可以与 SequoiaDB 巨杉数据库的分布式引擎进行交互执行。JSON实例支持多种方式执行集群管理、运行实例检查、数据增删改查等操作。本课程将介绍使用 JavaScript 脚本开发语言在 SequoiaDB Shell 中进行创建数据域、集合空间、集合、索引等操作，随后使用 JAVA 代码对创建的集合进行 CRUD 操作。
 
 #### 请点击右侧选择使用的实验环境
 
