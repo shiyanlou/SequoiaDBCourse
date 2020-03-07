@@ -5,7 +5,7 @@ version: 3.0
 
 ## 课程介绍
 
-本课程将介绍使用 JavaScript 脚本开发语言在 SequoiaDB Shell 中进行创建数据域、集合空间、集合、索引等操作，随后使用 JAVA 驱动对创建的集合进行 CRUD 操作。
+本课程将介绍使用 JavaScript 脚本开发语言在 SequoiaDB Shell 中进行创建数据域、集合空间、集合、索引等操作，随后使用 JAVA 驱动对创建的集合进行写入和查询操作。
 
 
 #### JSON 实例简介
