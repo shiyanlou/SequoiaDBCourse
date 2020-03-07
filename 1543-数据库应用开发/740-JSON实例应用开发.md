@@ -76,17 +76,15 @@ sdblist
 mkdir -p /home/sdbadmin/json/lib
 ```
 
-2）拷贝 JSON 实例驱动包；
+2）进入工程目录；
 ```shell
-cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar /home/sdbadmin/json/lib
+cd /home/sdbadmin/json
 ```
 
-3）查看 sequoiadb-driver-3.4.jar 驱动文件包, 开始创建数据源；
-
+3）拷贝 JSON 实例驱动包；
 ```shell
-ls -trl /home/sdbadmin/json/lib
+cp /opt/sequoiadb/java/sequoiadb-driver-3.4.jar ./lib
 ```
-
 
 4）复制以下代码到实验环境终端执行，生成Datasource.java 文件；
 
@@ -336,19 +334,13 @@ ls -trl /home/sdbadmin/json/Datasource.java
 
 上一小节已经创建了 JAVA 工程和代码并且拷贝了 JAVA 驱动，接下来我们对代码进行编译运行。
 
-1）进入工程项目目录；
-
-```shell
-cd  /home/sdbadmin/json
-```
-
-2）编译 Datasource.java 文件；
+1）编译 Datasource.java 文件；
 
 ```shell
 javac -cp .:./lib/sequoiadb-driver-3.4.jar -d . Datasource.java
 ```
 
-3）运行 Select 类代码，查询数据；
+2）运行 Select 类代码，查询数据；
 ```shell
 java -cp .:./lib/sequoiadb-driver-3.4.jar com.sequoiadb.samples.Datasource
 ```
