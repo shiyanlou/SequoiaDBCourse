@@ -119,7 +119,7 @@ public class Datasource {
 		SequoiadbDatasource ds = null;
 
 		// 提供coord节点地址
-		addrs.add("192.168.75.129:11810");
+		addrs.add("sdbserver1:11810");
 
 		// 设置网络参数
 		nwOpt.setConnectTimeout(500); // 建连超时时间为500ms。
