@@ -331,7 +331,9 @@ EOF
 ```shell
 ls -trl /home/sdbadmin/json/Datasource.java
 ```
-#### 编译运行代码
+## 编译运行代码
+
+上一小节已经创建了 JAVA 工程和代码并且拷贝了 JAVA 驱动，接下来我们对代码进行编译运行。
 
 1）进入工程项目目录；
 
