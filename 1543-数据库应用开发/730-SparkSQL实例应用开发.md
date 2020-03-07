@@ -179,13 +179,13 @@ SparkSQL 支持 JDBC 的访问方式，在使用前需要启动 Thriftserver 服
 1）创建 JAVA 工程目录；
 
 ```shell
-mkdir -p /home/sdbadmin/source/spark/lib
+mkdir -p /home/sdbadmin/spark/lib
 ```
 
 2）进入工程目录；
 
 ```shell
-cd /home/sdbadmin/source/spark
+cd /home/sdbadmin/spark
 ```
 
 3）拷贝 JDBC 接口需要的 jar 包；
@@ -208,7 +208,7 @@ cp /opt/spark/jars/spark-hive-thriftserver_2.11-2.4.4.jar ./lib
 
 4）复制以下代码到实验环境终端执行，生成通过 JDBC 接口操作 SparkSQL 数据的 Select.java 文件；
 ```shell
-cat > /home/sdbadmin/source/spark/Select.java << EOF
+cat > /home/sdbadmin/spark/Select.java << EOF
 package com.sequoiadb.spark;
 
 import java.sql.Connection;
@@ -260,7 +260,7 @@ EOF
 5）查询是否已经生成 Select.java 文件；
 
 ```shell
-ls -trl /home/sdbadmin/source/spark/Select.java
+ls -trl /home/sdbadmin/spark/Select.java
 ```
 
 6）编译 Select.java 文件；
