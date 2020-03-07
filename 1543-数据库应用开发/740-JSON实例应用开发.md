@@ -413,7 +413,7 @@ javac -cp .:./lib/sequoiadb-driver-3.4.jar -d . Datasource.java
 java -cp .:./lib/sequoiadb-driver-3.4.jar com.sequoiadb.samples.Datasource
 ```
 
-![图片描述](https://doc.shiyanlou.com/courses/1539/1207281/8abefc33babfbc641faa9fbf2fdf0d08-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1bc8826733633657839e812a3297d4d2-0)
 
 
 
