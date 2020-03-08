@@ -16,7 +16,7 @@ enable_checker: true
 
 由于业务形式的发展，越来越多的需求需要对交易数据进行实时分析，例如推荐、决策、监控等，传统的处理办法是使用ETL的方式把OLTP业务产生的数据同步到OLAP的数据数据库，导致了数据需要在不同的数据库之间流转，耗费时间成本的同时需要耗费人力成本运维多套数据库产品。
 
-SequoiaDB巨杉数据库采用“计算存储分离”架构，支持MySQL、PostgreSQL与SparkSQL三种关系型数据库实例、类MongoDB的JSON文档类数据库实例、以及S3对象存储与Posix文件系统的非结构化数据实例。在事务场景可以利用SDBAPI、MySQL和PGSQL实例对数据进行操作，在分析场景借助分布式计算框架Spark的并发计算性能，提高计算效率。
+SequoiaDB巨杉数据库采用“计算存储分离”架构，支持 MySQL、PostgreSQL 与 SparkSQL 三种关系型数据库实例、类 MongoDB 的 JSON 文档类数据库实例、以及 S3 对象存储与 Posix 文件系统的非结构化数据实例。在事务场景可以利用 SDBAPI、MySQL 和 PGSQL 实例对数据进行操作，在分析场景借助分布式计算框架 Spark 的并发计算性能，提高计算效率。
 
 
 #### 部署架构
