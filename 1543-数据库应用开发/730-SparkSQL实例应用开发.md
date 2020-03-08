@@ -12,7 +12,7 @@ version: 4.0
 #### 部署架构：
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中SequoiaSQL-SparkSQL 数据库实例包括 2 个 worker 节点，SequoiaDB 巨杉数据库包括 1 个引擎协调节点，1 个编目节点与 3 个数据节点。
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/f94f233be5f5d42622a2f29ec0c30c1f)
+![图片描述](https://doc.shiyanlou.com/courses/1539/1207281/0dee87fa137ac6f95d919e3236dfc617-0)
 
 详细了解 SequoiaDB 巨杉数据库系统架构：
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
