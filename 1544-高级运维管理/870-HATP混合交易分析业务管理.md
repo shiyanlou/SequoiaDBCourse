@@ -210,8 +210,6 @@ sdbstart -r data
 
  ![870-3](https://doc.shiyanlou.com/courses/1544/1207281/4a47a0db6e60853dedfcfdf08a5ca249-0)
 
- ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/fb5c81ed3a220004b71069645f112867-0)
-
 ## 查看节点参数修改状态
 
 1）进入 SequoiaDB Shell；
