@@ -158,7 +158,7 @@ ssh-keygen -t rsa
 2）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
 
 ```shell
-ssh-copy-id  sdbadmin@`hostname`
+ssh-copy-id  sdbadmin@sdbserver1
 ```
 
 >
@@ -271,19 +271,19 @@ cp /home/sdbadmin/soft/mysql-jdbc.jar  /opt/spark-2.4.4-bin-hadoop2.7/jars/
 1）拷贝 log4j.properties；
 
 ```shell
-cp conf/log4j.properties.template  conf/log4j.properties
+cp log4j.properties.template  log4j.properties
 ```
  
 2）log4j.properties 中设置日志级别；
 
 ```shell
-sed -i 's/log4j.rootCategory=INFO, console/log4j.rootCategory=ERROR, console/g' conf/log4j.properties
+sed -i 's/log4j.rootCategory=INFO, console/log4j.rootCategory=ERROR, console/g' log4j.properties
 ```
 
 3）检查日志输出配置是否成功；
 
 ```shell
-cat conf/log4j.properties
+cat log4j.properties
 ```
 
 
