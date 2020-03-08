@@ -1,10 +1,11 @@
 ---
 show: step
-version: 5.0
+version: 59.0
 enable_checker: true
 ---
 
 # HATP混合交易分析业务管理
+
 ## 课程介绍
 
 本课程主要介绍 SequoiaDB 巨杉数据库的 HTAP 能力，在 HTAP 场景下数据库产品的资源隔离能力至关重要，目前巨杉数据库的资源隔离方案有：
