@@ -256,7 +256,7 @@ quit ;
 
 ## SparkSQL 设置
 
-SparkSQL 用于处理 OLAP 类的业务。主要负责处理聚合类查询或者同级业务。
+SparkSQL 用于处理 OLAP 类的业务。主要负责处理聚合类查询或者统计业务。
 
 1）登录 Beeline 客户端，连接 SparkSQL 实例；
 
