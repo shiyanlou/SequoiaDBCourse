@@ -346,35 +346,6 @@ quit ;
 
 SparkSQL 通过 Spark-SequoiaDB 连接组件关联 SequoiaDB 的集合空间和集合，将 SequoiaDB 巨杉数据库引擎作为 SparkSQL 的数据源进行相应的数据计算。
 
-#### SequoiaDB-SparkSQL 建表语法说明
-
-在 SparkSQL 中关联 SequoiaDB 集合空间和集合的 SQL 语法如下；
-
-```txet
-CREATE <[TEMPORARY] TABLE | TEMPORARY VIEW> <tableName> [(SCHEMA)]
-USING com.sequoiadb.spark OPTIONS (<option>, <option>, ...) ;
-```
-
-语法说明：
-
-- TEMPORARY 表示为临时表或视图，只在创建表或视图的会话中有效，会话退出后自动删除。
-
-- 表名后紧跟的 SCHEMA 可不填，连接器会自动生成。自动生成的 SCHEMA 字段顺序与集合中记录的顺序不一致，因此如果对 SCHEMA 的字段顺序有要求，应该显式定义 SCHEMA。
-
-- OPTIONS 为参数列表，参数是键和值都为字符串类型的键值对，其中值的前后需要有单引号，多个参数之间用逗号分隔。
-
-#### SequoiaDB-SparkSQL 建表参数说明
-
-下面是部分常用的 SequoiaDB-SparkSQL 建表参数说明，完整的建表参数请参考 [SequoiaDB-SparkSQL 参数说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)。
-
-+ host ：SequoiaDB 协调节点/独立节点地址，多个地址以 “,” 分隔。例如：“server1:11810, server2:11810”。
-+ collectionspace ：集合空间名称。
-+ collection ：集合名称（不包含集合空间名称）。
-+ username ：数据库用户名。
-+ passwordtype : 密码类型，取值为“cleartext”或“file”，分别表示明文密码和文件密钥。
-+ password ：数据库用户名对应的用户密码。
-+ preferredinstance ：指定分区优先选择的节点实例。
-
 #### SparkSQL 与 SequoiaDB 的集合空间和集合关联
 
 1）使用 Beeline 客户端工具连接至 thriftserver 服务；
@@ -413,6 +384,35 @@ CREATE TABLE employee (
 操作截图：
 
 ![1542-610-11](https://doc.shiyanlou.com/courses/1542/1207281/7fbf398ea09dfeeec92881eaba5da512-0)
+
+#### SequoiaDB-SparkSQL 建表语法说明
+
+在 SparkSQL 中关联 SequoiaDB 集合空间和集合的 SQL 语法如下；
+
+```txet
+CREATE <[TEMPORARY] TABLE | TEMPORARY VIEW> <tableName> [(SCHEMA)]
+USING com.sequoiadb.spark OPTIONS (<option>, <option>, ...) ;
+```
+
+语法说明：
+
+- TEMPORARY 表示为临时表或视图，只在创建表或视图的会话中有效，会话退出后自动删除。
+
+- 表名后紧跟的 SCHEMA 可不填，连接器会自动生成。自动生成的 SCHEMA 字段顺序与集合中记录的顺序不一致，因此如果对 SCHEMA 的字段顺序有要求，应该显式定义 SCHEMA。
+
+- OPTIONS 为参数列表，参数是键和值都为字符串类型的键值对，其中值的前后需要有单引号，多个参数之间用逗号分隔。
+
+#### SequoiaDB-SparkSQL 建表参数说明
+
+下面是部分常用的 SequoiaDB-SparkSQL 建表参数说明，完整的建表参数请参考 [SequoiaDB-SparkSQL 参数说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)。
+
++ host ：SequoiaDB 协调节点/独立节点地址，多个地址以 “,” 分隔。例如：“server1:11810, server2:11810”。
++ collectionspace ：集合空间名称。
++ collection ：集合名称（不包含集合空间名称）。
++ username ：数据库用户名。
++ passwordtype : 密码类型，取值为“cleartext”或“file”，分别表示明文密码和文件密钥。
++ password ：数据库用户名对应的用户密码。
++ preferredinstance ：指定分区优先选择的节点实例。
 
 ## 在 Beeline 中进行数据操作
 
