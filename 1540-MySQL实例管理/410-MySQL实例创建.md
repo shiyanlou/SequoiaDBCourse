@@ -30,7 +30,7 @@ enable_checker: true
 
 ## 切换用户及查看数据库版本
 
-部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
+切换至部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户并查看数据库引擎版本。
 
 #### 切换到 sdbadmin 用户
 
@@ -94,12 +94,19 @@ bin/sdb_sql_ctl addinst myinst -D database/3306/
 ```shell
 bin/sdb_sql_ctl listinst
 ```
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/d7dba8ae7ad2523dfff2a4543bcaf53d-0)
 
 4）查看实例状态；
 
 ```shell
 bin/sdb_sql_ctl status
 ```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/f6502e68b949510b8ddf02aa13284f61-0)
 
 ## 创建数据库及数据表
 
