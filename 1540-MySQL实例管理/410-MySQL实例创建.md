@@ -30,9 +30,9 @@ enable_checker: true
 
 ## 切换用户及查看数据库版本
 
-#### 切换到 sdbadmin 用户
+部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin。
 
-部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin：
+#### 切换到 sdbadmin 用户
 
 ```shell
 su - sdbadmin
@@ -162,10 +162,11 @@ SHOW CREATE TABLE employee ;
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/9234e051cb07f00ff82c8ad8245610cf-0)
 
 
-
 ## 数据表中写入数据并查询
 
-4）在分区表 employee 中插入数据；
+在 SequoiaSQL-MySQL 实例中创建的表完全兼容MySQL语法和协议，用户可以使用SQL语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其他MySQL语法操作。
+
+1）在分区表 employee 中插入数据；
 ```sql
 INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
 INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
@@ -175,7 +176,7 @@ INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
 
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/33d20f44d4f70ad15132164cdb2ca6f9-0)
 
-5）查询分区表 employee 中的数据；
+2）查询分区表 employee 中的数据；
 ```sql
 SELECT * FROM employee ;
 ```
