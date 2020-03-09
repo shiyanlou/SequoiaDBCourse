@@ -1,6 +1,6 @@
 ---
 show: step
-version: 3.0
+version: 4.0
 enable_checker: true
 ---
 
@@ -143,6 +143,8 @@ quit ;
 
 ## 创建数据库及配置实例
 
+本小节，将在 PostgreSQL 实例中创建外部表与上一个小节在 SequoiaDB 巨杉数据库存储引擎中创建的集合空间、集合进行映射。
+
 1）创建 company 数据库；
 
 ```shell
@@ -155,18 +157,26 @@ bin/sdb_sql_ctl createdb company myinst
 bin/psql -p 5432 company
 ```
 
-3）加载SequoiaDB连接驱动；
+3）加载 SequoiaDB 连接驱动；
 
 ```sql
 CREATE EXTENSION sdb_fdw ;
 ```
 
-4）配置与SequoiaDB连接参数；
+4）配置与 SequoiaDB 连接参数；
 
 ```sql
 CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw 
 OPTIONS (address '127.0.0.1', service '11810', preferedinstance 'A', transaction 'on') ;
 ```
+
+>Note:
+>
+> - 如果需要提供多个协调节点地址，options 中的 address 字段可以按格式 'ip1:port1,ip2:port2,ip3:port3'填写。此时，service 字段可填写任意一个非空字符串
+> - preferedinstance 设置 SequoiaDB 的连接属性。多个属性以逗号分隔，如：preferedinstance '1,2,A'。详细配置请参考 [preferedinstance](http://doc.sequoiadb.com/cn/SequoiaDB-cat_id-1432190808-edition_id-304) 取值
+> - transaction 设置 SequoiaDB 是否开启事务，默认为off。开启为on
+> 更多 SequoiaDB 连接参数说明请参考 [PostgreSQL 实例连接](http://doc.sequoiadb.com/cn/SequoiaDB-cat_id-1432190715-edition_id-304)
+
 
 5）创建 company 数据库外表；
 
@@ -179,6 +189,12 @@ CREATE FOREIGN TABLE employee (
 OPTIONS (collectionspace 'company', collection 'employee', decimal 'on') ;
 ```
 
+>Note:
+>
+> - `collectionspace` 参数指定 SequoiaDB 数据库的集合空间名，该集合空间必须已经存在
+> - `collection` 参数指定 SequoiaDB 数据库的集合名，该集合必须已经存在且属于 `collectionspace` 参数所指定的集合空间
+> - `decimal` 参数值为 `on` 时，表示需要对接 SequoiaDB 的decimal字段
+> 更多 PostgreSQL 实例外表创建参数请参考 [PostgreSQL 实例连接](http://doc.sequoiadb.com/cn/SequoiaDB-cat_id-1432190715-edition_id-304)
 
 ## 在 PostgreSQL 实例中对数据进行操作
 

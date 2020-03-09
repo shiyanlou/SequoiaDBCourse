@@ -1,6 +1,6 @@
 ---
 show: step
-version: 93.0
+version: 94.0
 enable_checker: true
 ---
 
@@ -289,7 +289,7 @@ cat log4j.properties
 
 ## 测试 SparkSQL 实例
 
-之前的小节已经创建了 Spark 元数据库，并且通过 SequoiaSQL-MySQL 实例创建了分区表。
+之前的小节已经创建了 Spark 元数据库，并且通过 SequoiaSQL-MySQL 实例创建了分区表。本小节将对 SparkSQL 实例进行测试。
 
 1）进入 Spark 的安装目录；
 
