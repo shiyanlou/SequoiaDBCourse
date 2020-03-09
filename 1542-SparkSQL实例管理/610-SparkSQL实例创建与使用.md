@@ -479,20 +479,7 @@ SELECT * FROM employee_auto_schema ;
 
 ## 通过 SQL 结果集创建表
 
-SequoiaDB-SparkSQL 支持 `CREATE TABLE ... AS SELECT ...` 语法，通过已有的表创建一张不同名的新表。
-
-#### 使用 `CREATE TABLE ... AS SELECT ...` 语法建表参数说明
-
-下面是部分 SequoiaDB-SparkSQL 使用 `CREATE TABLE ... AS SELECT ...` 语法建表的参数说明，完整的建表参数请参考 [SequoiaDB-SparkSQL 参数说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)。
-
-+ host ：SequoiaDB 协调节点/独立节点地址，多个地址以 “,” 分隔。例如：“server1:11810, server2:11810”。
-+ domain ：创建集合空间时指定所属域。如果集合空间已存在，则忽略该参数。
-+ collectionspace ：集合空间名称。
-+ collection ：集合名称（不包含集合空间名称）。
-+ autosplit ：创建集合时指定是否自动切分。必须配合散列分区和域使用。
-+ shardingkey ：创建集合时指定的分区键。
-+ shardingtype ：创建集合时指定的分区类型，取值可以是“hash”和“range”，分别表示散列分区和范围分区。
-+ compressiontype ：创建集合时指定的压缩类型，取值可以是“none”、“lzw”和“snappy”，“none”表示不进行压缩。
+SequoiaDB-SparkSQL 支持 `CREATE TABLE ... AS SELECT ...` 语法，通过 SQL 结果集创建新表。
 
 #### 通过 SQL 结果集创建表
 
@@ -526,6 +513,21 @@ SELECT * FROM employee_bak ;
 ```shell
 !quit
 ```
+
+#### 使用 `CREATE TABLE ... AS SELECT ...` 语法建表参数说明
+
+下面是部分 SequoiaDB-SparkSQL 使用 `CREATE TABLE ... AS SELECT ...` 语法建表的参数说明，完整的建表参数请参考 [SequoiaDB-SparkSQL 参数说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)。
+
++ host ：SequoiaDB 协调节点/独立节点地址，多个地址以 “,” 分隔。例如：“server1:11810, server2:11810”。
++ domain ：创建集合空间时指定所属域。如果集合空间已存在，则忽略该参数。
++ collectionspace ：集合空间名称。
++ collection ：集合名称（不包含集合空间名称）。
++ autosplit ：创建集合时指定是否自动切分。必须配合散列分区和域使用。
++ shardingkey ：创建集合时指定的分区键。
++ shardingtype ：创建集合时指定的分区类型，取值可以是“hash”和“range”，分别表示散列分区和范围分区。
++ compressiontype ：创建集合时指定的压缩类型，取值可以是“none”、“lzw”和“snappy”，“none”表示不进行压缩。
+
+
 
 ## 总结
 
