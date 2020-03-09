@@ -33,12 +33,13 @@ Spark Thrift Server 的接口和协议都和 HiveServer2 完全一致，因此�
 
 * [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
 
-
 #### 实验环境
 
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本；SequoiaDB 巨杉数据库引擎、SequoiaSQL-MySQL 实例和 SequoiaDB-Spark 连接组件均为 3.4 版本；SparkSQL 版本为 2.4.4；JDK 版本为 openjdk1.8。
 
 ## 切换用户及查看数据库版本
+
+切换到系统用户 sdbadmin，并查看 SequoiaDB 巨杉数据库引擎的版本。
 
 #### 切换到 sdbadmin 用户
 
@@ -81,6 +82,8 @@ sdblist
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤。
 
 ## 安装 Spark 实例
+
+下面开始安装 Spark 实例，并对 Spark 实例进行必要的配置。
 
 #### 解压 Spark 安装包
 
@@ -274,8 +277,6 @@ FLUSH PRIVILEGES ;
 
 ![1542-610-8](https://doc.shiyanlou.com/courses/1542/1207281/48734adc82d3f49c198066121fe18792-0)
 
-
-
 3） 检查进程启动状态；
 
 ```shell
@@ -345,6 +346,23 @@ quit ;
 
 SparkSQL 通过 Spark-SequoiaDB 连接组件关联 SequoiaDB 的集合空间和集合，将 SequoiaDB 巨杉数据库引擎作为 SparkSQL 的数据源进行相应的数据计算。
 
+#### SequoiaDB-SparkSQL 建表语法说明
+
+在 SparkSQL 中关联 SequoiaDB 集合空间和集合的 SQL 语法如下；
+
+```txet
+CREATE <[TEMPORARY] TABLE | TEMPORARY VIEW> <tableName> [(SCHEMA)]
+USING com.sequoiadb.spark OPTIONS (<option>, <option>, ...) ;
+```
+
+语法说明：
+
+- TEMPORARY 表示为临时表或视图，只在创建表或视图的会话中有效，会话退出后自动删除。
+
+- 表名后紧跟的 SCHEMA 可不填，连接器会自动生成。自动生成的 SCHEMA 字段顺序与集合中记录的顺序不一致，因此如果对 SCHEMA 的字段顺序有要求，应该显式定义 SCHEMA。
+
+- OPTIONS 为参数列表，参数是键和值都为字符串类型的键值对，其中值的前后需要有单引号，多个参数之间用逗号分隔。
+
 #### SequoiaDB-SparkSQL 建表参数说明
 
 下面是部分常用的 SequoiaDB-SparkSQL 建表参数说明，完整的建表参数请参考 [SequoiaDB-SparkSQL 参数说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)。
@@ -371,7 +389,6 @@ SparkSQL 通过 Spark-SequoiaDB 连接组件关联 SequoiaDB 的集合空间和�
 CREATE DATABASE company ;
 USE company ;
 ```
-
 
 3）创建 employee 表；
 
@@ -422,7 +439,62 @@ SELECT * FROM employee ;
 
 ![1542-610-13](https://doc.shiyanlou.com/courses/1542/1207281/2a5fa712de8bc2dcb23f453a8b56023b)
 
-## 通过已有表创建表
+## 通过连接器自动生成 Schema 创建表
+
+SequoiaDB-SparkSQL 支持通过连接器自动生成 SCHEMA 来创建关联表，这样可以在建表时不指定 SCHEMA 信息。
+
+1）通过连接器自动生成 SCHEMA 来创建 employee_auto_schema 表；
+
+```sql
+CREATE TABLE employee_auto_schema USING com.sequoiadb.spark OPTIONS (
+  host 'localhost:11810',
+  collectionspace 'company',
+  collection 'employee'
+) ;
+```
+
+>Note:
+>
+>通过连接器自动生成 SCHEMA，要求在建表时 SequoiaDB 的关联集合中就已经存在数据记录。
+
+2）查看表 employee_auto_schema 的结构信息；
+
+```sql
+DESC employee_auto_schema ;
+```
+
+3）查询 employee_auto_schema 的数据记录；
+
+```SQL
+SELECT * FROM employee_auto_schema ;
+```
+
+>Note:
+>
+>SparkSQL 表 employee 和 employee_auto_schema 关联的都是 SequoiaDB 中的集合 company.employee，所以这两张 SparkSQL 表的对应数据是完全一致的。
+
+操作截图：
+
+![1542-610-14](https://doc.shiyanlou.com/courses/1542/1207281/87db5187f7bf6889b55c6d665fa334df-0)
+
+## 通过 SQL 结果集创建表
+
+SequoiaDB-SparkSQL 支持 `CREATE TABLE ... AS SELECT ...` 语法，通过已有的表创建一张不同名的新表。
+
+#### 使用 `CREATE TABLE ... AS SELECT ...` 语法建表参数说明
+
+下面是部分 SequoiaDB-SparkSQL 使用 `CREATE TABLE ... AS SELECT ...` 语法建表的参数说明，完整的建表参数请参考 [SequoiaDB-SparkSQL 参数说明](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1432190712-edition_id-304)。
+
++ host ：SequoiaDB 协调节点/独立节点地址，多个地址以 “,” 分隔。例如：“server1:11810, server2:11810”。
++ domain ：创建集合空间时指定所属域。如果集合空间已存在，则忽略该参数。
++ collectionspace ：集合空间名称。
++ collection ：集合名称（不包含集合空间名称）。
++ autosplit ：创建集合时指定是否自动切分。必须配合散列分区和域使用。
++ shardingkey ：创建集合时指定的分区键。
++ shardingtype ：创建集合时指定的分区类型，取值可以是“hash”和“range”，分别表示散列分区和范围分区。
++ compressiontype ：创建集合时指定的压缩类型，取值可以是“none”、“lzw”和“snappy”，“none”表示不进行压缩。
+
+#### 通过 SQL 结果集创建表
 
 1）通过已有表 employee 创建表 employee_bak，并将表中的数据存放到指定域和集合空间中；
 
@@ -464,4 +536,3 @@ SELECT * FROM employee_bak ;
 + SequoiaDB 集合空间、集合的创建
 + SparkSQL 实例的配置
 + SparkSQL 实例中操作 SequoiaDB 巨杉数据库的数据
-
