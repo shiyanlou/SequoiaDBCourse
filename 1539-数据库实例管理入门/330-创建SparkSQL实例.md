@@ -1,6 +1,6 @@
 ---
 show: step
-version: 94.0
+version: 95.0
 enable_checker: true
 ---
 
@@ -335,6 +335,14 @@ ename STRING,
 age INT
 ) USING com.sequoiadb.spark OPTIONS (host 'localhost:11810', collectionspace 'company', collection 'employee', username '', password '') ;
 ```
+
+> Note:
+>
+> - `host` 参数指定 SequoiaDB 数据库的协调节点/独立节点地址，多个地址以","分隔
+> - `collectionspace` 参数指定 SequoiaDB 数据库的集合空间名，该集合空间必须已经存在
+> - `collection` 参数指定 SequoiaDB 数据库的集合名，该集合必须已经存在且属于 `collectionspace` 参数所指定的集合空间
+> - `username` 参数指定 SequoiaDB 数据库的连接用户名，若 SequoiaDB 数据库没有配置用户则设为空串('')
+> - `password` 参数指定 SequoiaDB 数据库的连接用户对应的密码，若 SequoiaDB 数据库没有配置用户则设为空串('')
 
 7）测试运行 sql；
 
