@@ -418,10 +418,11 @@ java -cp .:./lib/sequoiadb-driver-3.4.jar com.sequoiadb.samples.Datasource
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1bc8826733633657839e812a3297d4d2-0)
 
-
-
-
-
 ## 总结
 
 本课程通过 javascript 语法对 SequoiaDB 巨杉数据库 JSON 实例进行了创建集合空间、集合、索引以及数据的 CRUD 基本操作，通过 JAVA 开发语言展示了连接池和集合的写入和查询操作。
+
+
+
+
+
