@@ -5,8 +5,6 @@ enable_checker: true
 ---
 # MySQL 实例的高可用配置
 
-
-
 ## 课程介绍
 
 SequoiaSQL-MySQL 的架构使集群中的多个 MySQL 实例均为主机模式，都可独立对外提供读写服务。由于各实例的元数据都只存储在该实例本身，于是 SequoiaSQL-MySQL 提供了元数据同步工具，用来保证 MySQL 服务的高可用。当一个 MySQL 实例退出后，连接该实例的应用可以切换到其它实例，获得对等的读写服务。  
@@ -32,9 +30,9 @@ MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插�
 
 ## 切换用户及查看数据库版本
 
-#### 切换到 sdbadmin 用户
+切换至部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户并查看数据库引擎版本。
 
-部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin：
+#### 切换到 sdbadmin 用户
 
 ```shell
 su - sdbadmin
@@ -77,24 +75,30 @@ sdblist
 
 #### 查看本机 MySQL 实例
 
-1）查看实例名；
+1）切换到 SequoiaSQL-MySQL 安装目录；
+
 ```shell
-/opt/sequoiasql/mysql/bin/sdb_sql_ctl listinst
+cd /opt/sequoiasql/mysql
+```
+
+2）查看实例名；
+```shell
+bin/sdb_sql_ctl listinst
 ```
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/440c89381abd12d567f56a3901b58940-0)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/d7dba8ae7ad2523dfff2a4543bcaf53d-0)
 
-2）查看对应实例是否启动；
+3）查看对应实例是否启动；
 
 ```shell
-/opt/sequoiasql/mysql/bin/sdb_sql_ctl status myinst
+bin/sdb_sql_ctl status
 ```
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/af1e633d9256136d18efa08739e7c656-0)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/fcb94249d8810be202e7be904627ec40-0)
 
 >Note:
 >
@@ -121,7 +125,7 @@ ssh sdbadmin@sdbserver2
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/ea943bbab72d010990eb3d89175bf2db-0)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/3ff434d8c5fb6a90d82585bc82cdd00a-0)
 
 >Note:
 >
@@ -358,7 +362,9 @@ crontab -e
 */1 * * * * /usr/bin/python /opt/sequoiasql/mysql/tools/metaSync/meta_sync.py >/dev/null 2>&1 &
 ```
 
-4）linux 系统后台进程作业配置检查，最后一行可以显示上一步骤输入内容；
+4）添加后按 Esc 键输入 :wq 进行保存退出;
+
+5）linux 系统后台进程作业配置检查，最后一行可以显示上一步骤输入内容；
 
 ```shell
 crontab -l
