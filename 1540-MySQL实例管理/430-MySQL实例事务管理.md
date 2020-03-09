@@ -29,9 +29,9 @@ enable_checker: true
 
 ## 切换用户及查看数据库版本
 
-#### 切换到 sdbadmin 用户
+切换至部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户并查看数据库引擎版本。
 
-部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户为 sdbadmin：
+#### 切换到 sdbadmin 用户
 
 ```shell
 su - sdbadmin
