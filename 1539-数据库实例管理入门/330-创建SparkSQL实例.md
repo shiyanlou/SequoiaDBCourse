@@ -100,7 +100,7 @@ CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
 ```
 
 ## 创建测试数据库及数据表
-在 SequoiaSQL-MySQL 实例中创建数据表，为 Spark 安装完毕后进行数据操作测试提供测试数据。SequoiaSQL-MySQL 实例默认使用 SequoiaDB 数据库存储引擎，包含主键或唯一键的表将会默认以唯一键作为分区键，进行自动分区。
+在 SequoiaSQL-MySQL 实例中创建数据表，为 Spark 安装完毕后进行数据操作测试提供测试数据。SequoiaSQL-MySQL 实例默认使用 SequoiaDB 数据库存储引擎，在 MySQL 上创建表将同步在 SequoiaDB 上创建对应的分区表（hash分区，包含所有分区组）。自动分区时，分区键按顺序优先使用主键字段和唯一索引字段。如果两者都没有，则不做分区。
 
 1）创建数据库，并切换到该数据库；
 
