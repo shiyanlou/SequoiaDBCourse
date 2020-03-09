@@ -1,10 +1,8 @@
 ---
 show: step
-version: 2.0 
+version: 12.0 
 enable_checker: true 
 ---
-
-
 # SparkSQL 实例创建与使用
 
 ## 课程介绍
@@ -526,8 +524,6 @@ SELECT * FROM employee_bak ;
 + shardingkey ：创建集合时指定的分区键。
 + shardingtype ：创建集合时指定的分区类型，取值可以是“hash”和“range”，分别表示散列分区和范围分区。
 + compressiontype ：创建集合时指定的压缩类型，取值可以是“none”、“lzw”和“snappy”，“none”表示不进行压缩。
-
-
 
 ## 总结
 
