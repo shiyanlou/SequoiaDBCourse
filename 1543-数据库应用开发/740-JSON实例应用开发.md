@@ -424,4 +424,8 @@ java -cp .:./lib/sequoiadb-driver-3.4.jar com.sequoiadb.samples.Datasource
 
 ## 总结
 
-我们通过 javascript 语法对 SequoiaDB 巨杉数据库 JSON 实例进行了创建集合空间、集合、索引以及数据的 CRUD 基本操作。
+本课程通过 javascript 语法对 SequoiaDB 巨杉数据库 JSON 实例进行了创建集合空间、集合、索引以及数据的 CRUD 基本操作，通过 JAVA 开发语言展示了连接池和集合的写入和查询操作。
+
+
+
+
