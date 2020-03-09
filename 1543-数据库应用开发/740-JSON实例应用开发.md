@@ -67,6 +67,7 @@ sdblist
 >如果显示的节点数量少于上图中的数量，请稍等初始化完成并重试该步骤。
 
 ## 创建域、集合空间和集合
+在 SequoiaDB Shell 中创建集合空间和集合用于后续章节进行数据操作。
 
 1）通过 Linux 命令行进入 SequoiaDB Shell；
 
@@ -108,10 +109,10 @@ db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" 
 
 
 ## 集合数据操作
-通过 SequoiaDB Shell 操作集合中数据。
+通过 SequoiaDB Shell 进行集合数据的 CRUD 操作。
 
-#### 集合中插入数据
-在 JSON 实例集合 company 中插入数据：
+#### 集合中写入数据
+在 JSON 实例集合 company 中写入数据：
 ```javascript
 db.company.employee.insert ({ "empno" : 10001 , "ename" : "Georgi" , "age" : 48 }) ;
 db.company.employee.insert ({ "empno" : 10002 , "ename" : "Bezalel" , "age" : 21 }) ;
@@ -167,6 +168,8 @@ db.company.employee.find ({},{"empno":""}) ;
 
 
 ## 索引使用
+在 SequoiaDB 巨杉数据库中，索引是一种特殊的数据对象。索引本身不做为保存用户数据的容器，而是作为一种特殊的元数据，提高数据访问的效率。
+
 1）在集合 employee 的 ename 字段上创建索引；
 ```javascript
 db.company.employee.createIndex ("idx_ename", { ename : 1 }, false) ;
