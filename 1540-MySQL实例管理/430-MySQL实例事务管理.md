@@ -1,10 +1,9 @@
 ---
 show: step
-version: 2.0
+version: 3.0
 enable_checker: true
 ---
 # MySQL 实例事务管理
-
 
 ## 课程介绍
 
@@ -164,9 +163,7 @@ SELECT * FROM employee ;
 
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/2f95a5b013de24775c07d49865a08b6c-0)
 
-
 > 如操作截图显示，事务内的操作均被提交成功：雇员 Ben 的信息已经写入，并且 Alice 的年龄被更新成功。
-
 
 ## 事务回滚
 
