@@ -91,8 +91,6 @@ ps -elf | grep mysql
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/41b259ef9f2b7f16466b3d89606998c4)
 
 
-
-
 ## 创建数据库及数据表
 
 进入 MySQL shell ，连接 SequoiaSQL-MySQL 实例并创建 company 数据库实例，验证实例的创建及使用是否成功。
@@ -130,38 +128,6 @@ INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
 INSERT INTO employee (ename, age) VALUES ("Alice", 21) ;
 ```
 
-## MySQL 实例事务管理
-MySQL 实例的事务是基于 SequoiaDB 巨杉数据库存储引擎的，如果需要 MySQL 实例支持事务，存储引擎也必须开启事务。本课程环境中  SequoiaDB 巨杉数据库存储引擎使用的是默认值及开启事务，隔离级别为读未提交；下面对 MySQL 实例自身事务控制参数进行说明。
-
-1）查看是否已打开事务；
-```sql
-SHOW VARIABLES LIKE '%sequoiadb_use_transaction%' ;
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/30b998dd08806864e0421301f7808fd1-0)
-
-图片中 sequoiadb_use_transaction 参数的值为 on ，说明事务功能已经打开。
-
-> Note:
-> - SequoiaSQL-MySQL 的事务开启关系需要修改相应数据库实例下的 auto.cnf 文件的 sequoiadb_use_transaction 参数信息，然后重启实例。
-> - sequoiadb_use_transaction 参数默认值为 on , 在业务无需事务功能时，我们可以将它设成 OFF，从而节省不必要的开销。
-
-2) 查看事务隔离级别配置内容；
-```sql
-SHOW VARIABLES LIKE '%transaction_isolation%' ;
-```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/2b74b78aca9089c7d6125b2c1020953e-0)
-
-图片中 transaction_isolation 参数的值为 REPEATABLE-READ ，说明事务隔离级别为读未提交。
-
->Note:
->- 目前版本的 SequoiaDB 支持三种数据库隔离级别，分别为 RU，RC，RS ；
-
 ## 事务提交
 
 SequoiaDB 巨杉数据库的 MySQL 数据库实例支持完整的事务操作能力，本小节将验证其基本的回滚与提交能力。
@@ -197,7 +163,6 @@ SELECT * FROM employee ;
 操作截图:
 
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/2f95a5b013de24775c07d49865a08b6c-0)
-
 
 
 > 如操作截图显示，事务内的操作均被提交成功：雇员 Ben 的信息已经写入，并且 Alice 的年龄被更新成功。
@@ -239,6 +204,80 @@ SELECT * FROM employee ;
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/2f95a5b013de24775c07d49865a08b6c-0)
 
 > 如操作截图显示，雇员 Janey 的信息未写入到数据库；而 Ben 的年龄也没有更新。
+
+
+## MySQL 实例事务管理
+
+MySQL 实例的事务是基于 SequoiaDB 巨杉数据库存储引擎的，如果需要 MySQL 实例支持事务，存储引擎也必须开启事务，本小节将讲解如何查看并关闭 MySQL 的事务功能，事务功能关闭后需要重新启动实例再进入 Shell 命令行，以下课程将验证 MySQL 事务关闭后事务能否使用。
+
+1）查看 MySQL 是否已打开事务；
+
+```sql
+SHOW VARIABLES LIKE '%sequoiadb_use_transaction%' ;
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/30b998dd08806864e0421301f7808fd1-0)
+
+图片中 sequoiadb_use_transaction 参数的值为 on ，说明事务功能已经打开。
+
+2）退出 MySQL Shell；
+
+```sql
+\q
+```
+
+3) 关闭 MySQL 的事务功能；
+```shell
+cat >> /opt/sequoiasql/mysql/database/3306/auto.cnf << EOF
+sequoiadb_use_transaction = OFF
+EOF
+```
+
+4）重启 myinst 实例；
+```shell
+/opt/sequoiasql/mysql/bin/sdb_sql_ctl restart myinst
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/12d6eb9fb778e26d119531f98b71ebac-0)
+
+5）登录 MySQL 实例；
+```shell
+/opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
+```
+
+6）开启事务操作；
+
+```sql
+USE company ;
+BEGIN ;
+```
+
+7）执行SQL语句，主要包含插入与更新；
+
+```sql
+INSERT INTO employee (ename, age) VALUES ("GOGO", 55) ;
+```
+
+8）执行事务回滚操作；
+
+```sql
+ROLLBACK ;
+```
+9）查询 employee 表的数据,验证事务数据是否回滚；
+```sql
+SELECT * FROM employee ;
+```
+
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/4e12985da3d81aeb1fa26606563658bd-0)
+
+> Note：由图可见刚刚插入的数据，说明 MySQL 的事务功能已经关闭，数据库没有执行回滚操作
+
 
 
 ## 总结
