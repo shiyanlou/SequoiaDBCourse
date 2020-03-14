@@ -4,8 +4,6 @@ version: 15.0
 enable_checker: true
 ---
 
-
-
 # MySQL 实例创建
 
 ## 课程介绍
@@ -50,7 +48,7 @@ sequoiadb --version
 ```
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/b4082b0d6d6bdf89d229aa713a53759d)
+![图片描述](https://doc.shiyanlou.com/courses/1538/1207281/6cccf5951f048e01b4789f3c08483bb0-0)
 
 
 ## 查看节点启动列表
@@ -63,7 +61,7 @@ sdblist
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/02fcaa58ac27e91688ead137fa748d6e)
+![图片描述](https://doc.shiyanlou.com/courses/1538/1207281/810c1187bb311b8a506bdb6731e1f73f-0)
 
 >Note:
 >
