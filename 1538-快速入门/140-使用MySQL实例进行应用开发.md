@@ -84,18 +84,23 @@ sdblist
 
 2）查看 MySQL 存储引擎，确认默认存储引擎为 SequoiaDB；
 ```sql
-SHOW ENGINES ;
+SHOW ENGINES;
 ```
 
 3）创建数据库；
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 
 4）创建包含自增主键字段的 employee 表；
 ```sql
-CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
+CREATE TABLE employee 
+(
+empno INT AUTO_INCREMENT PRIMARY KEY, 
+ename VARCHAR(128), 
+age INT
+);
 ```
 
 ## 基本数据操作
@@ -105,12 +110,12 @@ SequoiaDB 巨杉数据库的 MySQL 实例支持完整的 CRUD 数据基本操作
 
 1）写入测试数据；
 ```sql
-INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
-INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
-INSERT INTO employee VALUES (10003, 'Parto', 33) ;
-INSERT INTO employee VALUES (10004, 'Chirstian', 40) ;
-INSERT INTO employee VALUES (10005, 'Kyoichi', 23) ;
-INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
+INSERT INTO employee VALUES (10001, 'Georgi', 48);
+INSERT INTO employee VALUES (10002, 'Bezalel', 21);
+INSERT INTO employee VALUES (10003, 'Parto', 33);
+INSERT INTO employee VALUES (10004, 'Chirstian', 40);
+INSERT INTO employee VALUES (10005, 'Kyoichi', 23);
+INSERT INTO employee VALUES (10006, 'Anneke', 19);
 ```
 
 
