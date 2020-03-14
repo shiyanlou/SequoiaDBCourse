@@ -131,8 +131,8 @@ Note:
 #### 创建数据库
 
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 
 #### 创建数据表
@@ -142,14 +142,19 @@ USE company ;
 1）创建包含自增主键字段的 employee 表；
 
 ```sql
-CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
+CREATE TABLE employee 
+(
+empno INT AUTO_INCREMENT PRIMARY KEY, 
+ename VARCHAR(128), 
+age INT
+);
 ```
 
 2）进行基本的数据写入操作；
 
 ```sql
-INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
-INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
+INSERT INTO employee (ename, age) VALUES ("Jacky", 36);
+INSERT INTO employee (ename, age) VALUES ("Alice", 18);
 ```
 
 3）退出 MySQL Shell；
@@ -171,31 +176,31 @@ sdb
 2）使用javascript 语法连接协调节点，获取数据库连接；
 
 ```javascript
-var db = new Sdb ("localhost", 11810) ;
+var db = new Sdb("localhost", 11810);
 ```
 
 3）查看存储引擎中的集合信息；
 
 ```javascript
-db.list (SDB_LIST_COLLECTIONS) ;
+db.list(SDB_LIST_COLLECTIONS);
 ```
 
 4）查找 employee 中的数据，查看是否为 SequoiaSQL-MySQL 实例中插入的数据；
 
 ```javascript
-db.company.employee.find () ;
+db.company.employee.find();
 ```
 
 4）向 employee 集合中插入数据；
 
 ```javascript
-db.company.employee.insert ({ ename : "Ben" , age : 20 }) ;
+db.company.employee.insert({ ename: "Ben", age: 20 });
 ```
 
 5）退出 SequoiaDB Shell；
 
 ```javascript
-quit ;
+quit;
 ```
 
 #### 查询 MySQL 实例数据
@@ -211,12 +216,12 @@ quit ;
 2）切换到 company 数据库；
 
 ```sql
-USE company ;
+USE company;
 ```
 3）查询 employee 表中数据，是否存在 ename 字段值 Ben 的数据；
 
 ```sql
-SELECT * FROM employee WHERE ename = 'Ben' ;
+SELECT * FROM employee WHERE ename = 'Ben';
 ```
 
 4）退出 MySQL Shell；
