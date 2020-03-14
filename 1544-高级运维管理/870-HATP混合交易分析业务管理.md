@@ -57,7 +57,7 @@ sequoiadb --version
 
 操作截图：
 
-![870-2](https://doc.shiyanlou.com/courses/1469/1207281/b4082b0d6d6bdf89d229aa713a53759d)
+![870-2](https://doc.shiyanlou.com/courses/1538/1207281/6cccf5951f048e01b4789f3c08483bb0-0)
 
 ## 查看节点启动列表
 
@@ -122,6 +122,10 @@ SELECT * FROM employee ;
 ```sql
 SHOW VARIABLES LIKE '%sequoiadb_conn_addr%' ;
 ```
+
+>Note:
+>
+> MySQL 的访问隔离是通过其连接的协调节点预读策略实现的。
 
 7）退出 MySQL Shell ；
 
