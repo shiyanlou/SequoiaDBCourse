@@ -423,14 +423,14 @@ bin/sdb_sql_ctl restart myinst
 7）查看 MySQL 实例状态；
 
 ```shell
-bin/sdb_sql_ctl status myinst
+bin/sdb_sql_ctl status
 ```
 
 
 操作截图：
 
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/af1e633d9256136d18efa08739e7c656-0)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/56e7eee4a5915f2b90e272376f69a987-0)
 
 
 
