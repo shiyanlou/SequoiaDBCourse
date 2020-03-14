@@ -293,3 +293,11 @@ SELECT * FROM employee ;
 
 ## 总结
 本课程通过在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并对其事务功能进行了验证。
+
+
+
+
+
+
+
+
