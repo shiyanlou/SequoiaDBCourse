@@ -236,7 +236,12 @@ Name 参数指定了需要查看的集合，如果想查看所有集合，可以
 db.snapshot (SDB_SNAP_COLLECTIONS) ;
 ```
 
-9）退出 SequoiaDB Shell ；
+9）关闭 db 数据库连接；
+```javascript
+db.close();
+```
+
+10）退出 SequoiaDB Shell ；
 
 ```javascript
 quit ;
