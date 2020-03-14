@@ -1,6 +1,6 @@
 ---
 show: step
-version: 4.0
+version: 5.0
 ---
 
 ## 课程介绍
@@ -109,7 +109,7 @@ sdblist
 
 2）加载SequoiaDB连接驱动；
 ```sql
-CREATE EXTENSION sdb_fdw ;
+CREATE EXTENSION sdb_fdw;
 ```
 
 #### 配置与 SequoiaDB 连接参数
@@ -117,7 +117,15 @@ CREATE EXTENSION sdb_fdw ;
 
 1）创建 sdb_server 这个连接器
 ```sql
-CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw OPTIONS (address '127.0.0.1', service '11810', user '', password '', preferedinstance 'A', transaction 'on' ) ;
+CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw OPTIONS 
+(
+address '127.0.0.1', 
+service '11810', 
+user '', 
+password '', 
+preferedinstance 'A', 
+transaction 'on' 
+);
 ```
 
 >Note:
@@ -146,27 +154,27 @@ sdb
 2）通过 JavaScript 语言连接协调节点，获取数据库连接；
 
 ```javascript
-var db = new Sdb ("localhost",11810) ;
+var db = new Sdb("localhost", 11810);
 ```
 
 3）创建 company_domains 逻辑域；
 
 ```javascript
-db.createDomain ("company_domains", ["group1", "group2", "group3"], { AutoSplit : true } ) ;
+db.createDomain("company_domains", [ "group1", "group2", "group3" ], { AutoSplit: true } );
 ```
 4）创建 company 集合空间；
 ```javascript
-db.createCS ("company", { Domain : "company_domains" } ) ;
+db.createCS("company", { Domain: "company_domains" } );
 ```
 
 5）创建 employee 集合；
 ```javascript
-db.company.createCL ("employee", { "ShardingKey" : { "_id" : 1} , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
+db.company.createCL("employee", { "ShardingKey": { "_id": 1}, "ShardingType": "hash", "ReplSize": -1, "Compressed": true, "CompressionType": "lzw", "AutoSplit": true, "EnsureShardingIndex": false });
 ```
 6）退出 SequoiaDB Shell；
 
 ```javascript
-quit ;
+quit;
 ```
 
 操作截图：
@@ -184,12 +192,13 @@ quit ;
 2）创建 PostgreSQL 实例中的外表并与 SequoiaDB 中的集合空间和集合关联；
 
 ```sql
-CREATE FOREIGN TABLE employee (
-     empno INT,
-     ename VARCHAR(128),
-     age INT
-  ) 
-  SERVER sdb_server OPTIONS ( collectionspace 'company', collection 'employee', decimal 'on' ) ;
+CREATE FOREIGN TABLE employee 
+(
+empno INT,
+ename VARCHAR(128),
+age INT
+) 
+SERVER sdb_server OPTIONS ( collectionspace 'company', collection 'employee', decimal 'on' );
 ```
 
 3）检查 PostgreSQL 中创建的表；
@@ -217,18 +226,18 @@ CREATE FOREIGN TABLE employee (
 在 PostgreSQL 实例中向外表 employee 中插入数据:
 
 ```sql
-INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
-INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
-INSERT INTO employee VALUES (10003, 'Parto', 33) ;
-INSERT INTO employee VALUES (10004, 'Chirstian', 40) ;
-INSERT INTO employee VALUES (10005, 'Kyoichi', 23) ;
-INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
+INSERT INTO employee VALUES (10001, 'Georgi', 48);
+INSERT INTO employee VALUES (10002, 'Bezalel', 21);
+INSERT INTO employee VALUES (10003, 'Parto', 33);
+INSERT INTO employee VALUES (10004, 'Chirstian', 40);
+INSERT INTO employee VALUES (10005, 'Kyoichi', 23);
+INSERT INTO employee VALUES (10006, 'Anneke', 19);
 ```
 
 #### 查询 employee 表中的数据
 查询 PostgreSQL 实例外表 employee 中 age 大于20，小于30的数据：
 ```sql
-SELECT * FROM employee WHERE age > 20 AND age < 30 ;
+SELECT * FROM employee WHERE age > 20 AND age < 30;
 ```
 
 操作截图：
@@ -241,13 +250,13 @@ SELECT * FROM employee WHERE age > 20 AND age < 30 ;
 1）更新 PostgreSQL 实例外表 employee 中的数据，将 empno 为10001的记录 age 更改为34；
 
 ```sql
-UPDATE employee SET age=34 WHERE empno = 10001 ;
+UPDATE employee SET age=34 WHERE empno = 10001;
 ```
 
 2）查询数据结果确认 empno 为10001的记录更新是否成功：
 
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 操作截图：
@@ -257,12 +266,12 @@ SELECT * FROM employee ;
 #### 删除关联表中的数据
 1）删除 PostgreSQL 实例外表 employee 中的数据，将 empno 为 10006 的记录删除；
 ```sql
-DELETE FROM employee WHERE empno = 10006 ;
+DELETE FROM employee WHERE empno = 10006;
 ```
 
 2）查询数据结果确认 empno 为10006的记录是否成功删除；
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 操作截图：
@@ -288,19 +297,19 @@ sdb
 2）通过 JavaScript 语言连接协调节点，获取数据库连接；
 
 ```javascript
-var db = new Sdb ("localhost",11810) ;
+var db = new Sdb("localhost",11810);
 ```
 
 3）进入 SequoiaDB Shell，在 SequoiaDB 数据库引擎集合 employee 的 ename 字段上创建索引；
 
 ```javascript
-db.company.employee.createIndex ("idx_ename", { ename : 1 }, false) ;  
+db.company.employee.createIndex("idx_ename", { ename: 1 }, false);  
 ```
 
 4）查看执行计划；
 
 ```javascript
-db.company.employee.find ({ "ename": { "$et": "Georgi" } }).explain() ;
+db.company.employee.find( { "ename": { "$et": "Georgi" } } ).explain();
 ```
 
 操作截图：
@@ -310,7 +319,7 @@ db.company.employee.find ({ "ename": { "$et": "Georgi" } }).explain() ;
 退出 SequoiaDB Shell；
 
 ```
-quit ;
+quit;
 ```
 
 5）登录到 PostgreSQL 实例 Shell；
@@ -321,7 +330,7 @@ quit ;
 6）在 PostgreSQL 实例查看表 employee 查询语句执行计划，看到此查询已经使用索引；
 
 ```sql
-EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
+EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi';
 ```
 
 退出 PostgreSQL 客户端
