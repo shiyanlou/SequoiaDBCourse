@@ -67,7 +67,7 @@ sdblist
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1538/1207281/810c1187bb311b8a506bdb6731e1f73f-0)
+![图片描述](https://doc.shiyanlou.com/courses/1542/1207281/8d30e12b58b3ac0f0f9dd762b244fa84-0)
 
 >Note:
 >
@@ -125,7 +125,7 @@ ssh sdbadmin@sdbserver2
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/3ff434d8c5fb6a90d82585bc82cdd00a-0)
+![图片描述](https://doc.shiyanlou.com/courses/1542/1207281/a83e6dd386de1f04b959e6004b19800f-0)
 
 >Note:
 >
@@ -214,7 +214,7 @@ ls /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
 
 操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/250edbc6970ed1d7e6605f4f20150d1b-0)
+![图片描述](https://doc.shiyanlou.com/courses/1542/1207281/135182bca08cfd54eea443ac5813bc34-0)
 > Note:
 >
 > 文件不存在，需要给 SequoiaSQL-MySQL 配置数据库审计日志。
@@ -235,7 +235,7 @@ ls -lat /opt/sequoiasql/mysql/lib/plugin/server_audit.so
 ```
 
 操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/43aad87b3132f462fc54d0182a0081af)
+![图片描述](https://doc.shiyanlou.com/courses/1542/1207281/00024367ea70eb1775ecafee415a41f2-0)
 
 
 #### 审计插件配置
@@ -279,7 +279,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 ```
 
 操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/ec36eba52982b258d17b5d87e5a45b6c-0)
+![图片描述](https://doc.shiyanlou.com/courses/1542/1207281/5af8080b632bae7b1387d858429c93f0-0)
 
 
 
@@ -298,7 +298,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 ```
 
 操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/0d9fd0dc2a1c25c242d6ba29933ded44-0)
+![图片描述](https://doc.shiyanlou.com/courses/1542/1207281/5af8080b632bae7b1387d858429c93f0-0)
 
 
 4）检查审计日志文件目录，确保生成了审计日志文件 server_audit.log；
@@ -423,14 +423,14 @@ bin/sdb_sql_ctl restart myinst
 7）查看 MySQL 实例状态；
 
 ```shell
-bin/sdb_sql_ctl status myinst
+bin/sdb_sql_ctl status
 ```
 
 
 操作截图：
 
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/af1e633d9256136d18efa08739e7c656-0)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/56e7eee4a5915f2b90e272376f69a987-0)
 
 
 
