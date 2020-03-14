@@ -1,6 +1,6 @@
 ---
 show: step
-version: 13232.0 
+version: 2.0 
 enable_checker: true 
 ---
 # SparkSQL 实例创建与使用
@@ -100,6 +100,7 @@ ls -trl /home/sdbadmin/soft/
 操作截图：
 
 ![1542-610-1](https://doc.shiyanlou.com/courses/1542/1207281/bb4c027c1c181b51b6b426634b031b90-0)
+
 
 2）解压 Spark 安装包；
 
