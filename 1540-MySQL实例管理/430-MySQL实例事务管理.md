@@ -115,8 +115,8 @@ ps -elf | grep mysql
 
 创建数据库；
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 
 #### 创建数据表并初始化数据
@@ -127,14 +127,19 @@ USE company ;
 1）创建包含自增主键字段的 employee 表；
 
 ```sql
-CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
+CREATE TABLE employee 
+(
+empno INT AUTO_INCREMENT PRIMARY KEY, 
+ename VARCHAR(128), 
+age INT
+);
 ```
 
 2）插入数据；
 
 ```sql
-INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
-INSERT INTO employee (ename, age) VALUES ("Alice", 21) ;
+INSERT INTO employee (ename, age) VALUES ("Jacky", 36);
+INSERT INTO employee (ename, age) VALUES ("Alice", 21);
 ```
 
 ## 事务提交
@@ -146,19 +151,19 @@ SequoiaDB 巨杉数据库的 MySQL 数据库实例支持完整的事务操作能
 1）开启事务操作；
 
 ```sql
-BEGIN ;
+BEGIN;
 ```
 
 2）执行SQL语句，包含写入与更新；
 ```sql
-INSERT INTO employee (ename, age) VALUES ("Ben", 25) ;
-UPDATE employee SET age = 22 WHERE ename = "Alice" ;
+INSERT INTO employee (ename, age) VALUES ("Ben", 25);
+UPDATE employee SET age = 22 WHERE ename = "Alice";
 ```
 
 3）执行事务提交操作；
 
 ```sql
-COMMIT ;
+COMMIT;
 ```
 
 #### 事务提交操作的结果验证
@@ -166,7 +171,7 @@ COMMIT ;
 查询数据，验证事务提交的数据结果，是否写入与更新成功。
 
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 操作截图:
@@ -182,20 +187,20 @@ SELECT * FROM employee ;
 1）开启事务操作；
 
 ```sql
-BEGIN ;
+BEGIN;
 ```
 
 2）执行SQL语句，主要包含插入与更新；
 
 ```sql
-INSERT INTO employee (ename, age) VALUES ("Janey", 27) ;
-UPDATE employee SET age = 26 WHERE ename = "Ben" ;
+INSERT INTO employee (ename, age) VALUES ("Janey", 27);
+UPDATE employee SET age = 26 WHERE ename = "Ben";
 ```
 
 3）执行事务回滚操作；
 
 ```sql
-ROLLBACK ;
+ROLLBACK;
 ```
 
 #### 事务回滚操作的结果验证
@@ -203,7 +208,7 @@ ROLLBACK ;
 查询数据，验证事务回滚后的数据结果；
 
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 操作截图:
@@ -220,7 +225,7 @@ MySQL 实例的事务是基于 SequoiaDB 巨杉数据库存储引擎的，如果
 1）查看 MySQL 是否已打开事务；
 
 ```sql
-SHOW VARIABLES LIKE '%sequoiadb_use_transaction%' ;
+SHOW VARIABLES LIKE '%sequoiadb_use_transaction%';
 ```
 
 操作截图：
@@ -260,29 +265,29 @@ EOF
 6）切换到 company 数据库；
 
 ```sql
-USE company ;
+USE company;
 ```
 
 7）开启事务操作；
 
 ```sql
-BEGIN ;
+BEGIN;
 ```
 
 8）执行SQL语句，主要包含插入与更新；
 
 ```sql
-INSERT INTO employee (ename, age) VALUES ("GOGO", 55) ;
+INSERT INTO employee (ename, age) VALUES ("GOGO", 55);
 ```
 
 9）执行事务回滚操作；
 
 ```sql
-ROLLBACK ;
+ROLLBACK;
 ```
 10）查询 employee 表的数据,验证事务数据是否回滚；
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 操作截图：
