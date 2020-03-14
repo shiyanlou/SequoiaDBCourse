@@ -1,6 +1,6 @@
 ---
 show: step
-version: 4.0
+version: 5.0
 enable_checker: true
 ---
 
@@ -107,38 +107,38 @@ sdb
 2）通过 javascript 语言连接协调节点，获取数据库连接；
 
 ```javascript
-var db = new Sdb ("localhost", 11810 ) ;
+var db = new Sdb("localhost", 11810);
 ```
 
 3）创建 company_domain 逻辑域；
 
 ```javascript
-db.createDomain ("company_domain", ["group1", "group2", "group3"], { AutoSplit : true }) ;
+db.createDomain("company_domain", [ "group1", "group2", "group3" ], { AutoSplit: true });
 ```
 
 4）创建 company 集合空间；
 
 ```javascript
-db.createCS ("company", { Domain : "company_domain" }) ;
+db.createCS("company", { Domain: "company_domain" });
 ```
 
 5）创建 employee 集合；
 
 ```javascript
-db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
+db.company.createCL("employee", {"ShardingKey": { "_id": 1}, "ShardingType": "hash", "ReplSize": -1, "Compressed": true, "CompressionType": "lzw", "AutoSplit": true, "EnsureShardingIndex": false });
 ```
 
 6）在 JSON 实例集合 company 中插入数据；
 
 ```javascript
-db.company.employee.insert ({ "empno" : 1 , "ename" : "Georgi" , "age" : 48 }) ;
-db.company.employee.insert ({ "empno" : 2 , "ename" : "Bezalel" , "age" : 21 }) ;
+db.company.employee.insert({ "empno": 1, "ename": "Georgi", "age": 48 });
+db.company.employee.insert({ "empno": 2, "ename": "Bezalel", "age": 21 });
 ```
 
 7）退出 SequoiaDB Shell ；
 
 ```javascript
-quit ;
+quit;
 ```
 
 ## 创建数据库及配置实例
@@ -160,14 +160,14 @@ bin/psql -p 5432 company
 3）加载 SequoiaDB 连接驱动；
 
 ```sql
-CREATE EXTENSION sdb_fdw ;
+CREATE EXTENSION sdb_fdw;
 ```
 
 4）配置与 SequoiaDB 连接参数；
 
 ```sql
 CREATE SERVER sdb_server FOREIGN DATA WRAPPER sdb_fdw 
-OPTIONS (address '127.0.0.1', service '11810', preferedinstance 'A', transaction 'on') ;
+OPTIONS (address '127.0.0.1', service '11810', preferedinstance 'A', transaction 'on');
 ```
 
 >Note:
@@ -181,12 +181,13 @@ OPTIONS (address '127.0.0.1', service '11810', preferedinstance 'A', transaction
 5）创建 company 数据库外表；
 
 ```sql
-CREATE FOREIGN TABLE employee (
+CREATE FOREIGN TABLE employee 
+(
   empno INTEGER, 
   ename TEXT,
   age INTEGER
 ) SERVER sdb_server 
-OPTIONS (collectionspace 'company', collection 'employee', decimal 'on') ;
+OPTIONS (collectionspace 'company', collection 'employee', decimal 'on');
 ```
 
 >Note:
@@ -201,31 +202,31 @@ OPTIONS (collectionspace 'company', collection 'employee', decimal 'on') ;
 1）更新表的统计信息；
 
 ```sql
-ANALYZE employee ;
+ANALYZE employee;
 ```
 
 2）查询 employee 表中的数据；
 
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 3）写入数据；
 
 ```sql
-INSERT INTO employee VALUES (3, 'Jack', 27) ;
+INSERT INTO employee VALUES (3, 'Jack', 27);
 ```
 
 4）更改数据，更改 Jack 的岁数为 28；
 
 ```sql
-UPDATE employee SET age = 28 WHERE ename = 'Jack' ;
+UPDATE employee SET age = 28 WHERE ename = 'Jack';
 ```
 
 5）查看员工 Jack 的岁数是否更改为28；
 
 ```sql
-SELECT * FROM employee WHERE ename = 'Jack' ;
+SELECT * FROM employee WHERE ename = 'Jack';
 ```
 
 6）退出 PostgreSQL shell；
@@ -246,19 +247,19 @@ sdb
 2）通过 javascript 语言连接协调节点，获取数据库连接；
 
 ```javascript
-var db = new Sdb ("localhost", 11810) ;
+var db = new Sdb("localhost", 11810);
 ```
 
 3）查询 employee 集合中的数据是否与PostgreSQL 实例操作的结果一致；
 
 ```javascript
-db.company.employee.find () ;
+db.company.employee.find();
 ```
 
 3）退出 SequoiaDB Shell；
 
 ```javascript
-quit ;
+quit;
 ```
 
 ## 总结
