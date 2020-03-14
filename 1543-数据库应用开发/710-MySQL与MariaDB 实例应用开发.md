@@ -95,7 +95,7 @@ empno INT,
 ename VARCHAR(128),
 age INT,
 PRIMARY KEY (empno)
-) ENGINE = sequoiadb COMMENT = "雇员表, sequoiadb: { table_options: { ShardingKey: { 'empno': 1 }, ShardingType: 'hash', 'Compressed': true, 'CompressionType': 'lzw', 'AutoSplit': true, 'EnsureShardingIndex': false } }";
+) ENGINE = sequoiadb COMMENT = "雇员表, sequoiadb: { table_options: { ShardingKey: { 'empno': 1 }, ShardingType: 'hash', 'Compressed': true, 'CompressionType': 'lzw', 'AutoSplit': true, 'EnsureShardingIndex': false } } ";
 ```
 
 >Note:
