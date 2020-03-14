@@ -139,7 +139,7 @@ db.company.employee.find( { "age": { "$gt": 20, "$lt": 30 } } );
 1）集合 employees 中的数据，将 empno 为10001的记录 age 更改为34；
 
 ```javascript
-db.company.employee.update( { "$set": { "age": 34 } }, { "empno": 10001 });
+db.company.employee.update( { "$set": { "age": 34 } }, { "empno": 10001 } );
 ```
 
 2）查询数据结果确认 empno 为10001的记录更新是否成功；

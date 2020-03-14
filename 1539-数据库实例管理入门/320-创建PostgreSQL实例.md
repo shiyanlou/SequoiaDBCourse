@@ -93,7 +93,7 @@ bin/sdb_sql_ctl status
 
 操作截图：
 
-![](https://doc.shiyanlou.com/courses/1539/1207281/2e3459abdbbd684d7fb320c0d4002695-0)
+![](https://doc.shiyanlou.com/courses/1540/1207281/7033659baf8b9a7bd63213e2a615c180-0)
 
 ## 创建域、集合空间、集合
 
