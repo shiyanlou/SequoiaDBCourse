@@ -1,6 +1,6 @@
 ---
 show: step
-version: 1312.0
+version: 2.0
 enable_checker: true
 ---
 
@@ -18,7 +18,7 @@ enable_checker: true
 
 - 隔离性：数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。
 
-- 持久性：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。
+- 持久性：事务处理结束后，对数据的修改操作就是永久的，即便系统故障也不会丢失。
 
 本课程中 SequoiaDB 巨杉数据库的集群由一个 SQL 引擎和一组三分区单副本的巨杉数据库引擎组成；其中，SQL引擎包括 1 个 SequoiaSQL-MySQL 数据库实例节点，数据库引擎包括 1 个协调节点、1 个编目节点和 3 个数据节点。
 
