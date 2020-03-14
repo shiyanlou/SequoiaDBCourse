@@ -244,10 +244,10 @@ db.close();
 10）退出 SequoiaDB Shell ；
 
 ```javascript
-quit ;
+quit;
 ```
 
-10）若查询集合快照信息输出过大，可以把查询结果输出到一个文件中 ；
+11）若查询集合快照信息输出过大，可以把查询结果输出到一个文件中 ；
 
 ```shell
 /opt/sequoiadb/bin/sdb 'var db=new Sdb("localhost", 11810) ;'
