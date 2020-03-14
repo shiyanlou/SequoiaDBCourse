@@ -99,6 +99,8 @@ CREATE TABLE employee (
 
 >Note:
 >
+>在 MySQL 上创建表时，可以在其表选项 COMMENT 中通过指定关键词 "sequoiadb" ，并紧跟一 json 对象以传入自定义的表配置参数。
+>
 >[MySQL 实例参数配置](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1566551297-edition_id-0)
 
 2）查看 MySQL 实例分区表结构；
