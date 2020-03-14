@@ -123,14 +123,14 @@ bin/sdb_sql_ctl status
 2）在 MySQL 实例中创建新数据库 company，并切换到 company；
 
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 
 3）查看 MySQL 实例中的数据库；
 
 ```sql
-SHOW DATABASES ;
+SHOW DATABASES;
 ```
 
 #### 创建分区表
@@ -140,18 +140,19 @@ SHOW DATABASES ;
 1）在 MySQL 实例的 company 数据库中创建数据表 employee；
 
 ```sql
-CREATE TABLE employee (
+CREATE TABLE employee 
+(
 	empno INT,
 	ename VARCHAR(128),
 	age INT,
 	PRIMARY KEY (empno)
-) ENGINE = sequoiadb COMMENT = "雇员表, sequoiadb:{ table_options : { ShardingKey : { 'empno' : 1 } , ShardingType : 'hash' , 'Compressed' : true , 'CompressionType' : 'lzw' , 'AutoSplit' : true , 'EnsureShardingIndex' : false } }" ;
+) ENGINE = sequoiadb COMMENT = "雇员表, sequoiadb: { table_options: { ShardingKey: { 'empno': 1 }, ShardingType: 'hash', 'Compressed': true, 'CompressionType': 'lzw', 'AutoSplit': true, 'EnsureShardingIndex': false } }";
 ```
 
 2）查看数据库引擎；
 
 ```sql
-SHOW ENGINES ;
+SHOW ENGINES;
 ```
 
 操作截图:  
@@ -161,7 +162,7 @@ SHOW ENGINES ;
 3）查看 company 数据库中创建分区表 employee；
 
 ```sql
-SHOW CREATE TABLE employee ;
+SHOW CREATE TABLE employee;
 ```
 
 操作截图：
@@ -175,8 +176,8 @@ SHOW CREATE TABLE employee ;
 
 1）在分区表 employee 中插入数据；
 ```sql
-INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
-INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
+INSERT INTO employee VALUES (10001, 'Georgi', 48);
+INSERT INTO employee VALUES (10002, 'Bezalel', 21);
 ```
 
 操作截图：
@@ -185,7 +186,7 @@ INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
 
 2）查询分区表 employee 中的数据；
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 操作截图:
