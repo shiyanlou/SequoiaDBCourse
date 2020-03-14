@@ -81,25 +81,25 @@ sdb
 2）通过 javascript 语言连接协调节点，获取数据库连接；
 
 ```javascript
-var db = new Sdb ("localhost",11810) ;
+var db = new Sdb("localhost", 11810);
 ```
 
 3）创建 company_domain 逻辑域；
 
 ```javascript
-db.createDomain ("company_domain", ["group1", "group2", "group3"], { AutoSplit : true }) ;
+db.createDomain("company_domain", [ "group1", "group2", "group3" ], { AutoSplit: true });
 ```
 
 4）创建 company 集合空间；
 
 ```javascript
-db.createCS ("company", { Domain : "company_domain" }) ;
+db.createCS("company", { Domain: "company_domain" });
 ```
 
 5）创建 employee 集合；
 
 ```javascript
-db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
+db.company.createCL("employee", {"ShardingKey": { "_id": 1 }, "ShardingType": "hash", "ReplSize": -1, "Compressed": true, "CompressionType": "lzw", "AutoSplit": true, "EnsureShardingIndex": false });
 ```
 
 
@@ -117,18 +117,18 @@ db.company.createCL ("employee", {"ShardingKey" : { "_id" : 1} , "ShardingType" 
 #### 集合中写入数据
 在 JSON 实例集合 company 中写入数据：
 ```javascript
-db.company.employee.insert ({ "empno" : 10001 , "ename" : "Georgi" , "age" : 48 }) ;
-db.company.employee.insert ({ "empno" : 10002 , "ename" : "Bezalel" , "age" : 21 }) ;
-db.company.employee.insert ({ "empno" : 10003 , "ename" : "Parto" , "age" : 33 }) ;
-db.company.employee.insert ({ "empno" : 10004 , "ename" : "Chirstian" , "age" : 40 }) ;
-db.company.employee.insert ({ "empno" : 10005 , "ename" : "Kyoichi" , "age" : 23 }) ;
-db.company.employee.insert ({ "empno" : 10006 , "ename" : "Anneke" , "age" : 19 }) ;
+db.company.employee.insert( { "empno": 10001, "ename": "Georgi", "age": 48 } );
+db.company.employee.insert( { "empno": 10002, "ename": "Bezalel", "age": 21 } );
+db.company.employee.insert( { "empno": 10003, "ename": "Parto", "age": 33 } );
+db.company.employee.insert( { "empno": 10004, "ename": "Chirstian", "age": 40 } );
+db.company.employee.insert( { "empno": 10005, "ename": "Kyoichi", "age": 23 } );
+db.company.employee.insert( { "empno": 10006, "ename": "Anneke", "age": 19 } );
 ```
 
 #### 查询集合中的数据
 查询集合 employees 中age 大于20，小于30的数据：
 ```javascript
-db.company.employee.find ( { "age" : { "$gt" : 20 , "$lt" : 30 } } ) ;
+db.company.employee.find( { "age": { "$gt": 20, "$lt": 30 } } );
 ```
 
 操作截图：
@@ -139,13 +139,13 @@ db.company.employee.find ( { "age" : { "$gt" : 20 , "$lt" : 30 } } ) ;
 1）集合 employees 中的数据，将 empno 为10001的记录 age 更改为34；
 
 ```javascript
-db.company.employee.update ( { "$set" : { "age" : 34 } } , { "empno" : 10001 }) ;
+db.company.employee.update( { "$set": { "age": 34 } }, { "empno": 10001 });
 ```
 
 2）查询数据结果确认 empno 为10001的记录更新是否成功；
 
 ```javascript
-db.company.employee.find ( { "empno" : 10001 } ) ;
+db.company.employee.find( { "empno": 10001 } );
 ```
 
 操作截图：
@@ -156,13 +156,13 @@ db.company.employee.find ( { "empno" : 10001 } ) ;
 1）删除集合 employees 中的数据，将 empno 为10006的记录删除；
 
 ```javascript
-db.company.employee.remove ( { "empno" : 10006 } ) ;
+db.company.employee.remove( { "empno": 10006 } );
 ```
 
 2）查询数据结果确认 empno 为10006的记录是否成功删除；
 
 ```javascript
-db.company.employee.find ({},{"empno":""}) ;
+db.company.employee.find( {}, { "empno": "" } );
 ```
 
 操作截图：
@@ -175,12 +175,12 @@ db.company.employee.find ({},{"empno":""}) ;
 
 1）在集合 employee 的 ename 字段上创建索引；
 ```javascript
-db.company.employee.createIndex ("idx_ename", { ename : 1 }, false) ;
+db.company.employee.createIndex("idx_ename", { ename: 1 }, false);
 ```
 
 2）查看集合 employee 上创建的索引；
 ```javascript
-db.company.employee.listIndexes () ;
+db.company.employee.listIndexes();
 ```
 
 操作截图：
@@ -190,7 +190,7 @@ db.company.employee.listIndexes () ;
 3）显示集合 employees 查询语句执行计划；
 
 ```javascript
-db.company.employee.find ( { "ename" : "Georgi" } ).explain() ;
+db.company.employee.find( { "ename": "Georgi" } ).explain();
 ```
 
 操作截图：
@@ -199,7 +199,7 @@ db.company.employee.find ( { "ename" : "Georgi" } ).explain() ;
 4）退出 SequoiaDB Shell；
 
 ```javascript
-quit ;
+quit;
 ```
 
 ##  创建 JAVA 工程项目
