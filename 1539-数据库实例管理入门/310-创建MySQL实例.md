@@ -4,7 +4,6 @@ version: 6.0
 enable_checker: true
 ---
 
-
 ## 课程介绍
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎的环境中，安装部署 SequoiaSQL-MySQL 实例，并进行简单的使用验证安装环境。
 
@@ -23,7 +22,6 @@ MySQL 是一款开源的关系型数据库管理系统，也是目前最流行�
 
 #### 实验环境
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
-
 
 ##  安装 SequoiaSQL-MySQL 实例程序
 安装 SequoiaSQL-MySQL 实例程序需要 root 系统用户，程序已经提前放置在 /home/shiyanlou/sequoiadb-3.4 目录。
