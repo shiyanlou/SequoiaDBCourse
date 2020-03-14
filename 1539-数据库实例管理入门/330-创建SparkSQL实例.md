@@ -78,25 +78,25 @@ sdblist
 2）创建 metauser 用户；
 
 ```sql
-CREATE USER 'metauser'@'%' IDENTIFIED BY 'metauser' ;
+CREATE USER 'metauser'@'%' IDENTIFIED BY 'metauser';
 ```
 
 3）给 metauser 用户授权；
 
 ```sql
-GRANT ALL ON *.* TO 'metauser'@'%' ;
+GRANT ALL ON *.* TO 'metauser'@'%';
 ```
 
 4）刷新权限；
 
 ```sql
-FLUSH PRIVILEGES ;
+FLUSH PRIVILEGES;
 ```
 
 5）创建元数据库；
 
 ```sql
-CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
+CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin';
 ```
 
 ## 创建测试数据库及数据表
@@ -105,20 +105,25 @@ CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
 1）创建数据库，并切换到该数据库；
 
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 2）创建包含自增主键字段的 employee 表；
 
 ```sql
-CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
+CREATE TABLE employee 
+(
+empno INT AUTO_INCREMENT PRIMARY KEY, 
+ename VARCHAR(128), 
+age INT
+);
 ```
 
 3）进行基本的数据写入操作；
 
 ```sql
-INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
-INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
+INSERT INTO employee (ename, age) VALUES ("Jacky", 36);
+INSERT INTO employee (ename, age) VALUES ("Alice", 18);
 ```
 
 4）退出 MySQL Shell；
@@ -322,18 +327,19 @@ bin/spark-sql
 5）创建 company 数据库；
 
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 
 6）创建映射表；
 
 ```sql
-CREATE TABLE company.employee (
+CREATE TABLE company.employee 
+(
 empno INT,
 ename STRING,
 age INT
-) USING com.sequoiadb.spark OPTIONS (host 'localhost:11810', collectionspace 'company', collection 'employee', username '', password '') ;
+) USING com.sequoiadb.spark OPTIONS (host 'localhost:11810', collectionspace 'company', collection 'employee', username '', password '');
 ```
 
 > Note:
@@ -347,13 +353,13 @@ age INT
 7）测试运行 sql；
 
 ```sql
-SELECT AVG(age) FROM company.employee ;
+SELECT AVG(age) FROM company.employee;
 ```
 
 8）退出 spark-sql 客户端；
 
 ```sql
-exit ;
+exit;
 ```
 
 ## 总结
