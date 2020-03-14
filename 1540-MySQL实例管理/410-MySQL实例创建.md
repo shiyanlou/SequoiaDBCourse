@@ -187,9 +187,5 @@ INSERT INTO employee VALUES (10002, 'Bezalel', 21);
 SELECT * FROM employee;
 ```
 
-操作截图:
-
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/03af12a43819e244a320314f21bb391c-0)
-
 ## 总结
 通过本课程，我们学习了在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并在数据表上进行了写入和查询操作。
