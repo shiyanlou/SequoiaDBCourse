@@ -1,6 +1,6 @@
 ---
 show: step
-version: 2424143424.0
+version: 24.0
 enable_checker: true
 ---
 # MySQL 实例的高可用配置
@@ -114,7 +114,6 @@ ssh sdbadmin@sdbserver2
 >
 >用户 sdbadmin 的密码为 `sdbadmin`
 
-
 2）查看实例名；
 
 ```shell
@@ -172,6 +171,7 @@ SHOW GRANTS FOR sdbadmin;
 ```
 
 操作截图:
+
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/fcff6a32b56524b705e743e2e9a1ca0f)
 
 5）退出 MySQL Shell ；
@@ -194,7 +194,7 @@ SHOW GRANTS FOR sdbadmin;
 
 ## 审计插件部署
 
-进行元数据同步的 MySQL 实例均要部署审计插件，本步骤展示对本机实例进行设置。
+进行元数据同步的 MySQL 实例均要部署审计插件，本步骤将展示对本机实例进行设置。
 
 #### 审计插件准备
 
