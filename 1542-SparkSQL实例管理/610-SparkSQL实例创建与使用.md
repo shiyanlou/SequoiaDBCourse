@@ -212,7 +212,7 @@ EOF
 2）创建 metauser 用户；
 
 ```sql
-CREATE USER 'metauser'@'%' IDENTIFIED BY 'metauser' ;
+CREATE USER 'metauser'@'%' IDENTIFIED BY 'metauser';
 ```
 
 操作截图：
@@ -222,7 +222,7 @@ CREATE USER 'metauser'@'%' IDENTIFIED BY 'metauser' ;
 3）给 metauser 用户授权；
 
 ```sql
-GRANT ALL ON *.* TO 'metauser'@'%' ;
+GRANT ALL ON *.* TO 'metauser'@'%';
 ```
 
 操作截图：
@@ -232,7 +232,7 @@ GRANT ALL ON *.* TO 'metauser'@'%' ;
 4）创建 Spark 元数据库；
 
 ```sql
-CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
+CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin';
 ```
 
 操作截图：
@@ -242,7 +242,7 @@ CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin' ;
 5）刷新权限；
 
 ```sql
-FLUSH PRIVILEGES ;
+FLUSH PRIVILEGES;
 ```
 
 操作截图：
@@ -313,31 +313,31 @@ sdb
 2）使用 JavaScript 语法，连接协调节点，获取数据库连接；
 
 ```javascript
-var db = new Sdb ( "localhost", 11810 ) ;
+var db = new Sdb("localhost", 11810);
 ```
 
 2）创建 company_domain 逻辑域；
 
 ```javascript
-db.createDomain ( "company_domain", ["group1", "group2", "group3"], { AutoSplit : true } ) ;
+db.createDomain("company_domain", [ "group1", "group2", "group3" ], { AutoSplit: true } );
 ```
 
 3）创建 company 集合空间；
 
 ```javascript
-db.createCS ( "company", { Domain : "company_domain" } ) ;
+db.createCS("company", { Domain: "company_domain" } );
 ```
 
 4）创建 employee 集合；
 
 ```javascript
-db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 } , "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false } ) ;
+db.company.createCL("employee", { "ShardingKey": { "_id": 1 }, "ShardingType": "hash", "ReplSize": -1, "Compressed": true, "CompressionType": "lzw", "AutoSplit": true, "EnsureShardingIndex": false } );
 ```
 
 5）退出 SequoiaDB Shell；
 
 ```shell
-quit ;
+quit;
 ```
 
 操作截图：
@@ -359,8 +359,8 @@ SparkSQL 通过 Spark-SequoiaDB 连接组件关联 SequoiaDB 的集合空间和�
 2）创建并切换至 company 数据库；
 
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 
 3）创建 employee 表；
@@ -368,15 +368,12 @@ USE company ;
 创建 employee 表，并且与 SequoiaDB 中的集合 employee 进行关联：
 
 ```sql
-CREATE TABLE employee (
-  empno  INT,
-  ename  VARCHAR(128),
-  age    INT
-) USING com.sequoiadb.spark OPTIONS (
-  host 'localhost:11810',
-  collectionspace 'company',
-  collection 'employee'
-) ;
+CREATE TABLE employee 
+(
+empno  INT,
+ename  VARCHAR(128),
+age    INT
+) USING com.sequoiadb.spark OPTIONS ( host 'localhost:11810', collectionspace 'company', collection 'employee');
 ```
 
 >Note:
@@ -393,7 +390,7 @@ CREATE TABLE employee (
 
 ```txet
 CREATE <[TEMPORARY] TABLE | TEMPORARY VIEW> <tableName> [(SCHEMA)]
-USING com.sequoiadb.spark OPTIONS (<option>, <option>, ...) ;
+USING com.sequoiadb.spark OPTIONS (<option>, <option>, ...);
 ```
 
 语法说明：
@@ -423,10 +420,10 @@ USING com.sequoiadb.spark OPTIONS (<option>, <option>, ...) ;
 1）写入数据；
 
 ```sql
-INSERT INTO employee VALUES ( 10001, 'Georgi', 48 ) ;
-INSERT INTO employee VALUES ( 10002, 'Bezalel', 21 ) ;
-INSERT INTO employee VALUES ( 10003, 'Parto', 33 ) ;
-INSERT INTO employee VALUES ( 10004, 'Chirstian', 40 ) ;
+INSERT INTO employee VALUES ( 10001, 'Georgi', 48 );
+INSERT INTO employee VALUES ( 10002, 'Bezalel', 21 );
+INSERT INTO employee VALUES ( 10003, 'Parto', 33 );
+INSERT INTO employee VALUES ( 10004, 'Chirstian', 40 );
 ```
 
 ![1542-610-12](https://doc.shiyanlou.com/courses/1542/1207281/5a29365c408c0525cbec5dc7e7441426)
@@ -434,7 +431,7 @@ INSERT INTO employee VALUES ( 10004, 'Chirstian', 40 ) ;
 2）进行数据查询；
 
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 操作截图：
@@ -448,11 +445,12 @@ SequoiaDB-SparkSQL 支持通过连接器自动生成 SCHEMA 来创建关联表�
 1）通过连接器自动生成 SCHEMA 来创建 employee_auto_schema 表；
 
 ```sql
-CREATE TABLE employee_auto_schema USING com.sequoiadb.spark OPTIONS (
-  host 'localhost:11810',
-  collectionspace 'company',
-  collection 'employee'
-) ;
+CREATE TABLE employee_auto_schema USING com.sequoiadb.spark OPTIONS 
+(
+host 'localhost:11810',
+collectionspace 'company',
+collection 'employee'
+);
 ```
 
 >Note:
@@ -462,13 +460,13 @@ CREATE TABLE employee_auto_schema USING com.sequoiadb.spark OPTIONS (
 2）查看表 employee_auto_schema 的结构信息；
 
 ```sql
-DESC employee_auto_schema ;
+DESC employee_auto_schema;
 ```
 
 3）查询 employee_auto_schema 的数据记录；
 
 ```SQL
-SELECT * FROM employee_auto_schema ;
+SELECT * FROM employee_auto_schema;
 ```
 
 >Note:
@@ -488,7 +486,8 @@ SequoiaDB-SparkSQL 支持 `CREATE TABLE ... AS SELECT ...` 语法，通过 SQL �
 1）通过已有表 employee 创建表 employee_bak，并将表中的数据存放到指定域和集合空间中；
 
 ```sql
-CREATE TABLE employee_bak USING com.sequoiadb.spark OPTIONS (
+CREATE TABLE employee_bak USING com.sequoiadb.spark OPTIONS 
+(
 host 'localhost:11810',
 domain 'company_domain',
 collectionspace 'company_bak',
@@ -497,13 +496,13 @@ autosplit true,
 shardingkey '{_id:1}',
 shardingtype 'hash',
 compressiontype 'lzw'
-)  AS SELECT * FROM employee ;
+) AS SELECT * FROM employee;
 ```
 
 2）查看 employee_bak 表中的数据；
 
 ```sql
-SELECT * FROM employee_bak ;
+SELECT * FROM employee_bak;
 ```
 
 操作截图：

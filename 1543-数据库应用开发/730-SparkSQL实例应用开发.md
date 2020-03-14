@@ -1,6 +1,6 @@
 ---
 show: step
-version: 5.0
+version: 45.0
 ---
 
 ## 课程介绍
@@ -257,8 +257,6 @@ public class Select {
 EOF
 
 ```
-
-
 5）查询是否已经生成 Select.java 文件；
 
 ```shell
@@ -284,7 +282,6 @@ java -cp .:./lib/* com.sequoiadb.spark.Select
 操作截图：
 
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/cac8884284b2afc701236689e3504bab-0)
-
 
 ## 总结
 
