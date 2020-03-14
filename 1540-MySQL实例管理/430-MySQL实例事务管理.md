@@ -205,7 +205,7 @@ SELECT * FROM employee ;
 
 ## MySQL 实例事务管理
 
-MySQL 实例的事务是基于 SequoiaDB 巨杉数据库存储引擎的，如果需要 MySQL 实例支持事务，存储引擎也必须开启事务，本小节将讲解如何查看并关闭 MySQL 的事务功能，事务功能关闭后需要重新启动实例再进入 Shell 命令行，以下小节将验证 MySQL 事务关闭后事务能否使用。
+MySQL 实例的事务是基于 SequoiaDB 巨杉数据库存储引擎的，如果需要 MySQL 实例支持事务，存储引擎也必须开启事务，本小节将讲解如何查看并关闭 MySQL 的事务功能，并对关闭事务功能后的 MySQL 实例进行验证。
 
 1）查看 MySQL 是否已打开事务；
 
@@ -280,8 +280,6 @@ SELECT * FROM employee ;
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/4e12985da3d81aeb1fa26606563658bd-0)
 
 > Note：由图可见刚刚插入的数据，说明 MySQL 的事务功能已经关闭，数据库没有执行回滚操作
-
-
 
 ## 总结
 本课程通过在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并对其事务进行了验证。
