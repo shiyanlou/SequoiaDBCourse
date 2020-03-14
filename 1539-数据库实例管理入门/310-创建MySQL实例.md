@@ -87,7 +87,7 @@ bin/sdb_sql_ctl status
 
 操作截图：
 
-![](https://doc.shiyanlou.com/courses/1539/1207281/afd8e3ad9fafd763b9fe9784426b2e03-0)
+![](https://doc.shiyanlou.com/courses/1540/1207281/56e7eee4a5915f2b90e272376f69a987-0)
 
 ## 查看配置文件
 
