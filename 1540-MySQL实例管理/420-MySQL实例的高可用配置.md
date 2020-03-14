@@ -153,14 +153,14 @@ exit
 2）创建用于同步元数据的 MySQL 用户；
 
 ```sql
-CREATE USER 'sdbadmin'@'%' IDENTIFIED BY 'sdbadmin' ; 
+CREATE USER 'sdbadmin'@'%' IDENTIFIED BY 'sdbadmin'; 
 ```
 
 3）授予所有权限，用户名与密码在所有实例上保持一致；
 
 ```sql
-GRANT ALL ON *.* TO 'sdbadmin'@'%' WITH GRANT OPTION ; 
-FLUSH PRIVILEGES ;
+GRANT ALL ON *.* TO 'sdbadmin'@'%' WITH GRANT OPTION; 
+FLUSH PRIVILEGES;
 ```
 
 >Note:
@@ -170,7 +170,7 @@ FLUSH PRIVILEGES ;
 4）查询数据库用户的权限；
 
 ```sql
-SHOW GRANTS FOR sdbadmin ;
+SHOW GRANTS FOR sdbadmin;
 ```
 
 操作截图:
@@ -459,8 +459,8 @@ bin/sdb_sql_ctl status myinst
 
 创建数据库；
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 
 #### 创建数据表，并写入数据
@@ -468,20 +468,25 @@ USE company ;
 1）创建包含自增主键字段的 employee 表；
 
 ```sql
-CREATE TABLE employee (empno INT AUTO_INCREMENT PRIMARY KEY, ename VARCHAR(128), age INT) ;
+CREATE TABLE employee 
+(
+empno INT AUTO_INCREMENT PRIMARY KEY, 
+ename VARCHAR(128), 
+age INT
+);
 ```
 
 2）写入数据；
 
 ```sql
-INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
-INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
+INSERT INTO employee (ename, age) VALUES ("Jacky", 36);
+INSERT INTO employee (ename, age) VALUES ("Alice", 18);
 ```
 
 3）查询数据；
 
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 4）退出 MySQL Shell；
@@ -505,7 +510,7 @@ exit
 2）查看数据库，可以看到 company 数据库已经同步创建；
 
 ```sql
-SHOW DATABASES ;
+SHOW DATABASES;
 ```
 
 操作截图：
@@ -517,13 +522,13 @@ SHOW DATABASES ;
 3） 切换数据库；
 
 ```sql
-USE company ;
+USE company;
 ```
 
 4）查询 employee 表；
 
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 5）退出 MySQL Shell；
 ```sql
