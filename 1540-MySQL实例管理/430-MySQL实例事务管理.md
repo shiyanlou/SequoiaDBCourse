@@ -246,25 +246,31 @@ EOF
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-6）开启事务操作；
+
+6）切换到 company 数据库；
 
 ```sql
 USE company ;
+```
+
+7）开启事务操作；
+
+```sql
 BEGIN ;
 ```
 
-7）执行SQL语句，主要包含插入与更新；
+8）执行SQL语句，主要包含插入与更新；
 
 ```sql
 INSERT INTO employee (ename, age) VALUES ("GOGO", 55) ;
 ```
 
-8）执行事务回滚操作；
+9）执行事务回滚操作；
 
 ```sql
 ROLLBACK ;
 ```
-9）查询 employee 表的数据,验证事务数据是否回滚；
+10）查询 employee 表的数据,验证事务数据是否回滚；
 ```sql
 SELECT * FROM employee ;
 ```
