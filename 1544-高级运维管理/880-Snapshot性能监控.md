@@ -247,20 +247,26 @@ db.close();
 quit;
 ```
 
-11）若查询集合快照信息输出过大，可以把查询结果输出到一个文件中 ；
+## 保存快照信息
 
-在 Linux 命令行中输入以下命令，使用嵌入式命令行连接到数据库协调节点；
+若查询的快照信息输出过大，可以把查询结果输出到一个文件中，便于分析。
+
+1）在 Linux 命令行中输入以下命令，使用嵌入式命令行连接到数据库协调节点；
 ```shell
 sdb 'var db=new Sdb("localhost", 11810)'
 ```
 
-获取集合信息重定向到指定文件；
+2）获取集合信息重定向到指定文件；
 
 ```shell
 sdb 'db.snapshot (SDB_SNAP_COLLECTIONS, { Name : "company.employee" } )' > /home/sdbadmin/snap_collection.log
 ```
+3）关闭 db 数据库连接；
+```shell
+sdb 'db.close();'
+```
 
-查看重定向的文件内容；
+4）查看重定向的文件内容；
 
 ```shell
 cat /home/sdbadmin/snap_collection.log
