@@ -1,8 +1,9 @@
 ---
 show: step
-version: 3.0
+version: 13.0
 enable_checker: true
 ---
+
 # MySQL 实例事务管理
 
 ## 课程介绍
@@ -291,6 +292,4 @@ SELECT * FROM employee ;
 > Note：由图可见刚刚插入的数据，说明 MySQL 的事务功能已经关闭，数据库没有执行回滚操作
 
 ## 总结
-本课程通过在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并对其事务进行了验证。
-
-
+本课程通过在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并对其事务功能进行了验证。
