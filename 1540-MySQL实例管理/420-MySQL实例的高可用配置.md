@@ -88,7 +88,7 @@ bin/sdb_sql_ctl listinst
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/d7dba8ae7ad2523dfff2a4543bcaf53d-0)
+![图片描述](https://doc.shiyanlou.com/courses/1542/1207281/f1b3322d7bca2ff70e418faa293e9e8b-0)
 
 3）查看对应实例是否启动；
 
@@ -98,7 +98,7 @@ bin/sdb_sql_ctl status
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/fcb94249d8810be202e7be904627ec40-0)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/56e7eee4a5915f2b90e272376f69a987-0)
 
 >Note:
 >
