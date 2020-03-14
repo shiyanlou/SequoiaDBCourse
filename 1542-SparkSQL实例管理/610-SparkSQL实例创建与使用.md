@@ -342,7 +342,7 @@ quit;
 
 操作截图：
 
-![1542-610-10](https://doc.shiyanlou.com/courses/1542/1207281/574ce264d392979ae4ef35c939e1e598)
+![1542-610-10](https://doc.shiyanlou.com/courses/1542/1207281/8a986975b479eecf299fb94eeaeb682f-0)
 
 ## 在 SparkSQL 关联集合空间和集合
 
