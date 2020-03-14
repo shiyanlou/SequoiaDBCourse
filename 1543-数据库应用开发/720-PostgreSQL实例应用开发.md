@@ -1,6 +1,6 @@
 ---
 show: step
-version: 6.0
+version: 7.0
 ---
 
 ## 课程介绍
@@ -8,8 +8,6 @@ version: 6.0
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 PostgreSQL 实例的环境中，使用 SQL 语句访问 SequoiaDB 数据库，完成对数据的增、删、查、改操作以及其它 PostgreSQL 语法操作。
 
 #### 请点击右侧选择使用的实验环境
-
-
 
 #### 部署架构：
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中包括： 1 个 SequoiaSQL-PostgreSQL 数据库实例节点、1 个引擎协调节点，1 个编目节点与3个数据节点。
