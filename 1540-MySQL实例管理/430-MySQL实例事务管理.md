@@ -21,6 +21,15 @@ enable_checker: true
 
 - 持久性：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。
 
+本课程中 SequoiaDB 巨杉数据库的集群由一个 SQL 引擎和一组三分区单副本的巨杉数据库引擎组成；其中，SQL引擎包括 1 个 SequoiaSQL-MySQL 数据库实例节点，数据库引擎包括 1 个协调节点、1 个编目节点和 3 个数据节点。
+
+#### 环境架构：
+
+![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
+
+详细了解 SequoiaDB 巨杉数据库系统架构：
+* [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
+
 #### 实验环境
 
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 巨杉数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
@@ -205,7 +214,7 @@ SELECT * FROM employee ;
 
 ## MySQL 实例事务管理
 
-MySQL 实例的事务是基于 SequoiaDB 巨杉数据库存储引擎的，如果需要 MySQL 实例支持事务，存储引擎也必须开启事务，本小节将讲解如何查看并关闭 MySQL 的事务功能，事务功能关闭后需要重新启动实例再进入 Shell 命令行，以下课程将验证 MySQL 事务关闭后事务能否使用。
+MySQL 实例的事务是基于 SequoiaDB 巨杉数据库存储引擎的，如果需要 MySQL 实例支持事务，存储引擎也必须开启事务，本小节将讲解如何查看并关闭 MySQL 的事务功能，并对关闭事务功能后的 MySQL 实例进行验证。
 
 1）查看 MySQL 是否已打开事务；
 
@@ -225,7 +234,7 @@ SHOW VARIABLES LIKE '%sequoiadb_use_transaction%' ;
 \q
 ```
 
-3) 关闭 MySQL 的事务功能；
+3）关闭 MySQL 的事务功能；
 ```shell
 cat >> /opt/sequoiasql/mysql/database/3306/auto.cnf << EOF
 sequoiadb_use_transaction = OFF
@@ -280,8 +289,6 @@ SELECT * FROM employee ;
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/4e12985da3d81aeb1fa26606563658bd-0)
 
 > Note：由图可见刚刚插入的数据，说明 MySQL 的事务功能已经关闭，数据库没有执行回滚操作
-
-
 
 ## 总结
 本课程通过在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并对其事务进行了验证。
