@@ -1,8 +1,9 @@
 ---
 show: step
-version: 2.0
+version: 23.0
 enable_checker: true
 ---
+
 # MySQL 实例的高可用配置
 
 ## 课程介绍
@@ -21,7 +22,6 @@ MySQL 元数据同步工具的基本原理是 MySQL 服务进程通过审计插�
 ![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/e938c31f0190facca69b64369fc1a5eb)
 
 在上图中，meta_sync 即同步工具进程，每一个 MySQL 实例都有一个对应的同步工具在运行。它独立于 MySQL 服务进程运行，对 MySQL 的审计日志文件 server_audit.log 进行分析处理。由于用户的业务数据存储于底层的 SequoiaDB 数据库集群中，因此只要 MySQL 层的元数据在各实例间完成同步，连接 MySQL 实例的客户端就可以访问到一致的数据，这就为 MySQL 服务提供了高可用能力。
-
 
 #### 实验环境
 
