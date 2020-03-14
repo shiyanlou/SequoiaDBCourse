@@ -1,10 +1,8 @@
 ---
 show: step
-version: 9235.000
+version: 3.0
 enable_checker: true
 ---
-
-
 
 ## 课程介绍
 
