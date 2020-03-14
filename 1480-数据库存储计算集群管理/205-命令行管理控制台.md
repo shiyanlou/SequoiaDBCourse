@@ -48,7 +48,7 @@ sequoiadb --version
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1d1b4057ef81bc03b825926d3071183a)
+![图片描述](https://doc.shiyanlou.com/courses/1538/1207281/6cccf5951f048e01b4789f3c08483bb0-0)
 
 ## 查看节点启动列表
 
@@ -60,7 +60,7 @@ sdblist
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3ebdc835c21b5685d858918d25a9f372)
+![图片描述](https://doc.shiyanlou.com/courses/1538/1207281/810c1187bb311b8a506bdb6731e1f73f-0)
 
 >Note:
 >
