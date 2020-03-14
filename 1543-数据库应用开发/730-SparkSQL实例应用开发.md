@@ -87,28 +87,28 @@ sdb
 
 2）使用 javascript 语言连接协调节点；
 ```javascript
-var db = new Sdb ("localhost", 11810) ;
+var db = new Sdb("localhost", 11810);
 ```
 
 3）创建 company_domains 逻辑域；
 
 ```javascript
-db.createDomain ("company_domain", ["group1", "group2", "group3"], { AutoSplit : true } ) ;
+db.createDomain("company_domain", [ "group1", "group2", "group3" ], { AutoSplit: true } );
 ```
 
 4）创建 company 集合空间；
 ```javascript
-db.createCS ("company", { Domain : "company_domain" } ) ;
+db.createCS("company", { Domain: "company_domain" } );
 ```
 
 5）创建 employee 集合，并使用 _id 进行 hash 分区；
 ```javascript
-db.company.createCL ( "employee", { "ShardingKey" : { "_id" : 1 }, "ShardingType" : "hash" , "ReplSize" : -1 , "Compressed" : true , "CompressionType" : "lzw" , "AutoSplit" : true , "EnsureShardingIndex" : false }) ;
+db.company.createCL("employee", { "ShardingKey": { "_id": 1 }, "ShardingType": "hash", "ReplSize": -1, "Compressed": true, "CompressionType": "lzw", "AutoSplit": true, "EnsureShardingIndex": false });
 ```
 
 6）退出 SequoiaDB Shell；
 ```javascript
-quit ;
+quit;
 ```
 
 ## SparkSQL 创建数据库及映射表
@@ -126,8 +126,8 @@ quit ;
 2）在 SparkSQL 实例中创建数据库 company，并切换至company库；
 
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 
 #### 关联实例与数据库引擎中的集合
@@ -135,12 +135,12 @@ USE company ;
 在 SparkSQL 实例中创建表并与 SequoiaDB 数据库存储引擎中的集合空间和集合关联；
 
 ```sql
-CREATE TABLE employee (
+CREATE TABLE employee 
+(
 empno      INT,
 ename STRING,
 age INT
-) USING com.sequoiadb.spark 
- OPTIONS ( host 'localhost:11810', collectionspace 'company', collection 'employee' ) ;
+) USING com.sequoiadb.spark OPTIONS ( host 'localhost:11810', collectionspace 'company', collection 'employee' );
 ```
 
 从 SparkSQL 实例中创建视图、表及数据类型对应关系的详细说明请参考：
@@ -152,18 +152,18 @@ age INT
 
 1）在 SparkSQL 实例关联表 employee 中插入数据；
 ```sql
-INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
-INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
-INSERT INTO employee VALUES (10003, 'Parto', 33) ;
-INSERT INTO employee VALUES (10004, 'Chirstian', 40) ;
-INSERT INTO employee VALUES (10005, 'Kyoichi', 23) ;
-INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
+INSERT INTO employee VALUES (10001, 'Georgi', 48);
+INSERT INTO employee VALUES (10002, 'Bezalel', 21);
+INSERT INTO employee VALUES (10003, 'Parto', 33);
+INSERT INTO employee VALUES (10004, 'Chirstian', 40);
+INSERT INTO employee VALUES (10005, 'Kyoichi', 23);
+INSERT INTO employee VALUES (10006, 'Anneke', 19);
 ```
 
 2）使用 SparkSQL 实例查询员工年龄为20至24之间的记录；
 
 ```sql
-SELECT * FROM employee  WHERE age BETWEEN  20 AND 24 ;
+SELECT * FROM employee  WHERE age BETWEEN  20 AND 24;
 ```
 
 操作截图：
