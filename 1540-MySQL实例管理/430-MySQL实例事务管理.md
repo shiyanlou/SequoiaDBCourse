@@ -21,6 +21,13 @@ enable_checker: true
 
 - 持久性：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。
 
+本课程中 SequoiaDB 巨杉数据库的集群由一个 SQL 引擎和一组三分区单副本的巨杉数据库引擎组成；其中，SQL引擎包括 1 个 SequoiaSQL-MySQL 数据库实例节点，数据库引擎包括 1 个协调节点、1 个编目节点和 3 个数据节点。
+
+![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
+
+详细了解 SequoiaDB 巨杉数据库系统架构：
+* [SequoiaDB 系统架构](http://doc.sequoiadb.com/cn/sequoiadb-cat_id-1519649201-edition_id-0)
+
 #### 实验环境
 
 课程使用的实验环境为 Ubuntu Linux 16.04 64 位版本。SequoiaDB 巨杉数据库引擎以及 SequoiaSQL-MySQL 实例均为 3.4 版本。
