@@ -76,7 +76,7 @@ sdblist
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/ee64c7881af3a8f329bfb50848ed56e2)
+![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/be7359c2b9aef5dc4e9a8afe9523052c-0)
 
 ## 创建数据库
 1）在 SequoiaSQL-PostgreSQL 实例中并创建 company 数据库，为接下来验证 PostgreSQL 语法特性做准备；
@@ -178,7 +178,7 @@ quit;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/283c4851aaf4bb04fea3f47408243b03)
+![图片描述](https://doc.shiyanlou.com/courses/1542/1207281/8a986975b479eecf299fb94eeaeb682f-0)
 
 #### 实例与数据引擎中集合关联
 
