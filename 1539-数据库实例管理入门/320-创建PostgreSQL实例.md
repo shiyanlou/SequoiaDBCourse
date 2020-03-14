@@ -1,10 +1,8 @@
 ---
 show: step
-version: 5.0
+version: 5.032
 enable_checker: true
 ---
-
-
 
 ## 课程介绍
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎的环境中，安装部署 SequoiaSQL-PostgreSQL 实例，并进行简单的数据操作验证安装环境。
