@@ -23,6 +23,8 @@ enable_checker: true
 
 本课程中 SequoiaDB 巨杉数据库的集群由一个 SQL 引擎和一组三分区单副本的巨杉数据库引擎组成；其中，SQL引擎包括 1 个 SequoiaSQL-MySQL 数据库实例节点，数据库引擎包括 1 个协调节点、1 个编目节点和 3 个数据节点。
 
+#### 环境架构：
+
 ![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/8d88e6faed223a26fcdc66fa2ef8d3c5)
 
 详细了解 SequoiaDB 巨杉数据库系统架构：
