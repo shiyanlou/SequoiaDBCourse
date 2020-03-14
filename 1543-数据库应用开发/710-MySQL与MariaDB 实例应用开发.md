@@ -82,19 +82,20 @@ sdblist
 #### 创建数据库
 在MySQL实例中创建新数据库 company，并切换至 company 库；
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 
 #### 创建分区表
 1）在 MySQL 实例 company 数据库中创建分区表 employee：
 ```sql
-CREATE TABLE employee (
-	empno INT,
-	ename VARCHAR(128),
-	age INT,
-	PRIMARY KEY (empno)
-) ENGINE = sequoiadb COMMENT = "雇员表, sequoiadb:{ table_options : { ShardingKey : { 'empno' : 1 } , ShardingType : 'hash' , 'Compressed' : true , 'CompressionType' : 'lzw' , 'AutoSplit' : true , 'EnsureShardingIndex' : false } }" ;
+CREATE TABLE employee 
+(
+empno INT,
+ename VARCHAR(128),
+age INT,
+PRIMARY KEY (empno)
+) ENGINE = sequoiadb COMMENT = "雇员表, sequoiadb: { table_options: { ShardingKey: { 'empno': 1 }, ShardingType: 'hash', 'Compressed': true, 'CompressionType': 'lzw', 'AutoSplit': true, 'EnsureShardingIndex': false } }";
 ```
 
 >Note:
@@ -106,7 +107,7 @@ CREATE TABLE employee (
 2）查看 MySQL 实例分区表结构；
 
 ```sql
-SHOW CREATE TABLE employee ;
+SHOW CREATE TABLE employee;
 ```
 
 操作截图：
@@ -120,19 +121,19 @@ SHOW CREATE TABLE employee ;
 在分区表 employee 中插入数据：
 
 ```sql
-INSERT INTO employee VALUES (10001, 'Georgi', 48) ;
-INSERT INTO employee VALUES (10002, 'Bezalel', 21) ;
-INSERT INTO employee VALUES (10003, 'Parto', 33) ;
-INSERT INTO employee VALUES (10004, 'Chirstian', 40) ;
-INSERT INTO employee VALUES (10005, 'Kyoichi', 23) ;
-INSERT INTO employee VALUES (10006, 'Anneke', 19) ;
+INSERT INTO employee VALUES (10001, 'Georgi', 48);
+INSERT INTO employee VALUES (10002, 'Bezalel', 21);
+INSERT INTO employee VALUES (10003, 'Parto', 33);
+INSERT INTO employee VALUES (10004, 'Chirstian', 40);
+INSERT INTO employee VALUES (10005, 'Kyoichi', 23);
+INSERT INTO employee VALUES (10006, 'Anneke', 19);
 ```
 
 #### 查询分区表中的数据
 查询分区表 employee 中 age 大于20，小于30的数据；
 
 ```sql
-SELECT * FROM employee WHERE age > 20 AND age < 30 ;
+SELECT * FROM employee WHERE age > 20 AND age < 30;
 ```
 
 操作截图：
@@ -144,13 +145,13 @@ SELECT * FROM employee WHERE age > 20 AND age < 30 ;
 1）更新分区表 employee 中的数据，将 empno 为10001的记录 age 更改为34；
 
 ```sql
-UPDATE employee SET age=34 WHERE empno=10001 ;
+UPDATE employee SET age=34 WHERE empno=10001;
 ```
 
 2）查询数据结果确认 empno 为10001的记录更新是否成功；
 
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 操作截图：
@@ -161,13 +162,13 @@ SELECT * FROM employee ;
 1）删除分区表 employees 中的数据，将 empno 为 10006 的记录删除；
 
 ```sql
-DELETE FROM employee WHERE empno=10006 ;
+DELETE FROM employee WHERE empno=10006;
 ```
 
 2）查询数据结果确认 empno 为10006的记录是否成功删除；
 
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 操作截图：
@@ -181,13 +182,13 @@ SELECT * FROM employee ;
 1）在分区表 employee 的 ename 字段上创建索引；
 
 ```sql
-ALTER TABLE employee ADD INDEX idx_ename(ename) ;
+ALTER TABLE employee ADD INDEX idx_ename(ename);
 ```
 
 2）显示分区表 employee 查询语句执行计划；
 
 ```sql
-EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi' ;
+EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi';
 ```
 3）退出 MySQL 客户端
 
