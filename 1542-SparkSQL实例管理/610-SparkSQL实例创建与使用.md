@@ -373,7 +373,13 @@ CREATE TABLE employee
 empno  INT,
 ename  VARCHAR(128),
 age    INT
-) USING com.sequoiadb.spark OPTIONS ( host 'localhost:11810', collectionspace 'company', collection 'employee');
+) 
+USING com.sequoiadb.spark OPTIONS 
+( 
+host 'localhost:11810', 
+collectionspace 'company', 
+collection 'employee'
+);
 ```
 
 >Note:
