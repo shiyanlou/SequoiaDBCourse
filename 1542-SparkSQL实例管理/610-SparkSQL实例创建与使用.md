@@ -75,9 +75,13 @@ sdblist
 
 ![图片描述](https://doc.shiyanlou.com/courses/1469/1207281/02fcaa58ac27e91688ead137fa748d6e)
 
+
 >Note:
 >
 >如果显示的节点数量与预期不符，请稍等初始化完成并重试该步骤。
+> 
+>C: 编目节点，S：协调节点，D：数据节点
+
 
 ## 安装 Spark 实例
 
