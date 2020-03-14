@@ -1,6 +1,6 @@
 ---
 show: step
-version: 13.0
+version: 1.0
 enable_checker: true
 ---
 
@@ -41,6 +41,7 @@ enable_checker: true
 切换至部署 SequoiaDB 巨杉数据库和 SequoiaSQL-MySQL 实例的操作系统用户并查看数据库引擎版本。
 
 #### 切换到 sdbadmin 用户
+
 
 ```shell
 su - sdbadmin
