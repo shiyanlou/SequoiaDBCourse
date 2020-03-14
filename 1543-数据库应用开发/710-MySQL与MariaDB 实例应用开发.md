@@ -457,4 +457,3 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 通过本课程，我们通过 MySQL 语法在 SequoiaSQL-MySQL 实例上创建数据库和数据表，并对数据表进行了 CRUD 的基本数据操作；同时展示了使用 JAVA 语言对数据表进行数据操作。可以看出：
 - SequoiaSQL-MySQL 实例兼容标准的 MySQL 语法；
 - 应用开发过程中数据操作与原生 MySQL 一致；
-
