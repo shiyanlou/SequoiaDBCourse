@@ -1,6 +1,6 @@
 ---
 show: step
-version: 4.0
+version: 5.0
 ---
 
 ## 课程介绍
@@ -8,6 +8,7 @@ version: 4.0
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎和 SparkSQL 实例环境中，使用 Beeline 客户端访问 SparkSQL 完成对数据的写入、查询操作，另外重点介绍如何使用 JDBC 接口访问 SparkSQL 进行应用开发。
 
 #### 请点击右侧选择使用的实验环境
+
 
 #### 部署架构：
 本课程中 SequoiaDB 巨杉数据库的集群拓扑结构为三分区单副本，其中SequoiaSQL-SparkSQL 数据库实例包括 2 个 worker 节点，SequoiaDB 巨杉数据库包括 1 个引擎协调节点，1 个编目节点与 3 个数据节点。
