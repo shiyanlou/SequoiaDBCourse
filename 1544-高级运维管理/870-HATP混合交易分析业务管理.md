@@ -64,12 +64,12 @@ sequoiadb --version
 查看 SequoiaDB 巨杉数据库引擎节点列表：
 
 ```shell
-sdblist  -l
+sdblist
 ```
 
 操作截图：
 
-![870-3](https://doc.shiyanlou.com/courses/1544/1207281/6068aa2c80ecba03a4c5ed401f8f68ec-0)
+![870-3](https://doc.shiyanlou.com/courses/1542/1207281/8d30e12b58b3ac0f0f9dd762b244fa84-0)
 
 >Note:
 >
