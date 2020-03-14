@@ -142,7 +142,7 @@ INSERT INTO employee (ename, age) VALUES ("Jacky", 36);
 INSERT INTO employee (ename, age) VALUES ("Alice", 21);
 ```
 
-## 事务提交
+## 事务提交与回滚
 
 SequoiaDB 巨杉数据库的 MySQL 数据库实例支持完整的事务操作能力，本小节将验证其基本的回滚与提交能力。
 
@@ -180,7 +180,6 @@ SELECT * FROM employee;
 
 > 如操作截图显示，事务内的操作均被提交成功：雇员 Ben 的信息已经写入，并且 Alice 的年龄被更新成功。
 
-## 事务回滚
 
 #### 执行事务回滚操作
 
