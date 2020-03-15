@@ -192,7 +192,7 @@ cp spark-env.sh.template spark-env.sh
 3）设置 Spark 实例的 Master；
 
 ```shell
-echo "SPARK_MASTER_HOST=`hostname`" >> spark-env.sh
+echo "SPARK_MASTER_HOST=sdbserver1" >> spark-env.sh
 ```
 
 4）查看 spark-env.sh 文件是否设置成功；
