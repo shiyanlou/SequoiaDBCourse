@@ -179,7 +179,7 @@ db.updateConf( { instanceid: 3 }, { svcname: { "$in": [ "31820" ] } } );
 
 操作截图：
 
- ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/aecb10be850489dad57c1f96c4f9afc1-0)
+ ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/d78b71b1173338e910be20b3473d27c1-0)
 
 
 #### 修改协调节点配置
@@ -206,7 +206,7 @@ preferedinstance 指定执行读请求时优先选择的实例。上面命令为
 
 操作截图：
 
- ![870-5](https://doc.shiyanlou.com/courses/1544/1207281/b7104906de30188804edf405dca5ee75-0)
+ ![870-5](https://doc.shiyanlou.com/courses/1544/1207281/ef839743ac102e0cd6ade064e60a8f8d-0)
 
 4）退出 SequoiaDB Shell；
 
@@ -225,7 +225,7 @@ sdbstart -r data
 
 操作截图：
 
- ![870-3](https://doc.shiyanlou.com/courses/1544/1207281/4a47a0db6e60853dedfcfdf08a5ca249-0)
+ ![870-3](https://doc.shiyanlou.com/courses/1544/1207281/12d6eb9fb778e26d119531f98b71ebac-0)
 
 ## 查看节点参数修改状态
 
@@ -251,7 +251,7 @@ db.snapshot(SDB_SNAP_CONFIGS, { Role: "data" }, { NodeName: "", instanceid: "" }
 
 操作截图：
 
- ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/089c566d13e548eda5d6a3adfdd7de1c-0)
+ ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/566e0319e020de4bf4e5f9ccd2d4a7ba-0)
 
 4）查看协调节点参数修改状态；
 
@@ -261,7 +261,7 @@ db.snapshot(SDB_SNAP_CONFIGS, { Role: "coord" }, { NodeName: "", preferedinstanc
 
 操作截图：
 
- ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/b132ec3cc727b718dc7b93c27871a99d-0)
+ ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/4136d9ffbd913cbe0140505b7b61dd5d-0)
 
  此时，所有数据节点的 preferedinstance 均已修改完成。
 
