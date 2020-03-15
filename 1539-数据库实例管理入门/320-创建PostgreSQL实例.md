@@ -1,10 +1,11 @@
 ---
 show: step
-version: 5.032
+version: 5.6
 enable_checker: true
 ---
 
 ## 课程介绍
+
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎的环境中，安装部署 SequoiaSQL-PostgreSQL 实例，并进行简单的数据操作验证安装环境。
 
 #### PostgreSQL 实例简介
@@ -26,6 +27,7 @@ SequoiaDB 巨杉数据库支持创建 PostgreSQL 实例，完全兼容 PostgreSQ
 
 
 ##  安装 SequoiaSQL-PostgreSQL 实例程序
+
 安装 SequoiaSQL-PostgreSQL 实例程序需要 root 系统用户，程序已经提前放置在 /home/shiyanlou/sequoiadb-3.4 目录。
 
 1）切换至 root 系统用户；
