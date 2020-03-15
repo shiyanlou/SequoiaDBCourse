@@ -230,7 +230,7 @@ SHOW VARIABLES LIKE '%sequoiadb_use_transaction%';
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/30b998dd08806864e0421301f7808fd1-0)
+![图片描述](https://doc.shiyanlou.com/courses/1544/1207281/c8d75c091d75074cb18324bbe3bd06c0-0)
 
 图片中 sequoiadb_use_transaction 参数的值为 on ，说明事务功能已经打开。
 
@@ -254,7 +254,7 @@ EOF
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/12d6eb9fb778e26d119531f98b71ebac-0)
+![图片描述](https://doc.shiyanlou.com/courses/1544/1207281/8d8b2cfed9579105f69dfb21cf91e9db-0)
 
 5）登录 MySQL 实例；
 ```shell
@@ -292,7 +292,7 @@ SELECT * FROM employee;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/4e12985da3d81aeb1fa26606563658bd-0)
+![图片描述](https://doc.shiyanlou.com/courses/1544/1207281/cf673ae6eab651636133c73750b69c32-0)
 
 > Note：由图可见刚刚插入的数据，说明 MySQL 的事务功能已经关闭，数据库没有执行回滚操作
 

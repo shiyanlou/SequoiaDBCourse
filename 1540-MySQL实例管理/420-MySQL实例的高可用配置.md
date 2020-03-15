@@ -513,8 +513,7 @@ SHOW DATABASES;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/c32c36f921b0e11c6d271e713248ce80-0
-)
+![图片描述](https://doc.shiyanlou.com/courses/1544/1207281/3a4e701667b3ee7c26b63667ad442c53-0)
 
 
 3） 切换数据库；
