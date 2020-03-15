@@ -81,8 +81,8 @@ sdblist
 #### 使用数据库
 
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 
 #### 创建数据表
@@ -92,25 +92,26 @@ USE company ;
 1）创建包含自增主键字段的 employee 表；
 
 ```sql
-CREATE TABLE employee (
-    empno INT AUTO_INCREMENT PRIMARY KEY,
-    ename VARCHAR(128),
-    age INT
-) ;
+CREATE TABLE employee 
+(
+empno INT AUTO_INCREMENT PRIMARY KEY,
+ename VARCHAR(128),
+age INT
+);
 ```
 
 
 2）数据写入操作；
 
 ```sql
-INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
-INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
+INSERT INTO employee (ename, age) VALUES ("Jacky", 36);
+INSERT INTO employee (ename, age) VALUES ("Alice", 18);
 ```
 
 3）查看数据情况；
 
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 4）退出 MySQL Shell ；
@@ -176,13 +177,13 @@ sdb
 4）使用 JavaScript 连接协调节点，并获取数据库连接；
 
 ```javascript
-var db = new Sdb ("localhost",11810) ;
+var db = new Sdb("localhost", 11810);
 ```
 
 5）查看SDB数据库中的会话；
 
 ```javascript
-db.snapshot (SDB_SNAP_SESSIONS,{ Source : { $regex:'MySQL.*' } } ) ;
+db.snapshot(SDB_SNAP_SESSIONS, { Source: { $regex: 'MySQL.*' } } );
 ```
 
 通过 LastOpType 字段可以知道当前会话最后一次操作类型，通过 TotalDataRead 和 TotalIndexRead 查看当前会话数据记录读和索引读情况,通过 TotalSelect 字段知道当前会话查询总选取记录数量 ，通过 UserCPU 和 SysCPU 了解当前会话 cpu 资源使用的，通过 LastOpInfo 字段可以查看到当前会话对集合操作的具体信息，而通过LastOpBegin 和 LastOpEnd 可以知道最后一次操作的耗时。
@@ -203,7 +204,7 @@ db.snapshot (SDB_SNAP_SESSIONS,{ Source : { $regex:'MySQL.*' } } ) ;
 6）查看数据库状态；
 
 ```javascript
-db.snapshot (SDB_SNAP_DATABASE) ;
+db.snapshot(SDB_SNAP_DATABASE);
 ```
 
 如果数据库状态异常，ErrNodes 字段会列出异常信息。
@@ -215,25 +216,25 @@ db.snapshot (SDB_SNAP_DATABASE) ;
 7）查看集合空间快照；
 
 ```javascript
-db.snapshot (SDB_SNAP_COLLECTIONSPACES, { Name : 'company' } ) ;
+db.snapshot(SDB_SNAP_COLLECTIONSPACES, { Name: "company" } );
 ```
 
 Name 参数指定了需要查看的集合空间名，如果想查看所有集合空间，可以使用如下命令：
 
 ```javascript
-db.snapshot (SDB_SNAP_COLLECTIONSPACES) ;
+db.snapshot(SDB_SNAP_COLLECTIONSPACES);
 ```
 
 8）查看集合；
 
 ```javascript
-db.snapshot (SDB_SNAP_COLLECTIONS, { Name : 'company.employee' } ) ;
+db.snapshot(SDB_SNAP_COLLECTIONS, { Name: "company.employee" } );
 ```
 
 Name 参数指定了需要查看的集合，如果想查看所有集合，可以使用如下命令:
 
 ```javascript
-db.snapshot (SDB_SNAP_COLLECTIONS) ;
+db.snapshot(SDB_SNAP_COLLECTIONS);
 ```
 
 9）关闭 db 数据库连接；
@@ -259,7 +260,7 @@ sdb 'var db=new Sdb("localhost", 11810)'
 2）获取集合信息重定向到指定文件；
 
 ```shell
-sdb 'db.snapshot (SDB_SNAP_COLLECTIONS, { Name : "company.employee" } )' > /home/sdbadmin/snap_collection.log
+sdb 'db.snapshot(SDB_SNAP_COLLECTIONS, { Name: "company.employee" } )' > /home/sdbadmin/snap_collection.log
 ```
 3）关闭 db 数据库连接；
 ```shell

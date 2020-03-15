@@ -90,37 +90,38 @@ sdblist -l
 2）创建数据库，并切换到该数据库；
 
 ```sql
-CREATE DATABASE company ;
-USE company ;
+CREATE DATABASE company;
+USE company;
 ```
 
 3）创建包含自增主键字段的 employee 表；
 
 ```sql
-CREATE TABLE employee (
-    empno INT AUTO_INCREMENT PRIMARY KEY,
-    ename VARCHAR(128),
-    age INT
-) ;
+CREATE TABLE employee 
+(
+empno INT AUTO_INCREMENT PRIMARY KEY,
+ename VARCHAR(128),
+age INT
+);
 ```
 
 4）向表中插入数据；
 
 ```sql
-INSERT INTO employee (ename, age) VALUES ("Jacky", 36) ;
-INSERT INTO employee (ename, age) VALUES ("Alice", 18) ;
+INSERT INTO employee (ename, age) VALUES ("Jacky", 36);
+INSERT INTO employee (ename, age) VALUES ("Alice", 18);
 ```
 
 5）查看数据情况；
 
 ```sql
-SELECT * FROM employee ;
+SELECT * FROM employee;
 ```
 
 6）查看 MySQL 实例读写数据连接的协调节点；
 
 ```sql
-SHOW VARIABLES LIKE '%sequoiadb_conn_addr%' ;
+SHOW VARIABLES LIKE '%sequoiadb_conn_addr%';
 ```
 
 >Note:
@@ -152,7 +153,7 @@ sdb
 2）使用 javascript 语法连接协调节点，获取数据库连接；
 
 ```javascript
-var db=new Sdb("localhost", 11810) ;
+var db = new Sdb("localhost", 11810);
 ```
 >Note:
 >
@@ -161,24 +162,24 @@ var db=new Sdb("localhost", 11810) ;
 3）修改 11820 数据节点实例 id 为 1；
 
 ```javascript
-db.updateConf ( { instanceid : 1 } ,{svcname : {"$in":["11820"]}} ) ;
+db.updateConf( { instanceid: 1 }, { svcname: { "$in": [ "11820" ] } } );
 ```
 
 4）修改 21820 数据节点实例 id 为 2；
 
 ```javascript
-db.updateConf ( { instanceid : 2 } ,{svcname : {"$in":["21820"]}} ) ;
+db.updateConf( { instanceid: 2 }, { svcname: { "$in": [ "21820" ] } } );
 ```
 
 5）修改 31820 数据节点实例 id 为 3；
 
 ```javascript
-db.updateConf ( { instanceid : 3 } ,{svcname : {"$in":["31820"]}} ) ;
+db.updateConf( { instanceid: 3 }, { svcname: { "$in": [ "31820" ] } } );
 ```
 
 操作截图：
 
- ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/aecb10be850489dad57c1f96c4f9afc1-0)
+ ![870-4](https://doc.shiyanlou.com/courses/1544/1207281/d78b71b1173338e910be20b3473d27c1-0)
 
 
 #### 修改协调节点配置
@@ -186,31 +187,31 @@ db.updateConf ( { instanceid : 3 } ,{svcname : {"$in":["31820"]}} ) ;
 1）修改 11810 协调节点读取数据时的读取策略；
 
 ```javascript
-db.updateConf ( { preferedinstance : "1,2,3" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "11810" } ) ;
+db.updateConf( { preferedinstance: "1,2,3", preferedinstancemode: "ordered", preferedstrict: true }, { GroupName: "SYSCoord", svcname: "11810" } );
 ```
 
 2）修改 21810 协调节点读取数据时的读取策略；
 
 ```javascript
-db.updateConf ( { preferedinstance : "2,1,3" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "21810" } ) ;
+db.updateConf( { preferedinstance: "2,1,3", preferedinstancemode: "ordered", preferedstrict: true }, { GroupName: "SYSCoord", svcname: "21810" } );
 ```
 
 3）修改 31810 协调节点读取数据时的读取策略；
 
 ```javascript
-db.updateConf ( { preferedinstance : "3,2,1" , preferedinstancemode : "ordered" , preferedstrict : true} ,{ GroupName : "SYSCoord" , svcname : "31810" } ) ;
+db.updateConf( { preferedinstance: "3,2,1", preferedinstancemode: "ordered", preferedstrict: true }, { GroupName: "SYSCoord", svcname: "31810" } );
 ```
 
 preferedinstance 指定执行读请求时优先选择的实例。上面命令为三个协调节点分配了不同的读取策略。例如：31810优先读取实例id为3的数据节点，即31820。
 
 操作截图：
 
- ![870-5](https://doc.shiyanlou.com/courses/1544/1207281/b7104906de30188804edf405dca5ee75-0)
+ ![870-5](https://doc.shiyanlou.com/courses/1544/1207281/ef839743ac102e0cd6ade064e60a8f8d-0)
 
 4）退出 SequoiaDB Shell；
 
 ```javascript
-quit ;
+quit;
 ```
 
 ## 重启 SequoiaDB 数据节点
@@ -224,7 +225,7 @@ sdbstart -r data
 
 操作截图：
 
- ![870-3](https://doc.shiyanlou.com/courses/1544/1207281/4a47a0db6e60853dedfcfdf08a5ca249-0)
+ ![870-3](https://doc.shiyanlou.com/courses/1544/1207281/12d6eb9fb778e26d119531f98b71ebac-0)
 
 ## 查看节点参数修改状态
 
@@ -237,37 +238,37 @@ sdb
 2）使用 javascript 语法连接协调节点，获取数据库连接；
 
 ```javascript
-var db=new Sdb("localhost", 11810) ;
+var db=new Sdb("localhost", 11810);
 ```
 
 3）查看数据节点参数修改状态；
 
 ```javascript
-db.snapshot ( SDB_SNAP_CONFIGS , {Role : "data" } , { NodeName : "" , instanceid : ""} ) ;
+db.snapshot(SDB_SNAP_CONFIGS, { Role: "data" }, { NodeName: "", instanceid: "" } );
 ```
 
 此时，所有数据节点的 instanceid 均已修改完成。
 
 操作截图：
 
- ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/089c566d13e548eda5d6a3adfdd7de1c-0)
+ ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/566e0319e020de4bf4e5f9ccd2d4a7ba-0)
 
 4）查看协调节点参数修改状态；
 
 ```javascript
-db.snapshot ( SDB_SNAP_CONFIGS , {Role : "coord" } , { NodeName : "" , preferedinstance : ""} ) ;
+db.snapshot(SDB_SNAP_CONFIGS, { Role: "coord" }, { NodeName: "", preferedinstance: "" } );
 ```
 
 操作截图：
 
- ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/b132ec3cc727b718dc7b93c27871a99d-0)
+ ![870-6](https://doc.shiyanlou.com/courses/1544/1207281/4136d9ffbd913cbe0140505b7b61dd5d-0)
 
  此时，所有数据节点的 preferedinstance 均已修改完成。
 
  5）退出 SequoiaDB Shell；
 
 ```javascript
-quit ;
+quit;
 ```
 
 ## SparkSQL 设置
@@ -283,26 +284,29 @@ SparkSQL 用于处理 OLAP 类的业务，例如推荐、决策、监控等。
 2）创建 company 数据库；
 
 ```sql
-CREATE DATABASE company ;
+CREATE DATABASE company;
 ```
 
 3）在 SparkSQL 中创建表并设置预读数据节点实例 id 顺序为优先使用实例 3，再使用实例 2；
 
 ```sql
-CREATE TABLE company.employee(
-    empno INT,
-    ename STRING,
-    age INT
-) USING com.sequoiadb.spark OPTIONS (
-    host 'localhost:11810',
-    collectionspace 'company',
-    collection 'employee',
-    username '',
-    password '',
-    preferredinstance '3,2',
-    preferredinstancemode 'ordered',
-    preferredinstancestrict true
-) ;
+CREATE TABLE company.employee
+(
+empno INT,
+ename STRING,
+age INT
+) 
+USING com.sequoiadb.spark OPTIONS 
+(
+host 'localhost:11810',
+collectionspace 'company',
+collection 'employee',
+username '',
+password '',
+preferredinstance '3,2',
+preferredinstancemode 'ordered',
+preferredinstancestrict true
+);
 ```
 
 更多的 SparkSQL 创建表参数说明，请参考如下链接：
@@ -312,7 +316,7 @@ CREATE TABLE company.employee(
 3）数据的查询，此时 SparkSQL 从副本 3 读取数据；
 
 ```sql
-SELECT * FROM company.employee ;
+SELECT * FROM company.employee;
 ```
 
 操作截图：
