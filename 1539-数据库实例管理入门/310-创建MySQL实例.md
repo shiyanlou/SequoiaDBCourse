@@ -1,8 +1,9 @@
 ---
 show: step
-version: 6.9
+version: 6.87
 enable_checker: true
 ---
+
 
 ## 课程介绍
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎的环境中，安装部署 SequoiaSQL-MySQL 实例，并进行简单的使用验证安装环境。
