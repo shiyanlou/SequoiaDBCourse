@@ -208,10 +208,6 @@ EOF
 /opt/sequoiasql/mysql/bin/mysql -h 127.0.0.1 -P 3306 -u root
 ```
 
-操作截图：
-
-![1542-610-2](https://doc.shiyanlou.com/courses/1542/1207281/21483f62f6ee35c9e739683ec5bb97d4-0)
-
 2）创建 metauser 用户；
 
 ```sql
@@ -220,7 +216,7 @@ CREATE USER 'metauser'@'%' IDENTIFIED BY 'metauser';
 
 操作截图：
 
-![1542-610-3](https://doc.shiyanlou.com/courses/1542/1207281/4bf8426e52c44bb09919c1f778b56f4d)
+![1542-610-3](https://doc.shiyanlou.com/courses/1538/1207281/dadb2110e578da42604ef2c2fe755b0a-0)
 
 3）给 metauser 用户授权；
 
@@ -230,7 +226,7 @@ GRANT ALL ON *.* TO 'metauser'@'%';
 
 操作截图：
 
-![1542-610-4](https://doc.shiyanlou.com/courses/1542/1207281/3bd44330222ef26134db41719d3e1517)
+![1542-610-4](https://doc.shiyanlou.com/courses/1538/1207281/be92979fc0c48b4df2524cb0567173f5-0)
 
 4）创建 Spark 元数据库；
 
@@ -240,7 +236,7 @@ CREATE DATABASE metastore CHARACTER SET 'latin1' COLLATE 'latin1_bin';
 
 操作截图：
 
-![1542-610-5](https://doc.shiyanlou.com/courses/1542/1207281/1b51e810ab6f8ef935395d21579b503d)
+![1542-610-5](https://doc.shiyanlou.com/courses/1538/1207281/402f6dd5278c7c5bed9bffc9f2a7169b-0)
 
 5）刷新权限；
 
@@ -250,7 +246,7 @@ FLUSH PRIVILEGES;
 
 操作截图：
 
-![1542-610-6](https://doc.shiyanlou.com/courses/1542/1207281/c4e6789a504b6158f5e3b86a44809115)
+![1542-610-6](https://doc.shiyanlou.com/courses/1538/1207281/a9d2c03cfd24eccc58195dae6d62afed-0)
 
 6） 退出 MySQL Shell；
 
@@ -270,7 +266,7 @@ FLUSH PRIVILEGES;
 
 操作截图：
 
-![1542-610-7](https://doc.shiyanlou.com/courses/1542/1207281/03863dae19bd159a40ff9e9f22a8392e-0)
+![1542-610-7](https://doc.shiyanlou.com/courses/1538/1207281/31c9e3da7b150cd27fc3604ea891ba31-0)
 
 2）启动 thriftserver 服务；
 
@@ -280,7 +276,7 @@ FLUSH PRIVILEGES;
 
 操作截图：
 
-![1542-610-8](https://doc.shiyanlou.com/courses/1542/1207281/48734adc82d3f49c198066121fe18792-0)
+![1542-610-8](https://doc.shiyanlou.com/courses/1538/1207281/69d0ca94443b30b896b2a76eaba507dd-0)
 
 3） 检查进程启动状态；
 
@@ -296,7 +292,7 @@ netstat -anp | grep 10000
 
 操作截图：
 
-![1542-610-9](https://doc.shiyanlou.com/courses/1542/1207281/7d335ee8c9715f544256aeae63df63eb-0)
+![1542-610-9](https://doc.shiyanlou.com/courses/1538/1207281/c59b79202d81658745530ab4abf754ee-0)
 
 >
 >Note:
@@ -391,7 +387,7 @@ collection 'employee'
 
 操作截图：
 
-![1542-610-11](https://doc.shiyanlou.com/courses/1542/1207281/7fbf398ea09dfeeec92881eaba5da512-0)
+![1542-610-11](https://doc.shiyanlou.com/courses/1538/1207281/d6911d6311c0018540ee8116b3f10610-0)
 
 #### SequoiaDB-SparkSQL 建表语法说明
 
@@ -471,6 +467,9 @@ collection 'employee'
 ```sql
 DESC employee_auto_schema;
 ```
+操作截图：
+
+![1542-610-14](https://doc.shiyanlou.com/courses/1538/1207281/c74f442acc25c7734709bbfac06c1158-0)
 
 3）查询 employee_auto_schema 的数据记录；
 
@@ -482,9 +481,7 @@ SELECT * FROM employee_auto_schema;
 >
 >SparkSQL 表 employee 和 employee_auto_schema 关联的都是 SequoiaDB 中的集合 company.employee，所以这两张 SparkSQL 表的对应数据是完全一致的。
 
-操作截图：
 
-![1542-610-14](https://doc.shiyanlou.com/courses/1542/1207281/87db5187f7bf6889b55c6d665fa334df-0)
 
 ## 通过 SQL 结果集创建表
 
@@ -507,6 +504,9 @@ shardingtype 'hash',
 compressiontype 'lzw'
 ) AS SELECT * FROM employee;
 ```
+操作截图：
+
+![图片描述](https://doc.shiyanlou.com/courses/1538/1207281/d4ed9fb215b3a709dfdcb1fefa7adee7-0)
 
 2）查看 employee_bak 表中的数据；
 
@@ -514,9 +514,7 @@ compressiontype 'lzw'
 SELECT * FROM employee_bak;
 ```
 
-操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1542/1207281/17d4037a4ffad3946ff2be3db115a7b5-0)
 
 3）退出 Beeline Shell；
 
