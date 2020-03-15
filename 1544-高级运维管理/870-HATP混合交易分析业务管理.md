@@ -225,7 +225,7 @@ sdbstart -r data
 
 操作截图：
 
- ![870-3](https://doc.shiyanlou.com/courses/1544/1207281/12d6eb9fb778e26d119531f98b71ebac-0)
+ ![870-3](https://doc.shiyanlou.com/courses/1544/1207281/919f5910a8233044cda38364371ae28a-0)
 
 ## 查看节点参数修改状态
 
