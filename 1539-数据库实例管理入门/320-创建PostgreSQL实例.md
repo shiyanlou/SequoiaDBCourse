@@ -113,26 +113,26 @@ var db = new Sdb("localhost", 11810);
 3）创建 company_domain 逻辑域；
 
 ```javascript
-db.createDomain("company_domain", [ "group1", "group2", "group3" ], { AutoSplit: true });
+db.createDomain("company_domain", [ "group1", "group2", "group3" ], { AutoSplit: true } );
 ```
 
 4）创建 company 集合空间；
 
 ```javascript
-db.createCS("company", { Domain: "company_domain" });
+db.createCS("company", { Domain: "company_domain" } );
 ```
 
 5）创建 employee 集合；
 
 ```javascript
-db.company.createCL("employee", {"ShardingKey": { "_id": 1}, "ShardingType": "hash", "ReplSize": -1, "Compressed": true, "CompressionType": "lzw", "AutoSplit": true, "EnsureShardingIndex": false });
+db.company.createCL("employee", {"ShardingKey": { "_id": 1}, "ShardingType": "hash", "ReplSize": -1, "Compressed": true, "CompressionType": "lzw", "AutoSplit": true, "EnsureShardingIndex": false } );
 ```
 
 6）在 JSON 实例集合 company 中插入数据；
 
 ```javascript
-db.company.employee.insert({ "empno": 1, "ename": "Georgi", "age": 48 });
-db.company.employee.insert({ "empno": 2, "ename": "Bezalel", "age": 21 });
+db.company.employee.insert( { "empno": 1, "ename": "Georgi", "age": 48 } );
+db.company.employee.insert( { "empno": 2, "ename": "Bezalel", "age": 21 } );
 ```
 
 7）退出 SequoiaDB Shell ；
