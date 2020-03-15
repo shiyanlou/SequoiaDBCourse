@@ -194,7 +194,7 @@ db.company.employee.find();
 4）向 employee 集合中插入数据；
 
 ```javascript
-db.company.employee.insert({ ename: "Ben", age: 20 });
+db.company.employee.insert( { ename: "Ben", age: 20 } );
 ```
 
 5）退出 SequoiaDB Shell；
