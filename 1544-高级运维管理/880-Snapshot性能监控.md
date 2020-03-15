@@ -213,7 +213,7 @@ db.snapshot(SDB_SNAP_DATABASE);
 
 操作截图：
 
- ![880-4](https://doc.shiyanlou.com/courses/1544/1207281/5c38a23657aa02b6fd6f92b8ddc4c590)
+ ![880-4](https://doc.shiyanlou.com/courses/1538/1207281/0494cb22b345806b1c04cd1c945e42ff-0)
 
 7）查看集合空间快照；
 

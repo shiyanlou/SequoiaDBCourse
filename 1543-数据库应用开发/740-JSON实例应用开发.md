@@ -183,7 +183,7 @@ db.company.employee.listIndexes();
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/668e701adf5c780653096b32391a9f4c)
+![图片描述](https://doc.shiyanlou.com/courses/1538/1207281/a2c5ccb7e819323a97105a297a108c3b-0)
 
 3）显示集合 employees 查询语句执行计划；
 
@@ -417,7 +417,7 @@ javac -cp .:./lib/sequoiadb-driver-3.4.jar -d . Datasource.java
 java -cp .:./lib/sequoiadb-driver-3.4.jar com.sequoiadb.samples.Datasource
 ```
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1bc8826733633657839e812a3297d4d2-0)
+![图片描述](https://doc.shiyanlou.com/courses/1538/1207281/d2a9468a8b4d8676e824c9d5be8f473c-0)
 
 ## 总结
 
