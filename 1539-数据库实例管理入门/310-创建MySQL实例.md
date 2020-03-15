@@ -26,13 +26,14 @@ MySQL 是一款开源的关系型数据库管理系统，也是目前最流行�
 ##  安装 SequoiaSQL-MySQL 实例程序
 安装 SequoiaSQL-MySQL 实例程序需要 root 系统用户，程序已经提前放置在 /home/shiyanlou/sequoiadb-3.4 目录。
 
-1）切换至 root 用户，在 `[sudo] password for shiyanlou:` 后输入当前用户的密码；
+1）切换至 root 系统用户；
 
 ```shell
 sudo su
 ```
+
 > Note:
-> 当前用户的密码在右侧工具栏 [ SSH 直连]
+> 实验环境已经为 `shiyanlou` 用户配置 sudo 免密权限。
 
 2）进入软件包放置目录；
 
