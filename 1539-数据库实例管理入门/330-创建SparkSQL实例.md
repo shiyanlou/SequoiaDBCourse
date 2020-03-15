@@ -159,12 +159,17 @@ tar -zxvf spark-2.4.4-bin-hadoop2.7.tar.gz -C /opt
 ```shell
 ssh-keygen -t rsa
 ```
+操作截图：
+
+![](https://doc.shiyanlou.com/courses/1539/1207281/f3f050db4cfb936528326f1ae3f1ed1f-0)
 
 2）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
 
 ```shell
 ssh-copy-id  sdbadmin@sdbserver1
 ```
+
+
 
 >
 >Note:
@@ -173,7 +178,7 @@ ssh-copy-id  sdbadmin@sdbserver1
 
 操作截图：
 
-![](https://doc.shiyanlou.com/courses/1539/1207281/4ddc60dccd197c82bb269987a723d96a-0)
+![](https://doc.shiyanlou.com/courses/1539/1207281/b2052aafb577c7a6d259b7456c4c3e86-0)
 
 ## 设置 spark-env.sh
 
