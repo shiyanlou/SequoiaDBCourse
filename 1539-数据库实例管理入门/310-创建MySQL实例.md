@@ -1,6 +1,6 @@
 ---
 show: step
-version: 6.0
+version: 6.9
 enable_checker: true
 ---
 
