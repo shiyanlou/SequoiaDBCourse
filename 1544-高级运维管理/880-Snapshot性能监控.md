@@ -199,7 +199,7 @@ db.snapshot(SDB_SNAP_SESSIONS, { Source: { $regex: 'MySQL.*' } } );
 
 操作截图：
 
- ![880-4](https://doc.shiyanlou.com/courses/1544/1207281/50d1d98c8cb2175bff047df8b5ed2353-0)
+ ![880-4](https://doc.shiyanlou.com/courses/1544/1207281/9c19174a4b39035d0d0d50b4fda3e1ea-0)
 
  其中
 
