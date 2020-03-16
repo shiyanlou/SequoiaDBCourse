@@ -451,7 +451,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
 5）删除操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0f61b527be301bb87b150912a1d821ba-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/ac0a24c936f7c81ce286e39efdf9ed97-0)
 
 ## 总结
 
