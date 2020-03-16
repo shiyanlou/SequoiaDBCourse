@@ -285,7 +285,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ```
 
 4）插入操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/cfa44cf731fb7cabafaf1769c17dddf4-0)  
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/490a65727a26ff61025830bbc48d67cd-0)  
 
 #### 从 MySQL 实例中查询数据
 1）查询表中 empno 、 ename 和 age 这三个字段，Select.java 源代码如下；
@@ -342,7 +342,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
 4）查询截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9a0807e3351365ca5af562a78af85137-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/60f7253d15d6c3e6857e4cb2c1d6c673-0)
 
 #### 在 MySQL 实例中更新数据  
 1）将 empno 为 10001 的 age 修改为 49 ，Update.java 文件源代码如下；
@@ -397,7 +397,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
 5）更新操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/8adea8f2804552f884138718fa3af781-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/c7cb0cc42065e48c1d2bc0312921b98e-0)
 
 
 #### 在 MySQL 实例中删除数据
@@ -451,7 +451,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
 5）删除操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/fef78d3dc2644066798c8b6bd0aeb561-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0f61b527be301bb87b150912a1d821ba-0)
 
 ## 总结
 
