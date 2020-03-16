@@ -418,7 +418,7 @@ javac -d . Insert.java
 ```
 
 4）操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7e39b84aa42b4fe40a38045cbf2b2591-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/a56c5c466214c7709ef3d9056d73dd7e-0)
 
 
 #### 从 PostgreSQL 实例中查询数据：
@@ -477,7 +477,7 @@ javac -d . Select.java
 ```
 
 4）操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/5377b73da5f8ca47d060e96ce999b936-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/2a42e80e4575ae995383526a3f5b613a-0)
 
 
 #### 在 PostgreSQL 实例中更新数据：
@@ -530,7 +530,7 @@ javac -d . Update.java
 ```
 
 5）操作截图 ：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3fe5936fbd18b68ec2e92fa365c623e9-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9d04b491044daaf6677b2638982bf92d-0)
 
 #### 在 PostgreSQL 实例中删除数据
 1）将 empno 值为 10005 的记录删除 ,  Delete.java 源代码如下；
@@ -582,7 +582,7 @@ javac -d . Delete.java
 ```
 
 5）操作截图；
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/4af36643e5d00856da956dd2e6d39adc-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6d3f64dbc85e7eedb9555dd8301ff0bf-0)
 
 ## 总结
 
