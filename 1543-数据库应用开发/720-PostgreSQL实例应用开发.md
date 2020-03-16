@@ -309,7 +309,7 @@ db.company.employee.find( { "ename": { "$et": "Georgi" } } ).explain();
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/a9ea5e8421244d5010ff08fcc7019e15)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/794521f6166cd9d95616d2636d9c5c92-0)
 
 退出 SequoiaDB Shell；
 
@@ -335,7 +335,7 @@ EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi';
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6c240851d0dbd8d67c6a5ecfbd2646bc)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1fca6acfcc75c6647f3a6499cae09ba7-0)
 
 
 
