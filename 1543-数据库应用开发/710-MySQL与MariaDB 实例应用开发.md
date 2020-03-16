@@ -112,7 +112,7 @@ SHOW CREATE TABLE employee;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/b922380b36312dbcd841945d875c949e)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/b05382b998944543dc04a770940d0991-0)
 
 ## 分区表中数据操作
 通过 SequoiaSQL-MySQL 实例进行数据插入、查询、更新、删除操作。
@@ -138,7 +138,7 @@ SELECT * FROM employee WHERE age > 20 AND age < 30;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/b08f930e4384a2c8be7dd7e8bcdd0f05)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6f428a69d5cbc8c68242930596a5e91e-0)
 
 
 #### 更新分区表中的数据
@@ -156,7 +156,7 @@ SELECT * FROM employee;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/dcf250f3fc2c0cbfb37af7d2e904e04a)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/e2522c98e716948ae7f8b59db410fd35-0)
 
 #### 删除分区表中的数据
 1）删除分区表 employees 中的数据，将 empno 为 10006 的记录删除；
@@ -173,7 +173,7 @@ SELECT * FROM employee;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/8bff0f74eabcba85cd02e10de89065cd)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0f62117842ccfe84fa99de2be0f305a2-0)
 
 ## 索引使用
 通过 SequoiaSQL-MySQL 实例进行表上索引的创建及查看执行计划。
@@ -198,7 +198,7 @@ EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi';
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/353bd3baa886dc98f98503427f1139b0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6b71e82d73098061b8f6da3b9be61e5e-0)
 
 
 ## Java 语言操作 MySQL 实例中的数据
