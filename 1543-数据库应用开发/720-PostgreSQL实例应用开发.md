@@ -86,10 +86,6 @@ sdblist
 /opt/sequoiasql/postgresql/bin/sdb_sql_ctl createdb company myinst
 ```
 
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/41b0823324fdd49a4c108c44bbf919df)
-
 2）查看数据库；
 ```shell
 /opt/sequoiasql/postgresql/bin/psql -l
@@ -97,7 +93,7 @@ sdblist
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/03c2315513eaca111dcec04b1b1d2871)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1d9add777fbb83cb0419245aefe1f2ae-0)
 
 ## 配置 PostgreSQL 实例
 #### 加载 SequoiaDB 连接驱动
@@ -206,7 +202,7 @@ SERVER sdb_server OPTIONS ( collectionspace 'company', collection 'employee', de
 ```
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/f69ea401a8a33279cd6e6eaf6882cb74-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/2cd66e4a1c9b5445d991acd2d330730d-0)
 
 >Note:
 >
@@ -241,7 +237,7 @@ SELECT * FROM employee WHERE age > 20 AND age < 30;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7e80bc92b094955b27b09cf310249119)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/ff7acec437215fb1dfd768bd36991bd6-0)
 
 
 #### 更新关联表中的数据
@@ -260,7 +256,7 @@ SELECT * FROM employee;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/d822b2d32288d17baf8fc6c99a75c514)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/f2ef636ea788133f5b95f91b550ad954-0)
 
 #### 删除关联表中的数据
 1）删除 PostgreSQL 实例外表 employee 中的数据，将 empno 为 10006 的记录删除；
@@ -275,7 +271,7 @@ SELECT * FROM employee;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/31aea8f7e0cc92d6a82283c433929d76)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7b4bebd96f346ca38b7c74964cd90ddc-0)
 
 3）退出 PostgreSQL 客户端
 
@@ -313,7 +309,7 @@ db.company.employee.find( { "ename": { "$et": "Georgi" } } ).explain();
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/a9ea5e8421244d5010ff08fcc7019e15)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/794521f6166cd9d95616d2636d9c5c92-0)
 
 退出 SequoiaDB Shell；
 
@@ -339,7 +335,7 @@ EXPLAIN SELECT * FROM employee WHERE ename = 'Georgi';
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6c240851d0dbd8d67c6a5ecfbd2646bc)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/1fca6acfcc75c6647f3a6499cae09ba7-0)
 
 
 
@@ -422,7 +418,7 @@ javac -d . Insert.java
 ```
 
 4）操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7e39b84aa42b4fe40a38045cbf2b2591-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/a56c5c466214c7709ef3d9056d73dd7e-0)
 
 
 #### 从 PostgreSQL 实例中查询数据：
@@ -481,7 +477,7 @@ javac -d . Select.java
 ```
 
 4）操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/5377b73da5f8ca47d060e96ce999b936-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/2a42e80e4575ae995383526a3f5b613a-0)
 
 
 #### 在 PostgreSQL 实例中更新数据：
@@ -534,7 +530,7 @@ javac -d . Update.java
 ```
 
 5）操作截图 ：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/3fe5936fbd18b68ec2e92fa365c623e9-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9d04b491044daaf6677b2638982bf92d-0)
 
 #### 在 PostgreSQL 实例中删除数据
 1）将 empno 值为 10005 的记录删除 ,  Delete.java 源代码如下；
@@ -586,7 +582,7 @@ javac -d . Delete.java
 ```
 
 5）操作截图；
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/4af36643e5d00856da956dd2e6d39adc-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/6d3f64dbc85e7eedb9555dd8301ff0bf-0)
 
 ## 总结
 
