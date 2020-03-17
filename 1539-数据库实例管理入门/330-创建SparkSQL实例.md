@@ -161,16 +161,13 @@ ssh-keygen -t rsa
 ```
 操作截图：
 
-![](https://doc.shiyanlou.com/courses/1539/1207281/f3f050db4cfb936528326f1ae3f1ed1f-0)
+![](https://doc.shiyanlou.com/courses/1541/1207281/a5607d8a34d509d9cbcf7d8efbb61f4e-0)
 
 2）执行 ssh-copy-id，把公钥拷贝到本机的 sdbadmin 用户；
 
 ```shell
 ssh-copy-id  sdbadmin@sdbserver1
 ```
-
-
-
 >
 >Note:
 >
@@ -178,7 +175,7 @@ ssh-copy-id  sdbadmin@sdbserver1
 
 操作截图：
 
-![](https://doc.shiyanlou.com/courses/1539/1207281/b2052aafb577c7a6d259b7456c4c3e86-0)
+![](https://doc.shiyanlou.com/courses/1541/1207281/3066dab3a8830a2f5948170ce714ae5d-0)
 
 ## 设置 spark-env.sh
 
@@ -320,7 +317,7 @@ jps
 ```
 操作截图：
 
-![](https://doc.shiyanlou.com/courses/1539/1207281/81b2b0f2eee0b4ef8ac6ed28a191acca-0)
+![](https://doc.shiyanlou.com/courses/1541/1207281/685430475a7abba486a0208de223bc65-0)
 
 
 4) 启动 spark-sql 客户端；
