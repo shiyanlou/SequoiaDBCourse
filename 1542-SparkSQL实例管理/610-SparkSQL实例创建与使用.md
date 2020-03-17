@@ -276,7 +276,7 @@ FLUSH PRIVILEGES;
 
 操作截图：
 
-![1542-610-8](https://doc.shiyanlou.com/courses/1538/1207281/69d0ca94443b30b896b2a76eaba507dd-0)
+![1542-610-8](https://doc.shiyanlou.com/courses/1543/1207281/4575f232fdabedfc6054e9c59a30cb8d-0)
 
 3） 检查进程启动状态；
 
@@ -431,7 +431,7 @@ INSERT INTO employee VALUES ( 10003, 'Parto', 33 );
 INSERT INTO employee VALUES ( 10004, 'Chirstian', 40 );
 ```
 
-![1542-610-12](https://doc.shiyanlou.com/courses/1542/1207281/5a29365c408c0525cbec5dc7e7441426)
+![1542-610-12](https://doc.shiyanlou.com/courses/1543/1207281/6d7c7a5d31b09c8bce451aa1c5a32a4d-0)
 
 2）进行数据查询；
 
@@ -441,7 +441,7 @@ SELECT * FROM employee;
 
 操作截图：
 
-![1542-610-13](https://doc.shiyanlou.com/courses/1542/1207281/2a5fa712de8bc2dcb23f453a8b56023b)
+![1542-610-13](https://doc.shiyanlou.com/courses/1543/1207281/41138f5eb03e5749b14c242e89cae8df-0)
 
 ## 通过连接器自动生成 Schema 创建表
 
