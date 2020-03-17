@@ -172,7 +172,7 @@ SHOW GRANTS FOR sdbadmin;
 
 操作截图:
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/fcff6a32b56524b705e743e2e9a1ca0f)
+![图片描述](https://doc.shiyanlou.com/courses/1541/1207281/8fe45bda8d9ceebd2aef93322607bd5b-0)
 
 5）退出 MySQL Shell ；
 
@@ -287,7 +287,7 @@ mkdir /opt/sequoiasql/mysql/database/auditlog/
 ```
 
 操作截图:
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/6f99f32ac517288da00cfafac03bc76f)
+![图片描述](https://doc.shiyanlou.com/courses/1541/1207281/6db15fabad72d0c3161df146c6b2fafd-0)
 
 
 3）检查 MySQL 实例进程；
@@ -306,7 +306,7 @@ ls -alt /opt/sequoiasql/mysql/database/auditlog/
 
 操作截图:
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/dcc686392312e9273f2ac29cb65ce99f)
+![图片描述](https://doc.shiyanlou.com/courses/1541/1207281/44b3ae00c63eb3c101c0b79561346156-0)
 
 
 ## 部署元数据同步工具
