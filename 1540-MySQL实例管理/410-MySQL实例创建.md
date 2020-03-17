@@ -156,7 +156,7 @@ SHOW ENGINES;
 
 操作截图:  
 
-![图片描述](https://doc.shiyanlou.com/courses/1541/1207281/191e99cedb041ae7b9643a89f6349436-0)
+![图片描述](https://doc.shiyanlou.com/courses/1541/1207281/b3ee8f66a583ae4aa8e04c06b2126a9c-0)
 
 3）查看 company 数据库中创建分区表 employee；
 
@@ -166,7 +166,7 @@ SHOW CREATE TABLE employee;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1541/1207281/b3ee8f66a583ae4aa8e04c06b2126a9c-0)
+![图片描述](https://doc.shiyanlou.com/courses/1541/1207281/191e99cedb041ae7b9643a89f6349436-0)
 
 
 ## 数据表中写入数据并查询
