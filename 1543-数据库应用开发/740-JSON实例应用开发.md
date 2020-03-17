@@ -131,7 +131,7 @@ db.company.employee.find( { "age": { "$gt": 20, "$lt": 30 } } );
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/95b0770b9305772d6c795fe29a0b02d6)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/564db38e4eb64309fd29cd36758044f8-0)
 
 #### 更新集合中的数据
 1）集合 employees 中的数据，将 empno 为10001的记录 age 更改为34；
@@ -148,7 +148,7 @@ db.company.employee.find( { "empno": 10001 } );
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/39b91f46f3ce79d27b342f224e4a8535)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7ec8fd4819bd7d81727a7249217172cf-0)
 
 #### 删除集合中的数据
 1）删除集合 employees 中的数据，将 empno 为10006的记录删除；
@@ -165,7 +165,7 @@ db.company.employee.find( {}, { "empno": "" } );
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/b7d47eedfcfbf827afc606f55af5565e)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0ca5840291aa729d29b16d4424957e8d-0)
 
 
 ## 索引使用
@@ -192,7 +192,7 @@ db.company.employee.find( { "ename": "Georgi" } ).explain();
 ```
 
 操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0afc05df8deddc2ac5b285768c0b372e)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/67b438efa757a06e14ec70bec4c933db-0)
 
 4）退出 SequoiaDB Shell；
 

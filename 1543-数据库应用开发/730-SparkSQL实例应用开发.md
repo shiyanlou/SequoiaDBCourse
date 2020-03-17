@@ -70,7 +70,7 @@ jps
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/60bec1c6ff23d6286e25bd7a23372086-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/964e94f7729b4d411cb0c423d538fed2-0)
 
 >Note:
 >
@@ -168,7 +168,7 @@ SELECT * FROM employee  WHERE age BETWEEN  20 AND 24;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/90bd7360e38d6af4ada588588f30c58b)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/fe01b3e38585fe9fd13629c82189afcb-0)
 
 3）退出 SparkSQL 的客户端；
 ```sql 
@@ -281,7 +281,7 @@ java -cp .:./lib/* com.sequoiadb.spark.Select
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/cac8884284b2afc701236689e3504bab-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/ce14a3476a2b9cee89b001ed288dc84f-0)
 
 ## 总结
 
