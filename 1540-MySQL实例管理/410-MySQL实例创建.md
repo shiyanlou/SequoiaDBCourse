@@ -156,7 +156,7 @@ SHOW ENGINES;
 
 操作截图:  
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/d2caef2b1c019578ea0f2d211678ea01)
+![图片描述](https://doc.shiyanlou.com/courses/1541/1207281/191e99cedb041ae7b9643a89f6349436-0)
 
 3）查看 company 数据库中创建分区表 employee；
 
@@ -166,7 +166,7 @@ SHOW CREATE TABLE employee;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/9234e051cb07f00ff82c8ad8245610cf-0)
+![图片描述](https://doc.shiyanlou.com/courses/1541/1207281/b3ee8f66a583ae4aa8e04c06b2126a9c-0)
 
 
 ## 数据表中写入数据并查询
@@ -178,10 +178,6 @@ SHOW CREATE TABLE employee;
 INSERT INTO employee VALUES (10001, 'Georgi', 48);
 INSERT INTO employee VALUES (10002, 'Bezalel', 21);
 ```
-
-操作截图：
-
-![图片描述](https://doc.shiyanlou.com/courses/1540/1207281/33d20f44d4f70ad15132164cdb2ca6f9-0)
 
 2）查询分区表 employee 中的数据；
 ```sql
