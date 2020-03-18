@@ -1,13 +1,9 @@
 ---
 show: step
-version: 6.06788
+version: 6.034e4dgh
 ---
 
-
-
 ## 课程介绍
-
-
 
 
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎和 SparkSQL 实例环境中，使用 Beeline 客户端访问 SparkSQL 完成对数据的写入、查询操作，另外重点介绍如何使用 JDBC 接口访问 SparkSQL 进行应用开发。
