@@ -1,12 +1,17 @@
 ---
 show: step
-version: 2.0 
+version: 2.456
 enable_checker: true 
 ---
+
+
 # SparkSQL 实例创建与使用
 
 
+
 ## 课程介绍
+
+
 
 
 本课程将带领您在已经部署 SequoiaDB 巨杉数据库引擎及创建了 MySQL 实例的环境中，进行 SparkSQL 实例的安装部署并启动 Spark Thrift Server 服务使用 Beeline 客户端进行数据操作。
