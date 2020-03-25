@@ -569,7 +569,7 @@ d);
 javac -d . Delete.java
 ```
 
-3）运行 Update 类的代码；
+3）运行 Delete 类的代码；
 
 ```shell
  java -cp .:../postgresql-9.3-1104-jdbc41.jar com.sequoiadb.postgresql.Delete
