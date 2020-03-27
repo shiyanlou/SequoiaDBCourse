@@ -501,8 +501,8 @@ CREATE TABLE employee_bak USING com.sequoiadb.spark OPTIONS
 (
 host 'localhost:11810',
 domain 'company_domain',
-collectionspace 'company_bak',
-collection 'employee',
+collectionspace 'company',
+collection 'employee_bak',
 autosplit true,
 shardingkey '{_id:1}',
 shardingtype 'hash',
@@ -511,7 +511,7 @@ compressiontype 'lzw'
 ```
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1538/1207281/d4ed9fb215b3a709dfdcb1fefa7adee7-0)
+![图片描述](https://doc.shiyanlou.com/courses/1542/1207281/07b1ab4881eb54b734d27ff6105940f3-0)
 
 2）查看 employee_bak 表中的数据；
 
