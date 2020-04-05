@@ -474,7 +474,7 @@ DESC employee_auto_schema;
 ```
 操作截图：
 
-![1542-610-14](https://doc.shiyanlou.com/courses/1538/1207281/c74f442acc25c7734709bbfac06c1158-0)
+![1542-610-14](https://doc.shiyanlou.com/courses/1542/1207281/f5d0ae41a071828789c2dcd7cfbb5896-0)
 
 3）查询 employee_auto_schema 的数据记录；
 
