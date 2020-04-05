@@ -392,7 +392,7 @@ collection 'employee'
 
 操作截图：
 
-![1542-610-11](https://doc.shiyanlou.com/courses/1542/1207281/d7a5eff343875353beceb0dcd359c4f4-0)
+![1542-610-11](https://doc.shiyanlou.com/courses/1542/1207281/5fa19ce996c1be2ecacd887f720171cc-0)
 
 #### SequoiaDB-SparkSQL 建表语法说明
 
