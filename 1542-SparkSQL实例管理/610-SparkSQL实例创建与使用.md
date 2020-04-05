@@ -375,7 +375,7 @@ USE company;
 CREATE TABLE employee 
 (
 empno  INT,
-ename  VARCHAR(128),
+ename  String,
 age    INT
 ) 
 USING com.sequoiadb.spark OPTIONS 
