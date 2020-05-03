@@ -173,7 +173,7 @@ SELECT * FROM employee;
 
 操作截图：
 
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/0f62117842ccfe84fa99de2be0f305a2-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7dd6db7f754f6a1d85bb8465e2c05366-0)
 
 ## 索引使用
 通过 SequoiaSQL-MySQL 实例进行表上索引的创建及查看执行计划。
@@ -285,7 +285,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ```
 
 4）插入操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/490a65727a26ff61025830bbc48d67cd-0)  
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7e84f1176ec969d8b66bfaba2da1e90a-0)  
 
 #### 从 MySQL 实例中查询数据
 1）查询表中 empno 、 ename 和 age 这三个字段，Select.java 源代码如下；
@@ -397,7 +397,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
 5）更新操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/c7cb0cc42065e48c1d2bc0312921b98e-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9fa9337775b8df1f54773321c1e39754-0)
 
 
 #### 在 MySQL 实例中删除数据
@@ -451,7 +451,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
 5）删除操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/ac0a24c936f7c81ce286e39efdf9ed97-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/611e6bfc5cfa590883508eea27389010-0)
 
 ## 总结
 
