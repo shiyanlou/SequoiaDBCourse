@@ -285,7 +285,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ```
 
 4）插入操作截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7e84f1176ec969d8b66bfaba2da1e90a-0)  
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/490a65727a26ff61025830bbc48d67cd-0)  
 
 #### 从 MySQL 实例中查询数据
 1）查询表中 empno 、 ename 和 age 这三个字段，Select.java 源代码如下；
@@ -342,7 +342,7 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
 4）查询截图：
-![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/60f7253d15d6c3e6857e4cb2c1d6c673-0)
+![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7e84f1176ec969d8b66bfaba2da1e90a-0)
 
 #### 在 MySQL 实例中更新数据  
 1）将 empno 为 10001 的 age 修改为 49 ，Update.java 文件源代码如下；
