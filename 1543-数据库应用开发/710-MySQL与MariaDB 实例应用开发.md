@@ -284,7 +284,8 @@ javac -d . Insert.java
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Insert
 ```
 
-4）插入操作截图：
+操作截图：
+
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/490a65727a26ff61025830bbc48d67cd-0)  
 
 #### 从 MySQL 实例中查询数据
@@ -341,7 +342,8 @@ javac -d . Select.java
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
-4）查询截图：
+操作截图：
+
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/7e84f1176ec969d8b66bfaba2da1e90a-0)
 
 #### 在 MySQL 实例中更新数据  
@@ -396,7 +398,8 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Update
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
-5）更新操作截图：
+操作截图：
+
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/9fa9337775b8df1f54773321c1e39754-0)
 
 
@@ -450,7 +453,8 @@ java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Delete
 java -cp  .:../mysql-connector-java-5.1.48.jar com.sequoiadb.mysql.Select
 ```
 
-5）删除操作截图：
+操作截图：
+
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/611e6bfc5cfa590883508eea27389010-0)
 
 ## 总结
