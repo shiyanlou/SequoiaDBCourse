@@ -145,7 +145,7 @@ SELECT * FROM employee WHERE age > 20 AND age < 30;
 1）更新分区表 employee 中的数据，将 empno 为 10001 的记录 age 更改为 34；
 
 ```sql
-UPDATE employee SET age=34 WHERE empno=10001;
+UPDATE employee SET age=34 WHERE empno = 10001;
 ```
 
 2）查询数据结果确认 empno 为 10001 的记录更新是否成功；
@@ -162,7 +162,7 @@ SELECT * FROM employee;
 1）删除分区表 employee 中的数据，将 empno 为 10005 的记录删除；
 
 ```sql
-DELETE FROM employee WHERE empno=10005;
+DELETE FROM employee WHERE empno = 10005;
 ```
 
 2）查询数据结果确认 empno 为 10005 的记录是否成功删除；
