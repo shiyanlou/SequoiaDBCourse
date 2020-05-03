@@ -130,7 +130,7 @@ INSERT INTO employee VALUES (10006, 'Anneke', 19);
 ```
 
 #### 查询分区表中的数据
-查询分区表 employee 中 age 大于20，小于30的数据；
+查询分区表 employee 中 age 大于 20，小于 30 的数据；
 
 ```sql
 SELECT * FROM employee WHERE age > 20 AND age < 30;
@@ -142,13 +142,13 @@ SELECT * FROM employee WHERE age > 20 AND age < 30;
 
 
 #### 更新分区表中的数据
-1）更新分区表 employee 中的数据，将 empno 为10001的记录 age 更改为34；
+1）更新分区表 employee 中的数据，将 empno 为 10001 的记录 age 更改为 34；
 
 ```sql
 UPDATE employee SET age=34 WHERE empno=10001;
 ```
 
-2）查询数据结果确认 empno 为10001的记录更新是否成功；
+2）查询数据结果确认 empno 为 10001 的记录更新是否成功；
 
 ```sql
 SELECT * FROM employee;
@@ -159,13 +159,13 @@ SELECT * FROM employee;
 ![图片描述](https://doc.shiyanlou.com/courses/1543/1207281/e2522c98e716948ae7f8b59db410fd35-0)
 
 #### 删除分区表中的数据
-1）删除分区表 employees 中的数据，将 empno 为 10006 的记录删除；
+1）删除分区表 employee 中的数据，将 empno 为 10005 的记录删除；
 
 ```sql
-DELETE FROM employee WHERE empno=10006;
+DELETE FROM employee WHERE empno=10005;
 ```
 
-2）查询数据结果确认 empno 为10006的记录是否成功删除；
+2）查询数据结果确认 empno 为 10005 的记录是否成功删除；
 
 ```sql
 SELECT * FROM employee;
